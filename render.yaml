@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: sunwai-web
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: AI_SERVICE_URL
+        sync: false
+      - key: AI_CONFIDENCE_THRESHOLD
+        value: 0.70
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false

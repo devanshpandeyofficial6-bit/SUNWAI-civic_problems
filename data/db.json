@@ -1,0 +1,3332 @@
+{
+  "reports": [
+    {
+      "id": "SNW-1001",
+      "category": "pothole",
+      "description": "Large pothole near the bus stop, two-wheelers keep swerving.",
+      "photoUrl": null,
+      "lat": 26.453,
+      "lng": 80.312,
+      "wardId": "W12",
+      "wardName": "Ward 12 - Civil Lines",
+      "status": "closed",
+      "createdAt": "2026-08-20T09:12:00.000Z",
+      "updatedAt": "2026-09-01T11:00:00.000Z",
+      "upvotes": [
+        "citizen-9112",
+        "citizen-4421",
+        "citizen-7809"
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "anon-1"
+        ],
+        "disputedBy": []
+      },
+      "reportCount": 3,
+      "reporters": [
+        "citizen-9112",
+        "citizen-4421",
+        "citizen-7809"
+      ],
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Large pothole near the bus stop, two-wheelers keep swerving.",
+          "timestamp": "2026-08-20T09:12:00.000Z",
+          "userId": "citizen-9112",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.88,
+            "model": "YOLOv8-Civic",
+            "available": true
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Deep crater right next to bus stop causing traffic slowdown during peak hours.",
+          "timestamp": "2026-09-01T11:00:00.000Z",
+          "userId": "citizen-4421",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.82,
+            "model": "YOLOv8-Civic",
+            "available": true
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "E-rickshaw wheel got stuck here yesterday evening.",
+          "timestamp": "2026-09-01T11:00:00.000Z",
+          "userId": "citizen-7809",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.79,
+            "model": "YOLOv8-Civic",
+            "available": true
+          }
+        }
+      ],
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1002",
+      "category": "streetlight",
+      "description": "Pole light has been flickering for a week, dark by 8pm.",
+      "photoUrl": null,
+      "lat": 26.46,
+      "lng": 80.34,
+      "wardId": "W07",
+      "wardName": "Ward 07 - Kidwai Nagar",
+      "status": "in_progress",
+      "createdAt": "2026-09-05T18:30:00.000Z",
+      "updatedAt": "2026-09-09T10:00:00.000Z",
+      "upvotes": [
+        "anon-4"
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "reportCount": 1,
+      "reporters": [
+        "anon-4"
+      ],
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pole light has been flickering for a week, dark by 8pm.",
+          "timestamp": "2026-09-05T18:30:00.000Z",
+          "userId": "anon-4",
+          "aiClassification": null
+        }
+      ],
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1003",
+      "category": "garbage",
+      "description": "Garbage pile not collected in 4 days, smell is bad.",
+      "photoUrl": null,
+      "lat": 26.435,
+      "lng": 80.32,
+      "wardId": "W15",
+      "wardName": "Ward 15 - Govind Nagar",
+      "status": "reported",
+      "createdAt": "2026-09-10T07:00:00.000Z",
+      "updatedAt": "2026-09-12T11:11:34.024Z",
+      "upvotes": [],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "reportCount": 1,
+      "reporters": [
+        "anon-citizen"
+      ],
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Garbage pile not collected in 4 days, smell is bad.",
+          "timestamp": "2026-09-10T07:00:00.000Z",
+          "userId": "anon-citizen",
+          "aiClassification": null
+        }
+      ],
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1004",
+      "category": "pothole",
+      "description": "Cluster of small potholes along the service road.",
+      "photoUrl": null,
+      "lat": 26.434,
+      "lng": 80.345,
+      "wardId": "W22",
+      "wardName": "Ward 22 - Kakadeo",
+      "status": "acknowledged",
+      "createdAt": "2026-09-08T12:00:00.000Z",
+      "updatedAt": "2026-09-16T06:01:00.222Z",
+      "upvotes": [
+        "citizen-3108",
+        "citizen-8820"
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "reportCount": 2,
+      "reporters": [
+        "citizen-3108",
+        "citizen-8820"
+      ],
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Cluster of small potholes along the service road.",
+          "timestamp": "2026-09-08T12:00:00.000Z",
+          "userId": "citizen-3108",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.76,
+            "model": "YOLOv8-Civic",
+            "available": true
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole patch expanding after yesterday rain.",
+          "timestamp": "2026-09-09T09:00:00.000Z",
+          "userId": "citizen-8820",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.81,
+            "model": "YOLOv8-Civic",
+            "available": true
+          }
+        }
+      ],
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1005",
+      "category": "water_leakage",
+      "description": "Pipe leak flooding the side lane.",
+      "photoUrl": null,
+      "lat": 26.436,
+      "lng": 80.348,
+      "wardId": "W22",
+      "wardName": "Ward 22 - Kakadeo",
+      "status": "acknowledged",
+      "createdAt": "2026-09-09T08:00:00.000Z",
+      "updatedAt": "2026-09-12T11:11:34.024Z",
+      "upvotes": [],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "reportCount": 1,
+      "reporters": [
+        "anon-citizen"
+      ],
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pipe leak flooding the side lane.",
+          "timestamp": "2026-09-09T08:00:00.000Z",
+          "userId": "anon-citizen",
+          "aiClassification": null
+        }
+      ],
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1006",
+      "category": "pothole",
+      "description": "Road damage near Shyam Nagar C-Block main market",
+      "photoUrl": null,
+      "lat": 26.416,
+      "lng": 80.363,
+      "wardId": "W74",
+      "wardName": "Ward 74 - Shyam Nagar",
+      "wardSource": "Citizen Verified",
+      "status": "reported",
+      "createdAt": "2026-09-12T18:27:42.035Z",
+      "updatedAt": "2026-09-12T18:27:42.035Z",
+      "upvotes": [],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "reportCount": 1,
+      "reporters": [
+        "anon-citizen"
+      ],
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Road damage near Shyam Nagar C-Block main market",
+          "timestamp": "2026-09-12T18:27:42.035Z",
+          "userId": "anon-citizen",
+          "aiClassification": null
+        }
+      ],
+      "priority": "MEDIUM",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1007",
+      "category": "water_leakage",
+      "description": "Water pipeline leakage in Shyam Nagar Central",
+      "photoUrl": null,
+      "lat": 26.418,
+      "lng": 80.365,
+      "wardId": "W74",
+      "wardName": "Ward 74 - Shyam Nagar",
+      "wardSource": "Kanpur Nagar Nigam GIS Polygon (Official Boundary)",
+      "status": "reported",
+      "createdAt": "2026-09-12T18:27:51.062Z",
+      "updatedAt": "2026-09-16T06:01:00.231Z",
+      "upvotes": [],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "reportCount": 1,
+      "reporters": [
+        "anon-citizen"
+      ],
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Water pipeline leakage in Shyam Nagar Central",
+          "timestamp": "2026-09-12T18:27:51.062Z",
+          "userId": "anon-citizen",
+          "aiClassification": null
+        }
+      ],
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1008",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-bebe9ab7807b.jpg",
+      "lat": 26.499390000000002,
+      "lng": 80.33939,
+      "wardId": "W76",
+      "wardName": "Ward 76 - Suther Ganj",
+      "wardSource": "Municipal Spatial Boundary (Proximity Snap)",
+      "status": "closed",
+      "createdAt": "2026-09-13T18:52:12.533Z",
+      "updatedAt": "2026-09-13T18:52:14.057Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-bebe9ab7807b.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-13T18:52:12.533Z",
+          "userId": "citizen-alice-101",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-cd9cf9b02704.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-47e4a957fdc5.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-13T18:52:12.908Z",
+          "userId": "citizen-bob-202",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-9043cfd85d4a.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-13T18:52:12.945Z",
+          "userId": "citizen-bob-202",
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-13T18:52:13.623Z",
+          "userId": "citizen-charlie-303",
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.75,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.75,
+            "bbox": [
+              190,
+              286,
+              451,
+              484
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-cd9cf9b02704.jpg"
+      },
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1009",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.499390000000002,
+      "lng": 80.33939,
+      "wardId": "W76",
+      "wardName": "Ward 76 - Suther Ganj",
+      "wardSource": "Municipal Spatial Boundary (Proximity Snap)",
+      "status": "reported",
+      "createdAt": "2026-09-13T18:52:13.661Z",
+      "updatedAt": "2026-09-17T18:35:58.140Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-13T18:52:13.661Z",
+          "userId": "citizen-dave-404",
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1010",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.51939,
+      "lng": 80.33939,
+      "wardId": "EXT-2652",
+      "wardName": "Local Ward (Kanpur)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T18:52:14.029Z",
+      "updatedAt": "2026-09-13T18:52:14.029Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-13T18:52:14.029Z",
+          "userId": "citizen-eve-505",
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1011",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-7b3d691c07d8.jpg",
+      "lat": 26.560950000000002,
+      "lng": 80.40095,
+      "wardId": "EXT-2656",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "closed",
+      "createdAt": "2026-09-13T18:53:29.190Z",
+      "updatedAt": "2026-09-13T18:53:31.564Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-7b3d691c07d8.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-13T18:53:29.190Z",
+          "userId": "citizen-alice-101",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-04fab992d78d.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-51a69da777ab.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-13T18:53:29.866Z",
+          "userId": "citizen-bob-202",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-6ebfa90234f2.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-13T18:53:29.896Z",
+          "userId": "citizen-bob-202",
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-13T18:53:30.930Z",
+          "userId": "citizen-charlie-303",
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.75,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.75,
+            "bbox": [
+              190,
+              286,
+              451,
+              484
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-04fab992d78d.jpg"
+      },
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1012",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.560950000000002,
+      "lng": 80.40095,
+      "wardId": "EXT-2656",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T18:53:30.959Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-13T18:53:30.959Z",
+          "userId": "citizen-dave-404",
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "HIGH",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1013",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.58095,
+      "lng": 80.40095,
+      "wardId": "EXT-2658",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T18:53:31.546Z",
+      "updatedAt": "2026-09-13T18:53:31.546Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-13T18:53:31.546Z",
+          "userId": "citizen-eve-505",
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM",
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112"
+      }
+    },
+    {
+      "id": "SNW-1014",
+      "category": "pothole",
+      "description": "new hole",
+      "photoUrl": "/uploads/report-77a92f2153bd.webp",
+      "lat": 26.423714,
+      "lng": 80.353438,
+      "wardId": "W74",
+      "wardName": "Ward 74 - Shyam Nagar",
+      "wardSource": "Citizen Verified",
+      "status": "reported",
+      "createdAt": "2026-09-13T18:54:28.176Z",
+      "updatedAt": "2026-09-13T19:14:57.525Z",
+      "upvotes": [
+        "anon-b77731"
+      ],
+      "reporters": [
+        "anon-b77731"
+      ],
+      "reportCount": 1,
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-77a92f2153bd.webp",
+          "description": "new hole",
+          "timestamp": "2026-09-13T18:54:28.176Z",
+          "userId": "anon-b77731",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.72,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.72,
+                "bbox": [
+                  606,
+                  613,
+                  1515,
+                  1015
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-ed6708dcc437.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-d14725d1b65f.webp",
+          "description": "same here",
+          "timestamp": "2026-09-13T18:55:45.323Z",
+          "userId": "anon-b77731",
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.72,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.72,
+                "bbox": [
+                  606,
+                  613,
+                  1515,
+                  1015
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-9b3eaf3905e8.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-af42f32ab8ed.webp",
+          "description": "dangerous",
+          "timestamp": "2026-09-13T19:14:57.525Z",
+          "userId": "anon-b77731",
+          "citizenDetails": {
+            "name": "Devansh Pandey",
+            "email": "devansh@gmail.com",
+            "phone": "9794130719",
+            "aadhaar": "XXXX-XXXX-9089",
+            "rawAadhaar": "123456789089"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.72,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.72,
+                "bbox": [
+                  606,
+                  613,
+                  1515,
+                  1015
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-055f02e49625.jpg"
+          }
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.72,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.72,
+            "bbox": [
+              606,
+              613,
+              1515,
+              1015
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-ed6708dcc437.jpg"
+      },
+      "priority": "MEDIUM",
+      "citizenDetails": {
+        "name": "Devansh Pandey",
+        "email": "devansh@gmail.com",
+        "phone": "9794130719",
+        "aadhaar": "XXXX-XXXX-9089",
+        "rawAadhaar": "123456789089"
+      }
+    },
+    {
+      "id": "SNW-1015",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-40b96016c157.jpg",
+      "lat": 26.51088,
+      "lng": 80.35087999999999,
+      "wardId": "EXT-2651",
+      "wardName": "Local Ward (Kanpur)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "closed",
+      "createdAt": "2026-09-13T19:13:13.976Z",
+      "updatedAt": "2026-09-13T19:13:16.044Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-40b96016c157.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-13T19:13:13.976Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-6b15edf6149f.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-406fac4d5e7b.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-13T19:13:14.637Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-34a1bdfab42c.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-13T19:13:14.683Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-13T19:13:15.411Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.75,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.75,
+            "bbox": [
+              190,
+              286,
+              451,
+              484
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-6b15edf6149f.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1016",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.51088,
+      "lng": 80.35087999999999,
+      "wardId": "EXT-2651",
+      "wardName": "Local Ward (Kanpur)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:13:15.450Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-13T19:13:15.450Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1017",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.53088,
+      "lng": 80.35087999999999,
+      "wardId": "EXT-2653",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:13:16.024Z",
+      "updatedAt": "2026-09-13T19:13:16.024Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-13T19:13:16.024Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1018",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-f9922e029e2b.jpg",
+      "lat": 26.51914,
+      "lng": 80.35914,
+      "wardId": "EXT-2652",
+      "wardName": "Local Ward (Shuklaganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "closed",
+      "createdAt": "2026-09-13T19:25:34.749Z",
+      "updatedAt": "2026-09-13T19:25:37.533Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-f9922e029e2b.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-13T19:25:34.749Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-1b54a01120e8.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-3a8b66c6205c.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-13T19:25:35.466Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-86086985eced.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-13T19:25:35.498Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-13T19:25:36.491Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.75,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.75,
+            "bbox": [
+              190,
+              286,
+              451,
+              484
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-1b54a01120e8.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1019",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.51914,
+      "lng": 80.35914,
+      "wardId": "EXT-2652",
+      "wardName": "Local Ward (Shuklaganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:25:36.524Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-13T19:25:36.524Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1020",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.53914,
+      "lng": 80.35914,
+      "wardId": "EXT-2654",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:25:37.514Z",
+      "updatedAt": "2026-09-13T19:25:37.514Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-13T19:25:37.514Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1021",
+      "category": "streetlight",
+      "description": "broken",
+      "photoUrl": "/uploads/report-854275cbb87e.jpg",
+      "lat": 26.423521015147816,
+      "lng": 80.35336705298175,
+      "wardId": "W74",
+      "wardName": "Ward 74 - Shyam Nagar",
+      "wardSource": "Citizen Verified",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:29:50.889Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "anon-b77731"
+      ],
+      "reporters": [
+        "anon-b77731"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Devansh Pandey",
+        "email": "devansh@gmail.com",
+        "phone": "9794130719",
+        "aadhaar": "XXXX-XXXX-9089",
+        "rawAadhaar": "123456789089"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-854275cbb87e.jpg",
+          "description": "broken",
+          "timestamp": "2026-09-13T19:29:50.889Z",
+          "userId": "anon-b77731",
+          "citizenDetails": {
+            "name": "Devansh Pandey",
+            "email": "devansh@gmail.com",
+            "phone": "9794130719",
+            "aadhaar": "XXXX-XXXX-9089",
+            "rawAadhaar": "123456789089"
+          },
+          "aiClassification": {
+            "category": "streetlight",
+            "confidence": 0.94,
+            "detections": [
+              {
+                "category": "streetlight",
+                "confidence": 0.94,
+                "bbox": [
+                  65,
+                  325,
+                  878,
+                  768
+                ],
+                "label": "streetlight"
+              },
+              {
+                "category": "streetlight",
+                "confidence": 0.9,
+                "bbox": [
+                  90,
+                  323,
+                  866,
+                  503
+                ],
+                "label": "streetlight"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-streetlight-8542.jpg"
+          }
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "streetlight",
+        "confidence": 0.94,
+        "detections": [
+          {
+            "category": "streetlight",
+            "confidence": 0.94,
+            "bbox": [
+              65,
+              325,
+              878,
+              768
+            ],
+            "label": "streetlight"
+          },
+          {
+            "category": "streetlight",
+            "confidence": 0.9,
+            "bbox": [
+              90,
+              323,
+              866,
+              503
+            ],
+            "label": "streetlight"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-streetlight-8542.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1022",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-2b091c5c9ca7.jpg",
+      "lat": 26.490750000000002,
+      "lng": 80.33075,
+      "wardId": "W76",
+      "wardName": "Ward 76 - Suther Ganj",
+      "wardSource": "Kanpur Nagar Nigam GIS Polygon (Official Boundary)",
+      "status": "closed",
+      "createdAt": "2026-09-13T19:36:11.181Z",
+      "updatedAt": "2026-09-13T19:36:12.431Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-2b091c5c9ca7.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-13T19:36:11.181Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-1077e2dd057e.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-d67174831595.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-13T19:36:11.293Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-210855412721.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-13T19:36:11.306Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-13T19:36:11.315Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.75,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.75,
+            "bbox": [
+              190,
+              286,
+              451,
+              484
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-1077e2dd057e.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1023",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.490750000000002,
+      "lng": 80.33075,
+      "wardId": "W76",
+      "wardName": "Ward 76 - Suther Ganj",
+      "wardSource": "Kanpur Nagar Nigam GIS Polygon (Official Boundary)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:36:11.324Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-13T19:36:11.324Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1024",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.51075,
+      "lng": 80.33075,
+      "wardId": "W01",
+      "wardName": "Ward 1 - Old Kanpur",
+      "wardSource": "Municipal Spatial Boundary (Proximity Snap)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:36:12.404Z",
+      "updatedAt": "2026-09-13T19:36:12.404Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-13T19:36:12.404Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1025",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-0543cbc2dc81.jpg",
+      "lat": 26.55807,
+      "lng": 80.39806999999999,
+      "wardId": "EXT-2656",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "closed",
+      "createdAt": "2026-09-13T19:54:08.845Z",
+      "updatedAt": "2026-09-13T19:54:11.219Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-0543cbc2dc81.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-13T19:54:08.845Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-74c8afb64214.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-d448d98d3891.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-13T19:54:09.970Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.75,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.75,
+                "bbox": [
+                  190,
+                  286,
+                  451,
+                  484
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-c2f3b3d73834.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-13T19:54:10.017Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-13T19:54:10.584Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.75,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.75,
+            "bbox": [
+              190,
+              286,
+              451,
+              484
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-74c8afb64214.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1026",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.55807,
+      "lng": 80.39806999999999,
+      "wardId": "EXT-2656",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:54:10.610Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-13T19:54:10.610Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1027",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.57807,
+      "lng": 80.39806999999999,
+      "wardId": "EXT-2658",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T19:54:11.200Z",
+      "updatedAt": "2026-09-13T19:54:11.200Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-13T19:54:11.200Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1028",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-6e7379f8b40f.jpg",
+      "lat": 26.50057,
+      "lng": 80.34057,
+      "wardId": "W76",
+      "wardName": "Ward 76 - Suther Ganj",
+      "wardSource": "Municipal Spatial Boundary (Proximity Snap)",
+      "status": "closed",
+      "createdAt": "2026-09-13T20:21:12.930Z",
+      "updatedAt": "2026-09-13T20:21:14.708Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-6e7379f8b40f.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-13T20:21:12.930Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.9,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.9,
+                "bbox": [
+                  183,
+                  274,
+                  464,
+                  498
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-c593a13dd496.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-b7f9892e17eb.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-13T20:21:13.757Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.9,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.9,
+                "bbox": [
+                  183,
+                  274,
+                  464,
+                  498
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-ac6ba7ea1e2c.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-13T20:21:13.791Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-13T20:21:14.364Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.9,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.9,
+            "bbox": [
+              183,
+              274,
+              464,
+              498
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-c593a13dd496.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1029",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.50057,
+      "lng": 80.34057,
+      "wardId": "W76",
+      "wardName": "Ward 76 - Suther Ganj",
+      "wardSource": "Municipal Spatial Boundary (Proximity Snap)",
+      "status": "reported",
+      "createdAt": "2026-09-13T20:21:14.399Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-13T20:21:14.399Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1030",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.52057,
+      "lng": 80.34057,
+      "wardId": "EXT-2652",
+      "wardName": "Local Ward (Kanpur)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-13T20:21:14.677Z",
+      "updatedAt": "2026-09-13T20:21:14.677Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-13T20:21:14.677Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1031",
+      "category": "water_leakage",
+      "description": "water leak on road",
+      "photoUrl": "/uploads/report-fec0f77b63aa.webp",
+      "lat": 26.42358526404841,
+      "lng": 80.35340103412287,
+      "wardId": "W74",
+      "wardName": "Ward 74 - Shyam Nagar",
+      "wardSource": "Citizen Verified",
+      "status": "reported",
+      "createdAt": "2026-09-13T20:34:26.054Z",
+      "updatedAt": "2026-09-17T18:35:58.149Z",
+      "upvotes": [
+        "anon-b77731"
+      ],
+      "reporters": [
+        "anon-b77731"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Devansh Pandey",
+        "email": "devansh@gmail.com",
+        "phone": "9794130719",
+        "aadhaar": "XXXX-XXXX-9089",
+        "rawAadhaar": "123456789089"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-fec0f77b63aa.webp",
+          "description": "water leak on road",
+          "timestamp": "2026-09-13T20:34:26.054Z",
+          "userId": "anon-b77731",
+          "citizenDetails": {
+            "name": "Devansh Pandey",
+            "email": "devansh@gmail.com",
+            "phone": "9794130719",
+            "aadhaar": "XXXX-XXXX-9089",
+            "rawAadhaar": "123456789089"
+          },
+          "aiClassification": {
+            "category": "water_leakage",
+            "confidence": 0.92,
+            "detections": [
+              {
+                "category": "water_leakage",
+                "confidence": 0.92,
+                "bbox": [
+                  0,
+                  256,
+                  1920,
+                  1280
+                ],
+                "label": "water_leakage"
+              },
+              {
+                "category": "water_leakage",
+                "confidence": 0.91,
+                "bbox": [
+                  678,
+                  524,
+                  1211,
+                  665
+                ],
+                "label": "water_leakage"
+              },
+              {
+                "category": "streetlight",
+                "confidence": 0.91,
+                "bbox": [
+                  664,
+                  520,
+                  1175,
+                  744
+                ],
+                "label": "streetlight"
+              },
+              {
+                "category": "water_leakage",
+                "confidence": 0.86,
+                "bbox": [
+                  847,
+                  749,
+                  1512,
+                  947
+                ],
+                "label": "water_leakage"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-8b7c3b7e3049.jpg"
+          }
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": true,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "water_leakage",
+        "confidence": 0.92,
+        "detections": [
+          {
+            "category": "water_leakage",
+            "confidence": 0.92,
+            "bbox": [
+              0,
+              256,
+              1920,
+              1280
+            ],
+            "label": "water_leakage"
+          },
+          {
+            "category": "water_leakage",
+            "confidence": 0.91,
+            "bbox": [
+              678,
+              524,
+              1211,
+              665
+            ],
+            "label": "water_leakage"
+          },
+          {
+            "category": "streetlight",
+            "confidence": 0.91,
+            "bbox": [
+              664,
+              520,
+              1175,
+              744
+            ],
+            "label": "streetlight"
+          },
+          {
+            "category": "water_leakage",
+            "confidence": 0.86,
+            "bbox": [
+              847,
+              749,
+              1512,
+              947
+            ],
+            "label": "water_leakage"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-8b7c3b7e3049.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1032",
+      "category": "water_leakage",
+      "description": "wenfnewkfnkew",
+      "photoUrl": "/uploads/report-53b5f2bfffdf.webp",
+      "lat": 26.547701617714647,
+      "lng": 80.22818301196935,
+      "wardId": "EXT-2655",
+      "wardName": "Local Ward (Kanpur)",
+      "wardSource": "Citizen Verified",
+      "status": "reported",
+      "createdAt": "2026-09-16T06:03:49.164Z",
+      "updatedAt": "2026-09-16T06:03:49.164Z",
+      "upvotes": [
+        "anon-b77731"
+      ],
+      "reporters": [
+        "anon-b77731"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Devansh Pandey",
+        "email": "devansh@gmail.com",
+        "phone": "9794130719",
+        "aadhaar": "XXXX-XXXX-9089",
+        "rawAadhaar": "123456789089"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-53b5f2bfffdf.webp",
+          "description": "wenfnewkfnkew",
+          "timestamp": "2026-09-16T06:03:49.164Z",
+          "userId": "anon-b77731",
+          "citizenDetails": {
+            "name": "Devansh Pandey",
+            "email": "devansh@gmail.com",
+            "phone": "9794130719",
+            "aadhaar": "XXXX-XXXX-9089",
+            "rawAadhaar": "123456789089"
+          },
+          "aiClassification": {
+            "category": "water_leakage",
+            "confidence": 0.92,
+            "detections": [
+              {
+                "category": "water_leakage",
+                "confidence": 0.92,
+                "bbox": [
+                  0,
+                  256,
+                  1920,
+                  1280
+                ],
+                "label": "water_leakage"
+              },
+              {
+                "category": "water_leakage",
+                "confidence": 0.91,
+                "bbox": [
+                  678,
+                  524,
+                  1211,
+                  665
+                ],
+                "label": "water_leakage"
+              },
+              {
+                "category": "streetlight",
+                "confidence": 0.91,
+                "bbox": [
+                  664,
+                  520,
+                  1175,
+                  744
+                ],
+                "label": "streetlight"
+              },
+              {
+                "category": "water_leakage",
+                "confidence": 0.86,
+                "bbox": [
+                  847,
+                  749,
+                  1512,
+                  947
+                ],
+                "label": "water_leakage"
+              }
+            ],
+            "model": "YOLOv8-Civic-FineTuned",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "annotatedImageUrl": "/uploads/ai-box-595056f7fe57.jpg"
+          }
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "water_leakage",
+        "confidence": 0.92,
+        "detections": [
+          {
+            "category": "water_leakage",
+            "confidence": 0.92,
+            "bbox": [
+              0,
+              256,
+              1920,
+              1280
+            ],
+            "label": "water_leakage"
+          },
+          {
+            "category": "water_leakage",
+            "confidence": 0.91,
+            "bbox": [
+              678,
+              524,
+              1211,
+              665
+            ],
+            "label": "water_leakage"
+          },
+          {
+            "category": "streetlight",
+            "confidence": 0.91,
+            "bbox": [
+              664,
+              520,
+              1175,
+              744
+            ],
+            "label": "streetlight"
+          },
+          {
+            "category": "water_leakage",
+            "confidence": 0.86,
+            "bbox": [
+              847,
+              749,
+              1512,
+              947
+            ],
+            "label": "water_leakage"
+          }
+        ],
+        "model": "YOLOv8-Civic-FineTuned",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "annotatedImageUrl": "/uploads/ai-box-595056f7fe57.jpg"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1033",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-c3bcd1631a6e.jpg",
+      "lat": 26.55855,
+      "lng": 80.39855,
+      "wardId": "EXT-2656",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-17T18:39:08.203Z",
+      "updatedAt": "2026-09-17T18:39:08.203Z",
+      "upvotes": [
+        "citizen-alice-101"
+      ],
+      "reporters": [
+        "citizen-alice-101"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-c3bcd1631a6e.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-17T18:39:08.203Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "other",
+            "confidence": 0,
+            "detections": [],
+            "model": "none",
+            "source": "manual-fallback",
+            "isLowConfidence": true,
+            "confidenceThreshold": 0.7,
+            "available": false,
+            "reason": "AI service unavailable"
+          }
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0,
+        "detections": [],
+        "model": "none",
+        "source": "manual-fallback",
+        "isLowConfidence": true,
+        "confidenceThreshold": 0.7,
+        "available": false,
+        "reason": "AI service unavailable"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1034",
+      "category": "other",
+      "description": "Dangerous pothole near the crossing, bike nearly slipped",
+      "photoUrl": "/uploads/report-d7d6c4f076b5.jpg",
+      "lat": 26.5587,
+      "lng": 80.39865,
+      "wardId": "EXT-2656",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-17T18:39:08.743Z",
+      "updatedAt": "2026-09-17T18:39:08.743Z",
+      "upvotes": [
+        "citizen-bob-202"
+      ],
+      "reporters": [
+        "citizen-bob-202"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Bob Verma",
+        "email": "bob.verma@example.com",
+        "phone": "9123456780",
+        "aadhaar": "XXXX-XXXX-1098",
+        "rawAadhaar": "987654321098"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-d7d6c4f076b5.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-17T18:39:08.743Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "other",
+            "confidence": 0,
+            "detections": [],
+            "model": "none",
+            "source": "manual-fallback",
+            "isLowConfidence": true,
+            "confidenceThreshold": 0.7,
+            "available": false,
+            "reason": "AI service unavailable"
+          }
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 120,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0,
+        "detections": [],
+        "model": "none",
+        "source": "manual-fallback",
+        "isLowConfidence": true,
+        "confidenceThreshold": 0.7,
+        "available": false,
+        "reason": "AI service unavailable"
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1035",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-c94b13d884fd.jpg",
+      "lat": 26.56568,
+      "lng": 80.40567999999999,
+      "wardId": "EXT-2657",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "closed",
+      "createdAt": "2026-09-17T18:39:19.068Z",
+      "updatedAt": "2026-09-17T18:39:20.736Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-c94b13d884fd.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-17T18:39:19.068Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "other",
+            "confidence": 0,
+            "detections": [],
+            "model": "none",
+            "source": "manual-fallback",
+            "isLowConfidence": true,
+            "confidenceThreshold": 0.7,
+            "available": false,
+            "reason": "AI service unavailable"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-1e0947b9781f.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-17T18:39:20.092Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "other",
+            "confidence": 0,
+            "detections": [],
+            "model": "none",
+            "source": "manual-fallback",
+            "isLowConfidence": true,
+            "confidenceThreshold": 0.7,
+            "available": false,
+            "reason": "AI service unavailable"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-17T18:39:20.122Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-17T18:39:20.398Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0,
+        "detections": [],
+        "model": "none",
+        "source": "manual-fallback",
+        "isLowConfidence": true,
+        "confidenceThreshold": 0.7,
+        "available": false,
+        "reason": "AI service unavailable"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1036",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.56568,
+      "lng": 80.40567999999999,
+      "wardId": "EXT-2657",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-17T18:39:20.426Z",
+      "updatedAt": "2026-09-17T18:39:20.426Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-17T18:39:20.426Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1037",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.58568,
+      "lng": 80.40567999999999,
+      "wardId": "EXT-2659",
+      "wardName": "Local Ward (Unnao)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-17T18:39:20.705Z",
+      "updatedAt": "2026-09-17T18:39:20.705Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-17T18:39:20.705Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM"
+    }
+  ],
+  "admins": [
+    {
+      "id": "ADM-1001",
+      "name": "Dr. Anand K. Saxena",
+      "email": "anand.admin@sunwai.gov.in",
+      "password": "adminpass1001",
+      "designation": "Additional Municipal Commissioner",
+      "role": "admin",
+      "scope": "all_wards",
+      "department": "Urban Administration & Governance",
+      "phone": "+91 98391 11222",
+      "createdAt": "2026-08-10T09:00:00.000Z",
+      "createdBy": "HEAD-001"
+    }
+  ],
+  "employees": [
+    {
+      "id": "EMP-1054",
+      "name": "DEVANSH PANDEY",
+      "email": "ward74@gmail.com",
+      "password": "WARD74",
+      "assignedWard": "W78",
+      "wardName": "Ward 78 - Prem Nagar",
+      "department": "Water Works & Drainage",
+      "phone": "9794130719",
+      "createdAt": "2026-09-12T18:41:01.054Z"
+    },
+    {
+      "id": "EMP-1001",
+      "name": "Ramesh Kumar Verma",
+      "email": "ward12@sunwai.gov.in",
+      "password": "ward12pass",
+      "assignedWard": "W12",
+      "wardName": "Ward 12 - Transport Nagar / Civil Lines",
+      "department": "Engineering & PWD",
+      "phone": "+91 98390 12345",
+      "createdAt": "2026-08-15T10:00:00.000Z"
+    },
+    {
+      "id": "EMP-1002",
+      "name": "Priya A. Sharma",
+      "email": "ward07@sunwai.gov.in",
+      "password": "ward07pass",
+      "assignedWard": "W07",
+      "wardName": "Ward 07 - Kidwai Nagar",
+      "department": "Sanitation & Health",
+      "phone": "+91 98390 23456",
+      "createdAt": "2026-08-18T11:30:00.000Z"
+    },
+    {
+      "id": "EMP-1003",
+      "name": "Alok Nath Tripathi",
+      "email": "ward15@sunwai.gov.in",
+      "password": "ward15pass",
+      "assignedWard": "W15",
+      "wardName": "Ward 15 - Permat / Govind Nagar",
+      "department": "Water Works & Drainage",
+      "phone": "+91 98390 34567",
+      "createdAt": "2026-08-20T09:15:00.000Z"
+    },
+    {
+      "id": "EMP-1004",
+      "name": "Deepak Yadav",
+      "email": "ward22@sunwai.gov.in",
+      "password": "ward22pass",
+      "assignedWard": "W22",
+      "wardName": "Ward 22 - Behna Jhabhar / Kakadeo",
+      "department": "Street Lighting & Electricals",
+      "phone": "+91 98390 45678",
+      "createdAt": "2026-08-25T14:00:00.000Z"
+    },
+    {
+      "id": "EMP-1005",
+      "name": "Suresh Chandra Mishra",
+      "email": "ward74@sunwai.gov.in",
+      "password": "ward74pass",
+      "assignedWard": "W74",
+      "wardName": "Ward 74 - Shyam Nagar",
+      "department": "Engineering & PWD",
+      "phone": "+91 98390 74740",
+      "createdAt": "2026-09-12T18:28:24.460Z"
+    },
+    {
+      "id": "EMP-1006",
+      "name": "Mohammad Tariq Khan",
+      "email": "ward53@sunwai.gov.in",
+      "password": "ward53pass",
+      "assignedWard": "W53",
+      "wardName": "Ward 53 - Daheli Sujanpur KDA Colony",
+      "department": "Sanitation & Health",
+      "phone": "+91 98390 53530",
+      "createdAt": "2026-09-12T18:28:24.461Z"
+    }
+  ],
+  "supabaseConfig": {
+    "url": "",
+    "key": ""
+  },
+  "nextId": 1038
+}

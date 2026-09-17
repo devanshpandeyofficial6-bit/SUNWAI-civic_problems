@@ -1,0 +1,11 @@
+node_modules/
+.git/
+.github/
+__pycache__/
+*.py[cod]
+ai_service/runs/
+uploads/*
+!uploads/.gitkeep
+.env
+.DS_Store
+Thumbs.db

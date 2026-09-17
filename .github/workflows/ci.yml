@@ -1,0 +1,74 @@
+name: SUNWAI CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-node:
+    name: Node.js Backend & API Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check server.js
+          node --check lib/classifier.js
+          node --check lib/geo.js
+          node --check lib/supabase.js
+          node --check lib/ward-extractor.js
+
+      - name: Start SUNWAI server in background
+        run: |
+          node server.js &
+          sleep 3
+
+      - name: Verify Health Endpoint
+        run: |
+          curl -f http://localhost:3000/api/health
+
+      - name: Run E2E Test Suite
+        run: |
+          node tests/test_ai_and_duplicates.js
+
+  test-python:
+    name: Python AI Microservice Lint & Compilation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Compile Python source files
+        run: |
+          python -m py_compile ai_service/server.py ai_service/civic_detector.py ai_service/train_civic.py
+
+  docker-lint:
+    name: Validate Docker Configurations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose syntax
+        run: |
+          docker compose config

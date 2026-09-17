@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # SUNWAI Core Node.js Web Server (Citizen Portal, Admin, Field Dashboard, API)
+  # ----------------------------------------------------------------------------
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sunwai-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - AI_SERVICE_URL=http://ai-service:5001
+      - AI_CONFIDENCE_THRESHOLD=0.70
+      - SUPABASE_URL=${SUPABASE_URL:-}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    depends_on:
+      ai-service:
+        condition: service_started
+
+  # ----------------------------------------------------------------------------
+  # SUNWAI AI Inference Microservice (FastAPI + YOLOv8 Civic Detector)
+  # ----------------------------------------------------------------------------
+  ai-service:
+    build:
+      context: ./ai_service
+      dockerfile: Dockerfile
+    container_name: sunwai-ai
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001

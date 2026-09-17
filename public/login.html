@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunwai: Official Portal Login</title>
+<link rel="icon" type="image/png" href="sunwai-logo.png">
+<link rel="stylesheet" href="style.css">
+<style>
+  .login-container {
+    max-width: 540px;
+    margin: 40px auto;
+  }
+  .login-card {
+    background: #ffffff;
+    border: 1px solid var(--gov-border);
+    border-top: 4px solid var(--gov-navy);
+    border-radius: 8px;
+    padding: 32px;
+    box-shadow: var(--gov-shadow-lg);
+  }
+  .demo-creds-box {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+    padding: 14px;
+    margin-top: 24px;
+    font-size: 12.5px;
+  }
+  .demo-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    border-radius: 4px;
+    margin: 4px 4px 0 0;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .demo-btn:hover {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+  }
+  .captcha-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-family: monospace;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--gov-navy);
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="wrap login-container">
+
+  <div class="login-card">
+    <div style="text-align:center;margin-bottom:20px;">
+      <img src="sunwai-logo.png" alt="SUNWAI Official Logo" style="height:44px;width:auto;margin-bottom:14px;border-radius:4px;background:#fbf9f5;padding:4px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.12);">
+      <h2 style="margin:0;" id="loginTitle">Official Sign-In</h2>
+      <div class="section-lead" style="margin:6px 0 0;" id="loginSubtitle">
+        National Civic Services & Municipal Administration Portal
+      </div>
+    </div>
+
+    <form id="loginForm">
+      <label for="emailInput">
+        <span id="labelEmail">Official Email ID</span> <span class="req">*</span>
+      </label>
+      <input type="email" id="emailInput" placeholder="e.g. admin@gmail.com" required autofocus>
+
+      <label for="passwordInput">
+        <span id="labelPassword">Password</span> <span class="req">*</span>
+      </label>
+      <input type="password" id="passwordInput" placeholder="••••••••" required>
+
+      <label id="labelCaptcha">Security Captcha</label>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div class="captcha-box" id="captchaDisplay">7B8K</div>
+        <input type="text" id="captchaInput" placeholder="Enter code" style="width:140px;" required>
+        <button type="button" class="btn-ghost" id="refreshCaptchaBtn" style="padding:8px 12px;font-size:12px;" title="Refresh Captcha">Refresh</button>
+      </div>
+
+      <div id="loginError" style="display:none;margin-top:14px;"></div>
+
+      <button type="submit" class="btn-primary" style="width:100%;margin-top:20px;padding:12px;font-size:15px;" id="submitBtn">
+        Secure Login →
+      </button>
+    </form>
+
+    <!-- One-Click Demo Credentials Helper -->
+    <div class="demo-creds-box">
+      <div style="font-weight:700;color:var(--gov-navy);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+        <span id="demoHeading">Quick Demo Credentials (Click to auto-fill):</span>
+      </div>
+
+      <!-- 1. Super Admin -->
+      <div style="margin-bottom:8px;">
+        <b id="demoSuperAdminLabel" style="color:var(--gov-navy);">Municipal Commissioner (Super Admin):</b><br>
+        <button type="button" class="demo-btn" onclick="fillCreds('admin@gmail.com', 'admin123')">
+          Super Admin (admin@gmail.com / admin123)
+        </button>
+      </div>
+
+      <!-- 2. Registered Municipal Admin -->
+      <div style="margin-bottom:8px;" id="demoAdminsBlock">
+        <b id="demoAdminLabel" style="color:var(--gov-chakra);">Registered Admin (Assigned by Super Admin):</b><br>
+        <button type="button" class="demo-btn" onclick="fillCreds('anand.admin@sunwai.gov.in', 'adminpass1001')">
+          Addl. Commissioner Dr. Anand (anand.admin@sunwai.gov.in)
+        </button>
+      </div>
+
+      <!-- 3. Ward Officers -->
+      <div>
+        <b id="demoWardLabel" style="color:var(--gov-green);">Ward Officers (Restricted to respective ward):</b><br>
+        <button type="button" class="demo-btn" onclick="fillCreds('ward74@sunwai.gov.in', 'ward74pass')">
+          Ward 74 Officer (Shyam Nagar)
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('ward53@sunwai.gov.in', 'ward53pass')">
+          Ward 53 Officer (Daheli Sujanpur)
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('ward12@sunwai.gov.in', 'ward12pass')">
+          Ward 12 Officer (Civil Lines)
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('ward07@sunwai.gov.in', 'ward07pass')">
+          Ward 07 Officer (Kidwai Nagar)
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('ward15@sunwai.gov.in', 'ward15pass')">
+          Ward 15 Officer (Govind Nagar)
+        </button>
+        <button type="button" class="demo-btn" onclick="fillCreds('ward22@sunwai.gov.in', 'ward22pass')">
+          Ward 22 Officer (Kakadeo)
+        </button>
+      </div>
+    </div>
+
+    <!-- Legal warning -->
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--gov-border);font-size:11px;color:var(--gov-muted);line-height:1.4;" id="legalNotice">
+      <b>NOTICE:</b> This is a secure Government Information System. Unauthorized access or data tampering is a punishable offense under the Information Technology Act 2000.
+    </div>
+  </div>
+
+</div>
+
+<footer></footer>
+
+<script src="app.js"></script>
+<script>
+renderHeader('login.html');
+
+// Language Strings Dictionary for Login Page
+const LOGIN_I18N = {
+  en: {
+    page_title: 'Sunwai: Official Portal Login',
+    title: 'Official Sign-In',
+    subtitle: 'National Civic Services & Municipal Administration Portal',
+    email: 'Official Email ID',
+    email_ph: 'e.g. admin@gmail.com',
+    password: 'Password',
+    captcha: 'Security Captcha',
+    captcha_ph: 'Enter code',
+    btn_login: 'Secure Login →',
+    verifying: 'Verifying credentials...',
+    demo_heading: 'Quick Demo Credentials (Click to auto-fill):',
+    demo_super_admin: 'Municipal Commissioner (Super Admin):',
+    demo_admin: 'Registered Admin (Assigned by Super Admin):',
+    demo_ward: 'Ward Officers (Restricted to respective ward):',
+    invalid_captcha: 'Security captcha is invalid. Please try again.',
+    login_failed: 'Login failed: Invalid official credentials.',
+    legal: '<b>NOTICE:</b> This is a secure Government Information System. Unauthorized access or data tampering is a punishable offense under the Information Technology Act 2000.'
+  },
+  hi: {
+    page_title: 'सुनवाई: आधिकारिक पोर्टल लॉगिन',
+    title: 'अधिकारी लॉगिन',
+    subtitle: 'राष्ट्रीय नागरिक सेवा एवं नगर निगम प्रशासनिक पोर्टल',
+    email: 'विभागीय ईमेल पता',
+    email_ph: 'उदा. admin@gmail.com',
+    password: 'पासवर्ड',
+    captcha: 'सुरक्षा कोड (कैप्चा)',
+    captcha_ph: 'कोड दर्ज करें',
+    btn_login: 'सुरक्षित लॉगिन करें →',
+    verifying: 'क्रेडेंशियल्स का सत्यापन किया जा रहा है...',
+    demo_heading: 'त्वरित परीक्षण क्रेडेंशियल्स (स्वतः भरने हेतु क्लिक करें):',
+    demo_super_admin: 'नगर आयुक्त (सुपर एडमिन):',
+    demo_admin: 'पंजीकृत प्रशासक (सुपर एडमिन द्वारा अधिकृत):',
+    demo_ward: 'वार्ड अधिकारी (संबंधित वार्ड तक सीमित):',
+    invalid_captcha: 'सुरक्षा कोड (कैप्चा) अमान्य है। कृपया पुनः प्रयास करें।',
+    login_failed: 'लॉगिन विफल: अमान्य आधिकारिक क्रेडेंशियल्स।',
+    legal: '<b>सूचना:</b> यह एक सुरक्षित सरकारी सूचना प्रणाली है। अनधिकृत पहुंच या डेटा से छेड़छाड़ सूचना प्रौद्योगिकी अधिनियम 2000 के तहत दंडनीय अपराध है।'
+  }
+};
+
+function applyLoginLanguage() {
+  const lang = getLang();
+  const dict = LOGIN_I18N[lang] || LOGIN_I18N.en;
+
+  document.title = dict.page_title;
+  document.getElementById('loginTitle').innerText = dict.title;
+  document.getElementById('loginSubtitle').innerText = dict.subtitle;
+  document.getElementById('labelEmail').innerText = dict.email;
+  document.getElementById('emailInput').placeholder = dict.email_ph;
+  document.getElementById('labelPassword').innerText = dict.password;
+  document.getElementById('labelCaptcha').innerText = dict.captcha;
+  document.getElementById('captchaInput').placeholder = dict.captcha_ph;
+  document.getElementById('submitBtn').innerText = dict.btn_login;
+  document.getElementById('demoHeading').innerText = dict.demo_heading;
+  document.getElementById('demoSuperAdminLabel').innerText = dict.demo_super_admin;
+  document.getElementById('demoAdminLabel').innerText = dict.demo_admin;
+  document.getElementById('demoWardLabel').innerText = dict.demo_ward;
+  document.getElementById('legalNotice').innerHTML = dict.legal;
+}
+
+// Hook into app.js language switch event
+window.onLanguageChange = function() {
+  applyLoginLanguage();
+};
+
+applyLoginLanguage();
+
+// Captcha generator
+let currentCaptcha = '';
+function generateCaptcha() {
+  const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let res = '';
+  for (let i = 0; i < 4; i++) {
+    res += chars[Math.floor(Math.random() * chars.length)];
+  }
+  currentCaptcha = res;
+  document.getElementById('captchaDisplay').innerText = res;
+  document.getElementById('captchaInput').value = '';
+}
+generateCaptcha();
+document.getElementById('refreshCaptchaBtn').addEventListener('click', generateCaptcha);
+
+function fillCreds(email, password) {
+  document.getElementById('emailInput').value = email;
+  document.getElementById('passwordInput').value = password;
+  document.getElementById('captchaInput').value = currentCaptcha;
+}
+
+// Check if already logged in
+const existingUser = getAuthUser();
+if (existingUser) {
+  window.location.href = 'admin.html';
+}
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const lang = getLang();
+  const dict = LOGIN_I18N[lang] || LOGIN_I18N.en;
+  const errorEl = document.getElementById('loginError');
+  errorEl.style.display = 'none';
+
+  const enteredCaptcha = document.getElementById('captchaInput').value.trim().toUpperCase();
+  if (enteredCaptcha !== currentCaptcha) {
+    errorEl.className = 'notice danger';
+    errorEl.innerHTML = dict.invalid_captcha;
+    errorEl.style.display = 'block';
+    generateCaptcha();
+    return;
+  }
+
+  const email = document.getElementById('emailInput').value.trim();
+  const password = document.getElementById('passwordInput').value;
+  const submitBtn = document.getElementById('submitBtn');
+
+  submitBtn.disabled = true;
+  submitBtn.innerText = dict.verifying;
+
+  try {
+    const res = await postJSON('/api/auth/login', { email, password });
+    if (res.ok && res.user) {
+      setAuthSession(res.user, res.token);
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get('redirect') || 'admin.html';
+      window.location.href = redirect;
+    }
+  } catch (err) {
+    errorEl.className = 'notice danger';
+    errorEl.innerHTML = `${dict.login_failed} (${err.message || ''})`;
+    errorEl.style.display = 'block';
+    generateCaptcha();
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerText = dict.btn_login;
+  }
+});
+</script>
+</body>
+</html>

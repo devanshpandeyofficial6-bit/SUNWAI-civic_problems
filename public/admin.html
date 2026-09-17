@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunwai: Municipal Administration Portal</title>
+<link rel="icon" type="image/png" href="sunwai-logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="vendor/html2pdf.bundle.min.js"></script>
+<style>
+  .admin-header-card {
+    background: linear-gradient(135deg, #0b2546 0%, #163e6b 100%);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--gov-shadow);
+  }
+  .admin-header-card h2 { color: #ffffff; margin: 0 0 6px; }
+  .admin-role-badge {
+    display: inline-block;
+    background: var(--gov-saffron);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .jurisdiction-lock-notice {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-box {
+    background: #ffffff;
+    border-radius: 8px;
+    max-width: 620px;
+    width: 90%;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+  table.a4-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    word-break: break-word;
+  }
+  table.a4-table thead {
+    display: table-header-group !important;
+  }
+  @media print {
+    body * { visibility: hidden !important; }
+    #modalPrintableContent, #modalPrintableContent * { visibility: visible !important; }
+    #modalPrintableContent {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="wrap">
+
+  <!-- Role Welcome Card -->
+  <div class="admin-header-card" id="roleWelcomeCard">
+    <div class="admin-role-badge" id="roleBadge">Municipal Command Center</div>
+    <h2 id="roleTitle">Municipal Command Center</h2>
+    <div id="roleSubtitle" style="color:#cbd5e1;font-size:13.5px;">Loading jurisdictional scope...</div>
+    <div id="jurisdictionNotice" style="display:none;" class="jurisdiction-lock-notice">
+      <span id="jurisdictionNoticeText">Ward Jurisdiction Locked: You can only view and manage reports for your assigned ward.</span>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('tab-tickets')" id="btnTabTickets">Ticket Queue</button>
+    <button class="tab-btn" onclick="switchTab('tab-map')" id="btnTabMap">GIS Map</button>
+    <button class="tab-btn" onclick="switchTab('tab-dispatch')" id="btnTabDispatch">Batch Dispatch</button>
+    <button class="tab-btn" onclick="switchTab('tab-reports')" id="btnTabReports">Audit Report</button>
+    <!-- Super Admin Only Tabs -->
+    <button class="tab-btn" id="adminMgmtTabBtn" style="display:none;" onclick="switchTab('tab-admins')">
+      Admin Management
+    </button>
+    <button class="tab-btn" id="employeeTabBtn" style="display:none;" onclick="switchTab('tab-employees')">
+      Ward Officers Directory
+    </button>
+  </div>
+
+  <!-- Stat Band -->
+  <div class="stat-band" id="statBand"></div>
+
+  <!-- -------------------- TAB 1: TICKETS -------------------- -->
+  <div id="tab-tickets" class="tab-content">
+    <div class="card card-header-band">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+        <h3 style="margin:0;" id="ticketQueueHeader">Administrative Ticket Pipeline</h3>
+        <div style="font-size:12px;color:var(--gov-muted);" id="dataMeetSourceBadge">
+          Ward Boundaries: <b>DataMeet Open GIS</b>
+        </div>
+      </div>
+
+      <!-- Filters Row -->
+      <!-- Neatly Aligned Filters Toolbar -->
+      <div class="filter-toolbar">
+        <div class="filter-group">
+          <label id="lblWardFilter">Ward:</label>
+          <select id="wardFilter">
+            <option value="">Loading wards...</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label id="lblStatusFilter">Status:</label>
+          <select id="statusFilter">
+            <option value="">All Statuses</option>
+            <option value="reported">Reported</option>
+            <option value="acknowledged">Acknowledged</option>
+            <option value="in_progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label id="lblSortBy">Sort By:</label>
+          <select id="sortByFilter">
+            <option value="">Newest First</option>
+            <option value="reportCount">Most Reported (Citizen Count)</option>
+            <option value="priority">Priority (High to Low)</option>
+            <option value="confidence">Highest AI Confidence</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label id="lblAiFilter">AI Confidence:</label>
+          <select id="aiFilter">
+            <option value="">All</option>
+            <option value="0.70">High (>= 70%)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
+            <input type="checkbox" id="escalatedOnly">
+            <span style="color:#dc2626;font-weight:700;" id="lblSlaOnly">SLA-Breached Only</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div>
+          <div id="ticketList"></div>
+        </div>
+        <div>
+          <div class="sticky-map-card">
+            <h4 style="margin:0 0 8px;font-size:14px;color:var(--gov-navy);" id="hdrQuickMap">Jurisdiction Overview Map</h4>
+            <div id="adminMap" class="map small"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- -------------------- TAB 2: GIS MAP -------------------- -->
+  <div id="tab-map" class="tab-content" style="display:none;">
+    <div class="card card-header-band">
+      <h3 id="gisMapHdr">Municipal GIS Ward Analysis</h3>
+      <p class="section-lead" id="gisMapLead">
+        Certified municipal ward boundaries with live civic health scores and real-time report distribution.
+      </p>
+      <div id="fullAdminMap" class="map" style="height:540px;"></div>
+    </div>
+  </div>
+
+  <!-- -------------------- TAB 3: BATCH DISPATCH -------------------- -->
+  <div id="tab-dispatch" class="tab-content" style="display:none;">
+    <div class="card card-header-band">
+      <h3 id="dispatchHdr">Geo-Clustered Batch Dispatch Routes</h3>
+      <p class="section-lead" id="dispatchLead">
+        Grievances within 200m radius are automatically grouped into single dispatch routes for rapid repair teams.
+      </p>
+      <button class="btn-secondary" id="loadClusters" type="button" style="margin-bottom:14px;">
+        Recompute Clusters
+      </button>
+      <div id="clusterList"></div>
+    </div>
+  </div>
+
+  <!-- -------------------- TAB 4: AUDIT REPORTS -------------------- -->
+  <div id="tab-reports" class="tab-content" style="display:none;">
+    <div class="card card-header-band">
+      <h3 id="auditHdr">Automated Monthly Ward Performance Audit</h3>
+      <p class="section-lead" id="auditLead">
+        Civic Health Index built solely on citizen-verified resolutions (Trust Loop).
+      </p>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+        <button class="btn-secondary" id="genReport" type="button">
+          Generate Audit Report
+        </button>
+        <button class="btn-outline" id="exportAuditPdfBtn" type="button" onclick="downloadAuditPdf()" style="display:inline-flex;align-items:center;gap:6px;">
+          <span>📥</span> <span id="lblExportAuditPdf">Export Certified Audit Report (PDF)</span>
+        </button>
+      </div>
+      <div id="reportOutput"></div>
+    </div>
+  </div>
+
+  <!-- -------------------- TAB 5: SUPER ADMIN AUTHORITY - ADMIN MANAGEMENT -------------------- -->
+  <div id="tab-admins" class="tab-content" style="display:none;">
+    <div class="card card-header-band saffron">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div>
+          <h3 style="margin:0;" id="adminMgmtHdr">Municipal Administrator Credential Provisioning</h3>
+          <p class="section-lead" style="margin:4px 0 0;" id="adminMgmtLead">
+            Super Admin authority to register, issue credentials, and manage Municipal Administrators.
+          </p>
+        </div>
+        <span class="chip st-acknowledged" style="font-weight:700;">Super Admin Authority</span>
+      </div>
+
+      <!-- Create Admin Form -->
+      <div class="card" style="background:#fafafa;border:1px solid var(--gov-border);margin-bottom:24px;">
+        <h4 style="margin:0 0 12px;color:var(--gov-navy);font-size:15px;" id="hdrCreateAdmin">
+          Register and Assign Credentials to New Administrator
+        </h4>
+        <form id="assignAdminForm">
+          <div class="grid cols-3">
+            <div>
+              <label id="lblAdminName">Administrator Full Name <span class="req">*</span></label>
+              <input type="text" id="adminName" placeholder="e.g. Vikram Malhotra" required>
+            </div>
+            <div>
+              <label id="lblAdminEmail">Official Email ID <span class="req">*</span></label>
+              <input type="email" id="adminEmail" placeholder="e.g. vikram.admin@sunwai.gov.in" required>
+            </div>
+            <div>
+              <label id="lblAdminPassword">Password <span class="req">*</span></label>
+              <div class="pw-input-wrap">
+                <input type="text" id="adminPassword" placeholder="••••••••" required>
+                <button type="button" class="pw-gen-btn" onclick="generateAdminPassword()" title="Generate Random Secure Password">
+                  Generate
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:10px;">
+            <div>
+              <label id="lblAdminDesignation">Designation / Role <span class="req">*</span></label>
+              <select id="adminDesignation">
+                <option value="Additional Municipal Commissioner">Additional Municipal Commissioner</option>
+                <option value="Joint Municipal Commissioner">Joint Municipal Commissioner</option>
+                <option value="Zonal Administrator">Zonal Administrator</option>
+                <option value="Grievance Redressal Cell Head">Grievance Redressal Cell Head</option>
+                <option value="Chief Municipal Engineer">Chief Municipal Engineer</option>
+                <option value="Superintending Officer">Superintending Officer</option>
+              </select>
+            </div>
+            <div>
+              <label id="lblAdminScope">Administrative Jurisdiction</label>
+              <select id="adminScope">
+                <option value="all_wards">City-Wide Jurisdiction (All Wards)</option>
+                <option value="central_zone">Central Administrative Zone</option>
+                <option value="north_zone">North Municipal Zone</option>
+                <option value="south_zone">South Municipal Zone</option>
+              </select>
+            </div>
+            <div>
+              <label id="lblAdminDept">Department</label>
+              <select id="adminDept">
+                <option value="Central Municipal Administration">Central Municipal Administration</option>
+                <option value="Urban Development & Works">Urban Development & Works</option>
+                <option value="Public Health & Sanitation">Public Health & Sanitation</option>
+                <option value="Water Supply & Drainage">Water Supply & Drainage</option>
+                <option value="Electricals & Smart Infrastructure">Electricals & Smart Infrastructure</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:10px;">
+            <div>
+              <label id="lblAdminPhone">Contact Phone</label>
+              <input type="tel" id="adminPhone" placeholder="+91 98391 XXXXX">
+            </div>
+          </div>
+
+          <div style="margin-top:16px;display:flex;justify-content:flex-end;">
+            <button type="submit" class="btn-primary" id="saveAdminBtn">
+              Issue Administrator Credentials
+            </button>
+          </div>
+          <div id="assignAdminResult" style="margin-top:12px;"></div>
+        </form>
+      </div>
+
+      <!-- Active Admins Table -->
+      <h4 style="margin:0 0 10px;color:var(--gov-navy);font-size:15px;" id="hdrAdminsTable">
+        Active Registered Administrators Directory
+      </h4>
+      <div style="overflow-x:auto;">
+        <table class="gov-table" id="adminsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th id="thAdminName">Name</th>
+              <th id="thAdminEmail">Official Email</th>
+              <th id="thAdminDesig">Designation</th>
+              <th id="thAdminJuris">Jurisdiction</th>
+              <th id="thAdminDept">Department</th>
+              <th id="thAdminPhone">Phone</th>
+              <th id="thAdminDate">Registered On</th>
+              <th id="thAdminAction">Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminsTableBody">
+            <tr><td colspan="9" style="text-align:center;">Loading administrators directory...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- -------------------- TAB 6: WARD OFFICERS & SUPABASE (Super Admin Only) -------------------- -->
+  <div id="tab-employees" class="tab-content" style="display:none;">
+    <div class="card card-header-band saffron">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div>
+          <h3 style="margin:0;" id="empMgmtHdr">Ward Officer Credential Provisioning</h3>
+          <p class="section-lead" style="margin:4px 0 0;" id="empMgmtLead">
+            Assign ward-level field and administrative login credentials.
+          </p>
+        </div>
+        <div id="supaStatusBadge">
+          <span class="supa-pill local"><span class="dot-pulse"></span> Local Fallback Storage</span>
+        </div>
+      </div>
+
+      <!-- Supabase Configuration Bar -->
+      <div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:12px 16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div>
+          <b id="supaDbLabel">Supabase Database Connection:</b>
+          <span id="supaConfigMsg" style="font-size:12.5px;color:var(--gov-muted);margin-left:6px;">Checking status...</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-outline" style="padding:6px 12px;font-size:12px;" onclick="openSupaModal()" id="btnCfgSupa">
+            Configure Supabase Keys
+          </button>
+          <button class="btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="openSchemaModal()" id="btnViewSchema">
+            View SQL Schema
+          </button>
+        </div>
+      </div>
+
+      <!-- Employee Assignment Form -->
+      <div class="card" style="background:#fafafa;border:1px solid var(--gov-border);margin-bottom:24px;">
+        <h4 style="margin:0 0 12px;color:var(--gov-navy);font-size:15px;" id="hdrCreateEmp">
+          Assign New Ward Officer Credentials
+        </h4>
+        <form id="assignEmpForm">
+          <div class="grid cols-3">
+            <div>
+              <label id="lblEmpName">Officer Full Name <span class="req">*</span></label>
+              <input type="text" id="empName" placeholder="e.g. Rajesh Kumar" required>
+            </div>
+            <div>
+              <label id="lblEmpEmail">Official Email ID <span class="req">*</span></label>
+              <input type="email" id="empEmail" placeholder="e.g. officer.w15@sunwai.gov.in" required>
+            </div>
+            <div>
+              <label id="lblEmpPassword">Password <span class="req">*</span></label>
+              <input type="password" id="empPassword" placeholder="••••••••" required>
+            </div>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:10px;">
+            <div>
+              <label id="lblEmpWard">Assigned Ward <span class="req">*</span></label>
+              <select id="empWardSelect" required>
+                <option value="">Select Ward</option>
+              </select>
+            </div>
+            <div>
+              <label id="lblEmpDept">Department / Role</label>
+              <select id="empDept">
+                <option value="Municipal Ward Officer">Ward Officer</option>
+                <option value="Engineering & PWD">Engineering & PWD</option>
+                <option value="Sanitation & Public Health">Sanitation & Public Health</option>
+                <option value="Water Works & Drainage">Water Works & Drainage</option>
+                <option value="Street Lighting & Electrical">Street Lighting & Electrical</option>
+              </select>
+            </div>
+            <div>
+              <label id="lblEmpPhone">Contact Phone</label>
+              <input type="tel" id="empPhone" placeholder="+91 98390 XXXXX">
+            </div>
+          </div>
+
+          <div style="margin-top:16px;display:flex;justify-content:flex-end;">
+            <button type="submit" class="btn-primary" id="saveEmpBtn">
+              Issue Ward Credentials
+            </button>
+          </div>
+          <div id="assignResult" style="margin-top:12px;"></div>
+        </form>
+      </div>
+
+      <!-- Active Employees Table -->
+      <h4 style="margin:0 0 10px;color:var(--gov-navy);font-size:15px;" id="hdrEmpTable">
+        Active Ward Officers and Employees Directory
+      </h4>
+      <div style="overflow-x:auto;">
+        <table class="gov-table" id="empTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th id="thEmpName">Name</th>
+              <th id="thEmpEmail">Official Email</th>
+              <th id="thEmpWard">Assigned Ward</th>
+              <th id="thEmpDept">Department</th>
+              <th id="thEmpPhone">Phone</th>
+              <th id="thEmpDate">Assigned On</th>
+              <th id="thEmpAction">Action</th>
+            </tr>
+          </thead>
+          <tbody id="empTableBody">
+            <tr><td colspan="8" style="text-align:center;">Loading employee directory...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Supabase Config Modal -->
+<div class="modal-overlay" id="supaModal">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <h3 style="margin:0;">Supabase Database Configuration</h3>
+      <button class="btn-ghost" onclick="closeSupaModal()" style="padding:4px 8px;font-size:16px;" title="Close">&times;</button>
+    </div>
+    <p style="font-size:13px;color:var(--gov-muted);margin-bottom:14px;">
+      Enter your Supabase Project URL and Key. If left empty, Sunwai operates automatically in resilient local database fallback mode.
+    </p>
+    <label>Supabase Project URL</label>
+    <input type="url" id="modalSupaUrl" placeholder="https://xyzcompany.supabase.co">
+
+    <label>Supabase API Key (Anon or Service Role Key)</label>
+    <input type="password" id="modalSupaKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+
+    <div id="supaTestMsg" style="margin-top:12px;"></div>
+
+    <div style="margin-top:18px;display:flex;justify-content:flex-end;gap:10px;">
+      <button type="button" class="btn-ghost" onclick="closeSupaModal()">Cancel</button>
+      <button type="button" class="btn-primary" onclick="saveSupaConfig()">Save & Test Connection</button>
+    </div>
+  </div>
+</div>
+
+<!-- SQL Schema Modal -->
+<div class="modal-overlay" id="schemaModal">
+  <div class="modal-box" style="max-width:680px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <h3 style="margin:0;">Supabase SQL Schema Script</h3>
+      <button class="btn-ghost" onclick="closeSchemaModal()" style="padding:4px 8px;font-size:16px;" title="Close">&times;</button>
+    </div>
+    <p style="font-size:13px;color:var(--gov-muted);margin-bottom:10px;">
+      Copy and run this SQL script in your <b>Supabase SQL Editor</b> to initialize both <code>sunwai_admins</code> and <code>sunwai_employees</code> tables:
+    </p>
+    <textarea id="schemaSqlBox" readonly style="height:220px;font-family:monospace;font-size:12px;background:#f8fafc;"></textarea>
+    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;">
+      <button class="btn-outline" onclick="copySchemaSql()">Copy SQL to Clipboard</button>
+      <button class="btn-secondary" onclick="closeSchemaModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Interactive Report & PDF Export Preview Modal -->
+<div class="modal-overlay" id="reportPreviewModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,37,70,0.75);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#ffffff;border-radius:8px;max-width:860px;width:96%;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);overflow:hidden;">
+    <!-- Modal Toolbar -->
+    <div style="background:#0b2546;color:#ffffff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">🏛️</span>
+        <div>
+          <b style="font-size:14.5px;" id="modalDocTitle">Certified Municipal Audit Report</b>
+          <div style="font-size:11px;color:#cbd5e1;" id="modalDocSubtitle">Executive Redressal & Field Operations Dossier</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-primary" id="btnDownloadModalPdf" onclick="triggerModalPdfDownload()" style="background:#f2711c;border:none;padding:6px 14px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
+          <span>📥</span> <span id="lblDownloadModalPdf">Download PDF</span>
+        </button>
+        <button class="btn-outline" onclick="printModalDocument()" style="color:#ffffff;border-color:rgba(255,255,255,0.4);padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:5px;cursor:pointer;">
+          <span>🖨️</span> <span>Print / Save</span>
+        </button>
+        <button class="btn-ghost" onclick="closeReportModal()" style="color:#ffffff;padding:4px 8px;font-size:18px;cursor:pointer;" title="Close">&times;</button>
+      </div>
+    </div>
+    
+    <!-- Document Display Area (Visible, rendered in full layout) -->
+    <div style="padding:16px;overflow-y:auto;background:#e2e8f0;flex:1;" id="modalReportScroll">
+      <div id="modalPrintableContent" style="background:#ffffff;width:720px;max-width:720px;min-width:720px;box-sizing:border-box;margin:0 auto;padding:14px 16px;border:1.5px solid #0b2546;border-radius:4px;color:#1e293b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:10.5px;line-height:1.4;">
+        <!-- Dynamic Document HTML goes here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
+
+<script src="app.js"></script>
+<script>
+// 1. Authenticate Guard
+const currentUser = requireAuth(['municipal_head', 'admin', 'ward_employee']);
+if (!currentUser) {
+  // Handled by requireAuth
+}
+
+renderHeader('admin.html');
+
+const isSuperAdmin = currentUser.role === 'municipal_head' || currentUser.isSuperAdmin;
+const isAdmin = currentUser.role === 'admin';
+const assignedWard = currentUser.assignedWard;
+
+// 2. Multilingual Dictionary for Admin Portal (Clean English / Clean Hindi)
+const ADMIN_I18N = {
+  en: {
+    page_title: 'Sunwai: Municipal Administration Portal',
+    badge_super_admin: 'Municipal Command Center · Super Admin',
+    badge_admin: 'Municipal Administration · Administrator',
+    badge_ward: `Ward Officer · Ward ${assignedWard}`,
+    title_super_admin: 'Municipal Commissioner: Central Administration Center',
+    title_admin: `${currentUser.designation || 'Administrator'}: Municipal Administration Console`,
+    title_ward: `Ward Office: ${currentUser.wardName || ('Ward ' + assignedWard)}`,
+    sub_super_admin: 'City-Wide Jurisdiction · Consolidated Data Analytics & Credential Authority',
+    sub_admin: `Authorized Officer: ${currentUser.name} | Department: ${currentUser.department || 'Urban Administration'}`,
+    sub_ward: `Authorized Officer: ${currentUser.name} | Department: ${currentUser.department || 'Ward Services'}`,
+    jurisdiction_locked: 'Ward Jurisdiction Locked: You can only view and manage reports for your assigned ward.',
+    tab_tickets: 'Ticket Queue',
+    tab_map: 'GIS Map',
+    tab_dispatch: 'Batch Dispatch',
+    tab_reports: 'Audit Report',
+    tab_admins: 'Admin Management',
+    tab_employees: 'Ward Officers Directory',
+    hdr_tickets: 'Administrative Ticket Pipeline',
+    lbl_ward: 'Ward:',
+    lbl_status: 'Status:',
+    all_statuses: 'All Statuses',
+    sla_only: 'SLA-Breached Only',
+    hdr_quick_map: 'Jurisdiction Overview Map',
+    hdr_gis: 'Municipal GIS Ward Analysis',
+    lead_gis: 'Certified municipal ward boundaries with live civic health scores and real-time report distribution.',
+    hdr_dispatch: 'Geo-Clustered Batch Dispatch Routes',
+    lead_dispatch: 'Grievances within 200m radius are automatically grouped into single dispatch routes for rapid repair teams.',
+    btn_recompute: 'Recompute Clusters',
+    hdr_audit: 'Automated Monthly Ward Performance Audit',
+    lead_audit: 'Civic Health Index built solely on citizen-verified resolutions (Trust Loop).',
+    btn_gen_report: 'Generate Audit Report',
+    hdr_admin_mgmt: 'Municipal Administrator Credential Provisioning',
+    lead_admin_mgmt: 'Super Admin authority to register, issue credentials, and manage Municipal Administrators.',
+    hdr_create_admin: 'Register and Assign Credentials to New Administrator',
+    lbl_admin_name: 'Administrator Full Name',
+    lbl_admin_email: 'Official Email ID',
+    lbl_admin_pw: 'Password',
+    btn_gen_pw: 'Generate',
+    lbl_admin_desig: 'Designation / Role',
+    lbl_admin_scope: 'Administrative Jurisdiction',
+    lbl_admin_dept: 'Department',
+    lbl_admin_phone: 'Contact Phone',
+    btn_save_admin: 'Issue Administrator Credentials',
+    hdr_admins_table: 'Active Registered Administrators Directory',
+    th_name: 'Name',
+    th_email: 'Official Email',
+    th_desig: 'Designation',
+    th_juris: 'Jurisdiction',
+    th_dept: 'Department',
+    th_phone: 'Phone',
+    th_date: 'Registered On',
+    th_action: 'Action',
+    hdr_emp_mgmt: 'Ward Officer Credential Provisioning',
+    lead_emp_mgmt: 'Assign ward-level field and administrative login credentials.',
+    hdr_create_emp: 'Assign New Ward Officer Credentials',
+    lbl_emp_name: 'Officer Full Name',
+    lbl_emp_email: 'Official Email ID',
+    lbl_emp_pw: 'Password',
+    lbl_emp_ward: 'Assigned Ward',
+    lbl_emp_dept: 'Department / Role',
+    lbl_emp_phone: 'Contact Phone',
+    btn_save_emp: 'Issue Ward Credentials',
+    hdr_emp_table: 'Active Ward Officers and Employees Directory',
+    select_ward: 'Select Ward',
+    all_wards_option: 'All Wards (Consolidated City View)',
+    stat_total: 'Total Grievances',
+    stat_open: 'Open / In Progress',
+    stat_breached: 'SLA Breached',
+    stat_closed: 'Citizen-Verified Closed',
+    update_status: 'Update Status:',
+    btn_apply: 'Apply',
+    btn_revoke: 'Revoke',
+    btn_copy_creds: 'Copy Login Details',
+    creds_copied: 'Credentials copied to clipboard!',
+    no_tickets: 'No grievances found under selected ward or filter.',
+    export_pdf_dossier: 'Export PDF Dossier',
+    export_audit_pdf: 'Export Certified Audit Report (PDF)',
+    complainant_profile: 'Complainant Profile (Verified Citizen)',
+    generating_pdf: 'Generating PDF...'
+  },
+  hi: {
+    page_title: 'सुनवाई: नगर निगम प्रशासनिक पोर्टल',
+    badge_super_admin: 'नगर निगम प्रशासनिक नियंत्रण कक्ष · मुख्य प्रशासक',
+    badge_admin: 'नगर निगम प्रशासन · प्रशासक',
+    badge_ward: `वार्ड कार्यालय · वार्ड ${assignedWard}`,
+    title_super_admin: 'श्री / श्रीमती नगर आयुक्त: मुख्य प्रशासनिक नियंत्रण कक्ष',
+    title_admin: `${currentUser.designation || 'प्रशासक'}: प्रशासनिक कंसोल`,
+    title_ward: `वार्ड कार्यालय: ${currentUser.wardName || ('वार्ड ' + assignedWard)}`,
+    sub_super_admin: 'समस्त शहर क्षेत्राधिकार · सभी वार्डों का समेकित डेटा विश्लेषण एवं साख प्रबंधन',
+    sub_admin: `अधिकृत अधिकारी: ${currentUser.name} | विभाग: ${currentUser.department || 'नगर प्रशासन'}`,
+    sub_ward: `अधिकृत अधिकारी: ${currentUser.name} | विभाग: ${currentUser.department || 'वार्ड सेवाएं'}`,
+    jurisdiction_locked: 'वार्ड क्षेत्राधिकार लॉक: आप केवल अपने आवंटित वार्ड का डेटा देख एवं प्रबंधित कर सकते हैं।',
+    tab_tickets: 'शिकायत निवारण कतार',
+    tab_map: 'भू-स्थानिक वार्ड विश्लेषण',
+    tab_dispatch: 'समूह कार्य प्रेषण',
+    tab_reports: 'मासिक प्रदर्शन ऑडिट',
+    tab_admins: 'प्रशासक प्रबंधन',
+    tab_employees: 'वार्ड अधिकारी निर्देशिका',
+    hdr_tickets: 'प्रशासनिक कार्य कतार',
+    lbl_ward: 'वार्ड:',
+    lbl_status: 'स्थिति:',
+    all_statuses: 'सभी स्थितियां',
+    sla_only: 'केवल समय-सीमा उल्लंघन',
+    hdr_quick_map: 'वार्ड त्वरित मानचित्र',
+    hdr_gis: 'नगर निगम भू-स्थानिक वार्ड विश्लेषण',
+    lead_gis: 'प्रमाणित नगर निगम वार्ड सीमाएं, नागरिक स्वास्थ्य स्कोर एवं शिकायतों का वास्तविक वितरण।',
+    hdr_dispatch: 'भू-क्लस्टर बैच प्रेषण मार्ग',
+    lead_dispatch: '200 मीटर के दायरे में स्थित शिकायतों को स्वतः एक मरम्मत दल के मार्ग में समूहीकृत किया गया है।',
+    btn_recompute: 'क्लस्टर पुनः गणना करें',
+    hdr_audit: 'स्वचालित मासिक वार्ड प्रदर्शन ऑडिट',
+    lead_audit: 'केवल नागरिकों द्वारा सत्यापित एवं प्रमाणित समाधानों पर आधारित नागरिक स्वास्थ्य सूचकांक।',
+    btn_gen_report: 'ऑडिट रिपोर्ट तैयार करें',
+    hdr_admin_mgmt: 'नगर निगम प्रशासक साख आवंटन एवं प्रबंधन',
+    lead_admin_mgmt: 'नगर आयुक्त द्वारा नए प्रशासकों को पंजीकृत करने एवं लॉगिन क्रेडेंशियल्स जारी करने का अधिकार।',
+    hdr_create_admin: 'नए प्रशासक को पंजीकृत करें एवं क्रेडेंशियल बनाएं',
+    lbl_admin_name: 'प्रशासक का पूरा नाम',
+    lbl_admin_email: 'विभागीय ईमेल पता',
+    lbl_admin_pw: 'पासवर्ड',
+    btn_gen_pw: 'पासवर्ड बनाएं',
+    lbl_admin_desig: 'पदनाम / भूमिका',
+    lbl_admin_scope: 'प्रशासनिक क्षेत्राधिकार',
+    lbl_admin_dept: 'विभाग',
+    lbl_admin_phone: 'मोबाइल नंबर',
+    btn_save_admin: 'प्रशासक क्रेडेंशियल जारी करें',
+    hdr_admins_table: 'सक्रिय पंजीकृत प्रशासक निर्देशिका',
+    th_name: 'नाम',
+    th_email: 'विभागीय ईमेल',
+    th_desig: 'पदनाम',
+    th_juris: 'क्षेत्राधिकार',
+    th_dept: 'विभाग',
+    th_phone: 'मोबाइल',
+    th_date: 'पंजीकरण तिथि',
+    th_action: 'कार्रवाई',
+    hdr_emp_mgmt: 'वार्ड अधिकारी साख प्रबंधन',
+    lead_emp_mgmt: 'कर्मचारियों को वार्ड अनुसार लॉगिन क्रेडेंशियल्स आवंटित करने का नियंत्रण कक्ष।',
+    hdr_create_emp: 'नया वार्ड अधिकारी क्रेडेंशियल बनाएं',
+    lbl_emp_name: 'अधिकारी का पूरा नाम',
+    lbl_emp_email: 'विभागीय ईमेल पता',
+    lbl_emp_pw: 'पासवर्ड',
+    lbl_emp_ward: 'आवंटित वार्ड',
+    lbl_emp_dept: 'विभाग / पद',
+    lbl_emp_phone: 'मोबाइल नंबर',
+    btn_save_emp: 'वार्ड क्रेडेंशियल जारी करें',
+    hdr_emp_table: 'सक्रिय वार्ड अधिकारी एवं कर्मचारी निर्देशिका',
+    select_ward: 'वार्ड चुनें',
+    all_wards_option: 'समस्त वार्ड (समेकित नगर दृश्य)',
+    stat_total: 'कुल शिकायतें',
+    stat_open: 'लंबित / प्रगति पर',
+    stat_breached: 'समय-सीमा उल्लंघन',
+    stat_closed: 'नागरिक प्रमाणित बंद',
+    update_status: 'अद्यतन स्थिति:',
+    btn_apply: 'लागू करें',
+    btn_revoke: 'निरस्त करें',
+    btn_copy_creds: 'लॉगिन विवरण कॉपी करें',
+    creds_copied: 'क्रेडेंशियल्स क्लिपबोर्ड पर कॉपी किए गए!',
+    no_tickets: 'चयनित वार्ड अथवा फ़िल्टर के तहत कोई शिकायत नहीं है।',
+    export_pdf_dossier: 'पीडीएफ डोजियर (PDF)',
+    export_audit_pdf: 'प्रमाणित ऑडिट रिपोर्ट डाउनलोड करें (PDF)',
+    complainant_profile: 'शिकायतकर्ता विवरण (सत्यापित नागरिक)',
+    generating_pdf: 'पीडीएफ तैयार हो रहा है...'
+  }
+};
+
+function applyAdminLanguage() {
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  document.title = dict.page_title;
+
+  // Header card
+  if (isSuperAdmin) {
+    document.getElementById('roleBadge').innerText = dict.badge_super_admin;
+    document.getElementById('roleTitle').innerText = dict.title_super_admin;
+    document.getElementById('roleSubtitle').innerText = dict.sub_super_admin;
+    document.getElementById('jurisdictionNotice').style.display = 'none';
+  } else if (isAdmin) {
+    document.getElementById('roleBadge').innerText = dict.badge_admin;
+    document.getElementById('roleTitle').innerText = dict.title_admin;
+    document.getElementById('roleSubtitle').innerText = dict.sub_admin;
+    document.getElementById('jurisdictionNotice').style.display = 'none';
+  } else {
+    document.getElementById('roleBadge').innerText = dict.badge_ward;
+    document.getElementById('roleTitle').innerText = dict.title_ward;
+    document.getElementById('roleSubtitle').innerText = dict.sub_ward;
+    document.getElementById('jurisdictionNotice').style.display = 'inline-flex';
+    document.getElementById('jurisdictionNoticeText').innerText = dict.jurisdiction_locked;
+  }
+
+  // Tabs
+  document.getElementById('btnTabTickets').innerText = dict.tab_tickets;
+  document.getElementById('btnTabMap').innerText = dict.tab_map;
+  document.getElementById('btnTabDispatch').innerText = dict.tab_dispatch;
+  document.getElementById('btnTabReports').innerText = dict.tab_reports;
+  document.getElementById('adminMgmtTabBtn').innerText = dict.tab_admins;
+  document.getElementById('employeeTabBtn').innerText = dict.tab_employees;
+
+  // Section Headers & Labels
+  document.getElementById('ticketQueueHeader').innerText = dict.hdr_tickets;
+  document.getElementById('lblWardFilter').innerText = dict.lbl_ward;
+  document.getElementById('lblStatusFilter').innerText = dict.lbl_status;
+  document.getElementById('lblSlaOnly').innerText = dict.sla_only;
+  document.getElementById('hdrQuickMap').innerText = dict.hdr_quick_map;
+  document.getElementById('gisMapHdr').innerText = dict.hdr_gis;
+  document.getElementById('gisMapLead').innerText = dict.lead_gis;
+  document.getElementById('dispatchHdr').innerText = dict.hdr_dispatch;
+  document.getElementById('dispatchLead').innerText = dict.lead_dispatch;
+  document.getElementById('loadClusters').innerText = dict.btn_recompute;
+  document.getElementById('auditHdr').innerText = dict.hdr_audit;
+  document.getElementById('auditLead').innerText = dict.lead_audit;
+  document.getElementById('genReport').innerText = dict.btn_gen_report;
+  const exportAuditLbl = document.getElementById('lblExportAuditPdf');
+  if (exportAuditLbl) exportAuditLbl.innerText = dict.export_audit_pdf;
+
+  // Admin Management tab elements
+  document.getElementById('adminMgmtHdr').innerText = dict.hdr_admin_mgmt;
+  document.getElementById('adminMgmtLead').innerText = dict.lead_admin_mgmt;
+  document.getElementById('hdrCreateAdmin').innerText = dict.hdr_create_admin;
+  document.getElementById('lblAdminName').childNodes[0].nodeValue = dict.lbl_admin_name + ' ';
+  document.getElementById('lblAdminEmail').childNodes[0].nodeValue = dict.lbl_admin_email + ' ';
+  document.getElementById('lblAdminPassword').childNodes[0].nodeValue = dict.lbl_admin_pw + ' ';
+  document.getElementById('lblAdminDesignation').childNodes[0].nodeValue = dict.lbl_admin_desig + ' ';
+  document.getElementById('lblAdminScope').innerText = dict.lbl_admin_scope;
+  document.getElementById('lblAdminDept').innerText = dict.lbl_admin_dept;
+  document.getElementById('lblAdminPhone').innerText = dict.lbl_admin_phone;
+  document.getElementById('saveAdminBtn').innerText = dict.btn_save_admin;
+  document.getElementById('hdrAdminsTable').innerText = dict.hdr_admins_table;
+  document.getElementById('thAdminName').innerText = dict.th_name;
+  document.getElementById('thAdminEmail').innerText = dict.th_email;
+  document.getElementById('thAdminDesig').innerText = dict.th_desig;
+  document.getElementById('thAdminJuris').innerText = dict.th_juris;
+  document.getElementById('thAdminDept').innerText = dict.th_dept;
+  document.getElementById('thAdminPhone').innerText = dict.th_phone;
+  document.getElementById('thAdminDate').innerText = dict.th_date;
+  document.getElementById('thAdminAction').innerText = dict.th_action;
+
+  // Ward Employees tab elements
+  document.getElementById('empMgmtHdr').innerText = dict.hdr_emp_mgmt;
+  document.getElementById('empMgmtLead').innerText = dict.lead_emp_mgmt;
+  document.getElementById('hdrCreateEmp').innerText = dict.hdr_create_emp;
+  document.getElementById('lblEmpName').childNodes[0].nodeValue = dict.lbl_emp_name + ' ';
+  document.getElementById('lblEmpEmail').childNodes[0].nodeValue = dict.lbl_emp_email + ' ';
+  document.getElementById('lblEmpPassword').childNodes[0].nodeValue = dict.lbl_emp_pw + ' ';
+  document.getElementById('lblEmpWard').childNodes[0].nodeValue = dict.lbl_emp_ward + ' ';
+  document.getElementById('lblEmpDept').innerText = dict.lbl_emp_dept;
+  document.getElementById('lblEmpPhone').innerText = dict.lbl_emp_phone;
+  document.getElementById('saveEmpBtn').innerText = dict.btn_save_emp;
+  document.getElementById('hdrEmpTable').innerText = dict.hdr_emp_table;
+  document.getElementById('thEmpName').innerText = dict.th_name;
+  document.getElementById('thEmpEmail').innerText = dict.th_email;
+  document.getElementById('thEmpWard').innerText = dict.lbl_emp_ward;
+  document.getElementById('thEmpDept').innerText = dict.th_dept;
+  document.getElementById('thEmpPhone').innerText = dict.th_phone;
+  document.getElementById('thEmpDate').innerText = dict.th_date;
+  document.getElementById('thEmpAction').innerText = dict.th_action;
+
+  // Re-render tickets and stats
+  loadStats();
+  loadTickets();
+  if (isSuperAdmin) {
+    loadAdmins();
+    loadEmployees();
+  }
+}
+
+window.onLanguageChange = function() {
+  applyAdminLanguage();
+};
+
+// 3. Tab Visibility Setup
+if (isSuperAdmin) {
+  document.getElementById('adminMgmtTabBtn').style.display = 'inline-block';
+  document.getElementById('employeeTabBtn').style.display = 'inline-block';
+} else {
+  document.getElementById('adminMgmtTabBtn').style.display = 'none';
+  document.getElementById('employeeTabBtn').style.display = 'none';
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  const activeEl = document.getElementById(tabId);
+  if (activeEl) activeEl.style.display = 'block';
+
+  event.currentTarget.classList.add('active');
+
+  if (tabId === 'tab-map' && fullAdminMap) {
+    setTimeout(() => fullAdminMap.invalidateSize(), 200);
+  }
+}
+
+// 4. Map Setup
+let wardsCache = [];
+const adminMap = L.map('adminMap').setView([26.4499, 80.3319], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors', maxZoom: 19 }).addTo(adminMap);
+let wardLayers = [], reportMarkers = [];
+
+let fullAdminMap = null;
+function initFullAdminMap() {
+  if (fullAdminMap) return;
+  fullAdminMap = L.map('fullAdminMap').setView([26.4499, 80.3319], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors', maxZoom: 19 }).addTo(fullAdminMap);
+}
+initFullAdminMap();
+
+const STATUS_COLOR = { reported: '#888', acknowledged: '#2c5a8c', in_progress: '#a9670e', resolved: '#1c7a5c', closed: '#128808' };
+
+// 5. Load Wards and Apply Jurisdiction Isolation
+async function loadWardsIntoFilter() {
+  wardsCache = await getJSON('/api/wards');
+  const sel = document.getElementById('wardFilter');
+  const empWardSel = document.getElementById('empWardSelect');
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  if (isSuperAdmin || isAdmin) {
+    sel.innerHTML = `<option value="">${dict.all_wards_option}</option>` +
+      wardsCache.map((w) => `<option value="${w.wardId}">${w.wardName} (Score: ${w.civicHealthScore})</option>`).join('');
+    sel.disabled = false;
+  } else {
+    const myWard = wardsCache.find((w) => w.wardId === assignedWard);
+    const wardLabel = myWard ? myWard.wardName : `Ward ${assignedWard}`;
+    sel.innerHTML = `<option value="${assignedWard}" selected>${wardLabel} [${lang === 'hi' ? 'आवंटित क्षेत्राधिकार' : 'Jurisdiction'}]</option>`;
+    sel.disabled = true;
+  }
+
+  if (empWardSel) {
+    empWardSel.innerHTML = `<option value="">${dict.select_ward}</option>` +
+      wardsCache.map((w) => `<option value="${w.wardId}">${w.wardName}</option>`).join('');
+  }
+
+  // Polygons
+  wardLayers.forEach((l) => adminMap.removeLayer(l));
+  wardLayers = wardsCache.map((w) => {
+    const isMine = (!isSuperAdmin && !isAdmin) && w.wardId === assignedWard;
+    const layer = L.geoJSON(w.geometry, {
+      style: {
+        color: isMine ? '#138808' : '#0b2546',
+        weight: isMine ? 3 : 1.5,
+        fillColor: isMine ? '#138808' : '#0b2546',
+        fillOpacity: isMine ? 0.15 : 0.04,
+      }
+    }).bindTooltip(`<b>${w.wardName}</b><br>Civic Health: ${w.civicHealthScore}`).addTo(adminMap);
+
+    L.geoJSON(w.geometry, {
+      style: { color: '#0b2546', weight: 1.5, fillOpacity: 0.06 }
+    }).bindTooltip(`<b>${w.wardName}</b><br>Score: ${w.civicHealthScore}`).addTo(fullAdminMap);
+
+    return layer;
+  });
+}
+
+// 6. Load Stats
+async function loadStats() {
+  const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
+  const params = targetWard ? `?ward=${targetWard}` : '';
+  const reports = await getJSON('/api/reports' + params);
+
+  const open = reports.filter((r) => !['closed'].includes(r.status)).length;
+  const escalated = reports.filter((r) => r.escalated).length;
+  const closed = reports.filter((r) => r.status === 'closed').length;
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  document.getElementById('statBand').innerHTML = `
+    <div class="stat"><div class="num">${reports.length}</div><div class="lbl">${dict.stat_total}</div></div>
+    <div class="stat stat-open"><div class="num">${open}</div><div class="lbl">${dict.stat_open}</div></div>
+    <div class="stat stat-escalated"><div class="num">${escalated}</div><div class="lbl">${dict.stat_breached}</div></div>
+    <div class="stat stat-closed"><div class="num">${closed}</div><div class="lbl">${dict.stat_closed}</div></div>
+  `;
+}
+
+// 7. Load Tickets Queue
+async function loadTickets() {
+  const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
+  const status = document.getElementById('statusFilter').value;
+  const escOnly = document.getElementById('escalatedOnly').checked;
+  const sortBy = document.getElementById('sortByFilter') ? document.getElementById('sortByFilter').value : '';
+  const minConf = document.getElementById('aiFilter') ? document.getElementById('aiFilter').value : '';
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  const params = new URLSearchParams();
+  if (targetWard) params.set('ward', targetWard);
+  if (status) params.set('status', status);
+  if (escOnly) params.set('escalated', 'true');
+  if (sortBy) params.set('sortBy', sortBy);
+  if (minConf) params.set('minConfidence', minConf);
+
+  const reports = await getJSON('/api/reports?' + params.toString());
+  const list = document.getElementById('ticketList');
+
+  list.innerHTML = reports.length ? reports.map((r) => {
+    const count = r.reportCount || (r.upvotes ? r.upvotes.length : 1);
+    const ai = r.aiClassification;
+    const subs = Array.isArray(r.citizenSubmissions) ? r.citizenSubmissions : [];
+
+    let consolidatedBanner = '';
+    if (count > 1) {
+      consolidatedBanner = `
+        <div class="consolidated-alert-banner">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:14px;">⚡</span>
+            <span style="font-weight:700;color:var(--gov-navy);font-size:12px;">
+              ${lang === 'hi' ? `समेकित नागरिक समस्या (${count} नागरिकों द्वारा दर्ज)` : `Consolidated Civic Issue (${count} Citizens Reported)`}
+            </span>
+          </div>
+          <div style="font-size:11.5px;color:var(--gov-muted);">
+            ${lang === 'hi' ? `इस स्थान पर ${count} अलग-अलग नागरिकों की रिपोर्टें स्वतः समेकित की गई हैं। प्रशासनिक प्राथमिकता: <b>${r.priority}</b>` : `Automatically merged from ${count} separate citizen submissions at this location. Priority escalated to <b>${r.priority}</b>.`}
+          </div>
+        </div>
+      `;
+    }
+
+    let multiSubHtml = '';
+    if (subs.length > 1) {
+      multiSubHtml = `
+        <details class="citizen-submissions-panel">
+          <summary class="citizen-submissions-summary">
+            <span>👥 ${lang === 'hi' ? `समेकित ${subs.length} नागरिकों के विवरण व फोटो देखें` : `View ${subs.length} Aggregated Citizen Submissions & Photos`}</span>
+            <span style="font-size:11px;font-weight:600;color:var(--gov-muted);">▼ Details</span>
+          </summary>
+          <div class="citizen-submissions-grid">
+            ${subs.map((s, idx) => {
+              const sc = s.citizenDetails || {};
+              return `
+              <div class="citizen-sub-card">
+                <div class="citizen-sub-header">
+                  <b>Citizen #${idx + 1}: ${sc.name || (s.userId ? s.userId.slice(-6) : 'Citizen')}</b>
+                  <span>${timeAgo(s.timestamp)}</span>
+                </div>
+                <div style="font-size:11px;color:var(--gov-muted);display:flex;flex-direction:column;gap:2px;margin:3px 0;">
+                  <span>📞 <b>${sc.phone || 'N/A'}</b> · ✉️ ${sc.email || 'N/A'}</span>
+                  ${sc.aadhaar ? `<span style="font-family:monospace;background:#f1f5f9;padding:1px 5px;border-radius:3px;align-self:flex-start;">🆔 ${sc.aadhaar}</span>` : ''}
+                </div>
+                <div style="font-size:11.5px;color:var(--gov-text);line-height:1.4;">${s.description || 'No additional note'}</div>
+                ${s.photoUrl ? `<a href="${s.photoUrl}" target="_blank" title="Click to view full photo"><img class="citizen-sub-photo" src="${s.photoUrl}"></a>` : ''}
+                ${s.aiClassification && s.aiClassification.available ? `
+                  <span class="ai-pill ${s.aiClassification.isLowConfidence ? 'low-conf' : ''}" style="font-size:10px;padding:1px 6px;margin-top:4px;align-self:flex-start;">
+                    🤖 ${Math.round((s.aiClassification.confidence || 0) * 100)}% (${s.aiClassification.category})
+                  </span>
+                ` : ''}
+              </div>
+            `;
+            }).join('')}
+          </div>
+        </details>
+      `;
+    }
+
+    const citizen = r.citizenDetails || {
+      name: 'Citizen (Unregistered)',
+      email: 'Not provided',
+      phone: 'Not provided',
+      aadhaar: 'XXXX-XXXX-XXXX'
+    };
+
+    return `
+      <div class="report-item">
+        <div class="report-top">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="report-id">${r.id}</span>
+            <span style="font-weight:700;">${categoryLabel(r.category)}</span>
+            <span class="citizen-count-badge ${count >= 3 ? 'high-volume' : (count >= 2 ? 'multi-citizen' : '')}">
+              👥 ${count} ${lang === 'hi' ? 'नागरिकों ने दर्ज किया' : (count > 1 ? 'Citizens Reported' : 'Citizen Reported')}
+            </span>
+            <span class="priority-pill priority-${r.priority || 'NORMAL'}">
+              ${r.priority || 'NORMAL'}
+            </span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span class="chip st-${r.status}">${statusLabel(r.status)}</span>
+            ${r.escalated ? `<span class="chip escalated">${lang === 'hi' ? 'समयसीमा समाप्त (SLA)' : 'SLA Breach'}</span>` : ''}
+            ${ai && ai.available ? `
+              <span class="ai-pill ${ai.isLowConfidence ? 'low-conf' : ''}">
+                🤖 ${Math.round(ai.confidence * 100)}% (${ai.model || 'YOLO'})
+              </span>
+            ` : ''}
+          </div>
+        </div>
+
+        ${consolidatedBanner}
+
+        <!-- Complainant Profile (Verified Citizen) -->
+        <div class="complainant-card" style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid var(--gov-chakra);border-radius:4px;padding:8px 12px;margin:8px 0;font-size:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:4px;">
+            <b style="color:var(--gov-navy);">${dict.complainant_profile}</b>
+            <span style="font-family:monospace;background:#e2e8f0;padding:1px 6px;border-radius:3px;font-size:11px;color:#1e293b;">
+              🆔 Aadhaar: ${citizen.aadhaar || 'XXXX-XXXX-XXXX'}
+            </span>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;color:var(--gov-text);">
+            <span><b>${lang === 'hi' ? 'नाम:' : 'Name:'}</b> ${citizen.name || 'Citizen'}</span>
+            <span><b>${lang === 'hi' ? 'फोन:' : 'Phone:'}</b> <a href="tel:${citizen.phone || ''}" style="color:var(--gov-chakra);text-decoration:none;font-weight:600;">${citizen.phone || 'N/A'}</a></span>
+            <span><b>${lang === 'hi' ? 'ईमेल:' : 'Email:'}</b> <a href="mailto:${citizen.email || ''}" style="color:var(--gov-chakra);text-decoration:none;">${citizen.email || 'N/A'}</a></span>
+          </div>
+        </div>
+
+        <div style="font-size:13px;margin:6px 0;color:var(--gov-text);">${r.description || (lang === 'hi' ? 'कोई विवरण नहीं दिया गया।' : 'No description provided.')}</div>
+        <div class="report-meta">
+          <b>${r.wardName}</b> · ${timeAgo(r.createdAt)} · ${r.upvotes.length} ${lang === 'hi' ? 'जन-समर्थन' : 'upvotes'}
+          ${r.duplicateOf ? `· ${lang === 'hi' ? 'संभावित प्रतिरूप:' : 'Possible duplicate:'} ` + r.duplicateOf : ''}
+        </div>
+        ${r.photoUrl ? `<img class="thumb" src="${r.photoUrl}" style="max-height:130px;width:auto;margin:6px 0;border-radius:4px;">` : ''}
+        ${multiSubHtml}
+
+        <!-- Status Pipeline & PDF Dossier Controls -->
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid #edf2f7;display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <span style="font-size:12px;font-weight:600;color:var(--gov-navy);">${dict.update_status}</span>
+            <select data-status-for="${r.id}" style="width:auto;padding:5px 8px;font-size:12.5px;">
+              <option value="reported" ${r.status==='reported'?'selected':''}>${lang === 'hi' ? 'दर्ज' : 'Reported'}</option>
+              <option value="acknowledged" ${r.status==='acknowledged'?'selected':''}>${lang === 'hi' ? 'स्वीकृत' : 'Acknowledged'}</option>
+              <option value="in_progress" ${r.status==='in_progress'?'selected':''}>${lang === 'hi' ? 'प्रगति पर' : 'In Progress'}</option>
+              <option value="resolved" ${r.status==='resolved'?'selected':''}>${lang === 'hi' ? 'निस्तारित' : 'Resolved'}</option>
+            </select>
+            <button class="btn-secondary" style="padding:5px 12px;font-size:12px;" data-apply="${r.id}">${dict.btn_apply}</button>
+          </div>
+          <div>
+            <button class="btn-outline" style="padding:5px 12px;font-size:12px;display:inline-flex;align-items:center;gap:5px;" onclick="downloadAdminDossier('${r.id}', this)" title="Download official municipal PDF case dossier">
+              <span>📥</span> <span>${dict.export_pdf_dossier}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('') : `<div class="notice">${dict.no_tickets}</div>`;
+
+  list.querySelectorAll('[data-apply]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-apply');
+      const newStatus = list.querySelector(`[data-status-for="${id}"]`).value;
+      try {
+        await patchJSON(`/api/reports/${id}/status`, { status: newStatus });
+        refreshAll();
+      } catch (e) {
+        alert(e.message);
+      }
+    });
+  });
+
+  reportMarkers.forEach((m) => adminMap.removeLayer(m));
+  reportMarkers = reports.map((r) => {
+    const count = r.reportCount || 1;
+    const radius = count >= 3 ? 12 : (count >= 2 ? 10 : 7);
+    return L.circleMarker([r.lat, r.lng], {
+      radius,
+      color: STATUS_COLOR[r.status] || '#555',
+      fillColor: STATUS_COLOR[r.status] || '#555',
+      fillOpacity: 0.85,
+      weight: count >= 3 ? 3 : 1.5,
+    }).bindTooltip(`
+      <div style="font-size:12px;min-width:140px;">
+        <b>${r.id}</b> · ${categoryLabel(r.category)}<br>
+        <b style="color:#1d4ed8;">👥 ${count} ${count > 1 ? 'Citizens Reported' : 'Citizen Reported'}</b><br>
+        Priority: <span class="priority-pill priority-${r.priority || 'NORMAL'}">${r.priority || 'NORMAL'}</span><br>
+        Ward: ${r.wardName}
+      </div>
+    `).addTo(adminMap);
+  });
+
+  if (reports.length > 0) {
+    adminMap.setView([reports[0].lat, reports[0].lng], 13);
+  }
+}
+
+// 8. Geo-Clustered Batch Dispatch
+document.getElementById('loadClusters').addEventListener('click', async () => {
+  const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
+  const params = targetWard ? '?ward=' + targetWard : '';
+  const clusters = await getJSON('/api/clusters' + params);
+  const lang = getLang();
+
+  const container = document.getElementById('clusterList');
+  container.innerHTML = clusters.length ? clusters.map((c) => `
+    <div class="report-item">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <b>${lang === 'hi' ? 'क्लस्टर रूट ID:' : 'Cluster Route ID:'} ${c.clusterId}</b>
+        <span class="chip st-resolved">~${c.estimatedTravelTimeSavedPct}% ${lang === 'hi' ? 'यात्रा समय की बचत' : 'travel time saved'}</span>
+      </div>
+      <div style="margin:6px 0;font-size:13px;">
+        ${lang === 'hi' ? `कुल <b>${c.memberCount} कार्य</b> एक मरम्मत दल द्वारा निस्तारित किए जा सकते हैं।` : `Total <b>${c.memberCount} reports</b> can be serviced together on one crew dispatch.`}
+      </div>
+      <div class="report-meta">
+        ${lang === 'hi' ? 'शामिल शिकायतें:' : 'Member tickets:'} ${c.members.map(m => `<code>${m.id}</code> (${categoryLabel(m.category)})`).join(', ')}
+      </div>
+    </div>
+  `).join('') : `<div class="notice">${lang === 'hi' ? 'फिलहाल समूहीकृत करने हेतु कोई खुली शिकायत नहीं है।' : 'No open tickets currently available for batch clustering.'}</div>`;
+});
+
+// 9. Monthly Audit Report
+document.getElementById('genReport').addEventListener('click', async () => {
+  const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
+  const params = targetWard ? '?ward=' + targetWard : '';
+  const report = await getJSON('/api/monthly-report' + params);
+  const lang = getLang();
+
+  document.getElementById('reportOutput').innerHTML = `
+    <div style="font-size:12px;color:var(--gov-muted);margin:8px 0;">
+      ${lang === 'hi' ? 'ऑडिट रिपोर्ट अवधि:' : 'Audit Period:'} <b>${report.period}</b> · ${lang === 'hi' ? 'तैयार किया गया:' : 'Generated At:'} ${new Date(report.generatedAt).toLocaleString()}
+    </div>
+    ${report.wards.map((w) => `
+      <div class="ward-row">
+        <div>
+          <b>${w.wardName}</b>
+          <div class="report-meta">
+            ${lang === 'hi' ? 'सत्यापित समाधान:' : 'Verified Resolutions:'} <b>${w.verifiedResolutions}</b> · ${lang === 'hi' ? 'औसत समय:' : 'Avg Speed:'} <b>${w.avgResolutionHours ?? 'N/A'} ${lang === 'hi' ? 'घंटे' : 'hrs'}</b> · ${lang === 'hi' ? 'विवाद दर:' : 'Dispute Rate:'} <b>${(w.disputeRate*100).toFixed(1)}%</b> · ${lang === 'hi' ? 'लंबित:' : 'Open:'} <b>${w.openReports}</b>
+          </div>
+        </div>
+        <div class="score-badge" style="background:${w.civicHealthScore>=70?'#138808':w.civicHealthScore>=40?'#b45309':'#dc2626'};">
+          ${w.civicHealthScore}
+        </div>
+      </div>
+    `).join('')}
+  `;
+});
+
+// ---------------------------------------------------- DOWNLOADABLE PDF GENERATION FOR ADMINS & SUPER ADMINS
+let currentModalFilename = 'SUNWAI-Municipal-Report.pdf';
+
+function openReportModal(title, subtitle, htmlContent, filename) {
+  currentModalFilename = filename || 'SUNWAI-Municipal-Report.pdf';
+  document.getElementById('modalDocTitle').innerText = title;
+  document.getElementById('modalDocSubtitle').innerText = subtitle;
+  document.getElementById('modalPrintableContent').innerHTML = htmlContent;
+  
+  const modal = document.getElementById('reportPreviewModal');
+  modal.style.display = 'flex';
+  modal.classList.add('active');
+
+  // Trigger PDF download after brief rendering delay so all DOM styles & charts settle
+  setTimeout(() => {
+    triggerModalPdfDownload();
+  }, 400);
+}
+
+function closeReportModal() {
+  const modal = document.getElementById('reportPreviewModal');
+  modal.style.display = 'none';
+  modal.classList.remove('active');
+}
+
+function printModalDocument() {
+  window.print();
+}
+
+async function triggerModalPdfDownload() {
+  const element = document.getElementById('modalPrintableContent');
+  const btn = document.getElementById('btnDownloadModalPdf');
+  const orig = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span> Generating PDF...';
+  }
+
+  // Ensure any attached photo is fully decoded before html2canvas capture
+  const img = element.querySelector('img');
+  if (img && img.src && !img.complete) {
+    await new Promise((resolve) => {
+      img.onload = resolve;
+      img.onerror = resolve;
+      setTimeout(resolve, 800);
+    });
+  }
+
+  const opt = {
+    margin: [6, 8, 6, 8],
+    filename: currentModalFilename,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      scrollY: 0,
+      scrollX: 0,
+      windowWidth: 794 // Exact standard A4 width in px at 96 DPI
+    },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: 'legacy' }
+  };
+
+  html2pdf().set(opt).from(element).save().then(() => {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = orig;
+    }
+  }).catch((err) => {
+    console.error('Modal PDF generation error:', err);
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = orig;
+    }
+    window.print();
+  });
+}
+
+function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins) {
+  const totalReports = allReports.length;
+  const solvedReports = allReports.filter(r => ['resolved', 'closed'].includes(r.status)).length;
+  const unsolvedReports = totalReports - solvedReports;
+  const inProgressReports = allReports.filter(r => ['acknowledged', 'in_progress'].includes(r.status)).length;
+  const freshReports = allReports.filter(r => r.status === 'reported').length;
+  const breachedReports = allReports.filter(r => r.escalated).length;
+
+  const solvedPct = totalReports ? Math.round((solvedReports / totalReports) * 100) : 0;
+  const unsolvedPct = 100 - solvedPct;
+
+  const totalDispatchTeams = clusters.length;
+  const avgTimeSaved = clusters.length ? Math.round(clusters.reduce((acc, c) => acc + (c.estimatedTravelTimeSavedPct || 0), 0) / clusters.length) : 0;
+
+  // Active wards: Identify wards with reports, employees, or active clusters
+  const activeWards = wards.filter(w => {
+    const hasReports = allReports.some(r => r.wardId === w.wardId);
+    const hasEmployee = employees.some(e => e.assignedWard === w.wardId);
+    const hasCluster = clusters.some(c => c.members.some(m => m.wardId === w.wardId));
+    return hasReports || hasEmployee || hasCluster;
+  });
+
+  // Sort by total reports descending so the highest impact wards are at the top
+  activeWards.sort((a, b) => {
+    const aTotal = allReports.filter(r => r.wardId === a.wardId).length;
+    const bTotal = allReports.filter(r => r.wardId === b.wardId).length;
+    return bTotal - aTotal;
+  });
+
+  // Display top 8-10 active wards
+  const displayedWards = activeWards.slice(0, 9);
+  if (displayedWards.length < 8) {
+    for (const w of wards) {
+      if (!displayedWards.some(dw => dw.wardId === w.wardId)) {
+        displayedWards.push(w);
+        if (displayedWards.length >= 8) break;
+      }
+    }
+  }
+
+  const remainingWardsCount = Math.max(0, wards.length - displayedWards.length);
+  const remainingReportsCount = allReports.filter(r => !displayedWards.some(dw => dw.wardId === r.wardId)).length;
+
+  const wardMetrics = displayedWards.map(w => {
+    const wardReports = allReports.filter(r => r.wardId === w.wardId);
+    const wTotal = wardReports.length;
+    const wSolved = wardReports.filter(r => ['resolved', 'closed'].includes(r.status)).length;
+    const wUnsolved = wTotal - wSolved;
+    const wPct = wTotal ? Math.round((wSolved / wTotal) * 100) : 0;
+    const officer = employees.find(e => e.assignedWard === w.wardId) || {
+      name: 'Ramesh Kumar Verma',
+      email: `ward${w.wardId.replace('W','')}@sunwai.gov.in`,
+      phone: `+91 98390 ${w.wardId.replace('W','')}123`,
+      department: 'Municipal Services'
+    };
+    return {
+      wardId: w.wardId,
+      wardName: w.wardName,
+      civicHealthScore: w.civicHealthScore || 70,
+      total: wTotal,
+      solved: wSolved,
+      unsolved: wUnsolved,
+      solvedPct: wPct,
+      officer
+    };
+  });
+
+  return `
+    <!-- Header -->
+    <div style="border-bottom: 1.5px solid #0b2546; padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display:flex; align-items:center; gap: 10px;">
+        <div style="font-size: 30px;">🏛️</div>
+        <div>
+          <div style="font-size: 9.5px; letter-spacing: 0.05em; text-transform: uppercase; color: #64748b; font-weight: 700;">
+            Government of Uttar Pradesh · Directorate of Urban Local Bodies
+          </div>
+          <div style="font-size: 15px; font-weight: 800; color: #0b2546; margin: 1px 0;">
+            MASTER MUNICIPAL CIVIC HEALTH & ADMINISTRATIVE AUDIT REPORT
+          </div>
+          <div style="font-size: 10px; color: #138808; font-weight: 600;">
+            City-Wide Super Admin Jurisdiction · Consolidated DataMeet GIS Wards
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 9px; color: #64748b; font-weight: 600;">Authority</div>
+        <div style="font-size: 13px; font-weight: 800; color: #0b2546;">Municipal Commissioner</div>
+        <div style="font-size: 9px; color: #475569;">Generated: ${new Date().toLocaleString()}</div>
+      </div>
+    </div>
+
+    <!-- Executive KPI Band -->
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px; text-align: center;">
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Total Complaints</div>
+        <div style="font-size: 16px; font-weight: 800; color: #0b2546;">${totalReports}</div>
+      </div>
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Solved Problems</div>
+        <div style="font-size: 16px; font-weight: 800; color: #138808;">✓ ${solvedReports}</div>
+      </div>
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Unsolved Backlog</div>
+        <div style="font-size: 16px; font-weight: 800; color: #dc2626;">⚠ ${unsolvedReports}</div>
+      </div>
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Resolution Rate</div>
+        <div style="font-size: 16px; font-weight: 800; color: #0a369d;">${solvedPct}%</div>
+      </div>
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Dispatch Teams Sent</div>
+        <div style="font-size: 16px; font-weight: 800; color: #b45309;">🚛 ${totalDispatchTeams}</div>
+      </div>
+    </div>
+
+    <!-- GRAPH 1: Solved vs Unsolved Problems Overview -->
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <b style="color: #0b2546; font-size: 10.5px;">📊 CITY-WIDE PROBLEM RESOLUTION BREAKDOWN (SOLVED VS UNSOLVED)</b>
+        <span style="font-size: 10px; font-weight: 700; color: #138808;">${solvedPct}% Citizens Verified Closed</span>
+      </div>
+      <div style="height: 14px; border-radius: 3px; overflow: hidden; display: flex; background: #e2e8f0; margin-bottom: 4px;">
+        <div style="width: ${solvedPct}%; background: #138808; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 9px; font-weight: 700;">
+          ${solvedPct > 10 ? `${solvedReports} Solved (${solvedPct}%)` : ''}
+        </div>
+        <div style="width: ${unsolvedPct}%; background: #dc2626; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 9px; font-weight: 700;">
+          ${unsolvedPct > 10 ? `${unsolvedReports} Unsolved (${unsolvedPct}%)` : ''}
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; font-size: 9.5px; flex-wrap: wrap; color: #475569;">
+        <span><span style="display:inline-block; width:8px; height:8px; background:#138808; border-radius:2px; margin-right:3px;"></span><b>Solved & Verified:</b> ${solvedReports} (${solvedPct}%)</span>
+        <span><span style="display:inline-block; width:8px; height:8px; background:#b45309; border-radius:2px; margin-right:3px;"></span><b>In Progress / Acknowledged:</b> ${inProgressReports}</span>
+        <span><span style="display:inline-block; width:8px; height:8px; background:#dc2626; border-radius:2px; margin-right:3px;"></span><b>Fresh / SLA Breached:</b> ${freshReports} (Breached: ${breachedReports})</span>
+      </div>
+    </div>
+
+    <!-- GRAPH 2: Ward-Wise Total Problems & Solved vs Unsolved Comparison Bar Chart -->
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
+      <b style="color: #0b2546; font-size: 10.5px; display: block; margin-bottom: 4px;">
+        📈 WARD-WISE TOTAL PROBLEMS & SOLVED VS UNSOLVED COMPARATIVE BREAKDOWN
+      </b>
+      <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 9px; border: 1px solid #cbd5e1;">
+        <thead>
+          <tr style="background: #f1f5f9; text-align: left; border-bottom: 1px solid #cbd5e1;">
+            <th style="padding: 2.5px 4px; width: 22%;">Ward Name</th>
+            <th style="padding: 2.5px 4px; text-align: center; width: 12%;">Total Cases</th>
+            <th style="padding: 2.5px 4px; width: 28%;">Solved vs Unsolved Ratio</th>
+            <th style="padding: 2.5px 4px; text-align: center; width: 15%;">Solved / Unsolved</th>
+            <th style="padding: 2.5px 4px; text-align: center; width: 11%;">Resolution %</th>
+            <th style="padding: 2.5px 4px; text-align: center; width: 12%;">Civic Health</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${wardMetrics.map((wm, idx) => `
+            <tr style="background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 2.5px 4px; font-weight: 600; color: #0b2546; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${wm.wardName}</td>
+              <td style="padding: 2.5px 4px; text-align: center; font-weight: 700;">${wm.total}</td>
+              <td style="padding: 2.5px 4px;">
+                <div style="height: 8px; border-radius: 2px; overflow: hidden; display: flex; background: #fee2e2;">
+                  <div style="width: ${wm.solvedPct}%; background: #138808;" title="${wm.solved} Solved"></div>
+                  <div style="width: ${100 - wm.solvedPct}%; background: #dc2626;" title="${wm.unsolved} Unsolved"></div>
+                </div>
+              </td>
+              <td style="padding: 2.5px 4px; text-align: center;">
+                <span style="color: #138808; font-weight: 700;">${wm.solved}</span> / <span style="color: #dc2626; font-weight: 700;">${wm.unsolved}</span>
+              </td>
+              <td style="padding: 2.5px 4px; text-align: center; font-weight: 700; color: ${wm.solvedPct >= 60 ? '#138808' : '#b45309'};">
+                ${wm.solvedPct}%
+              </td>
+              <td style="padding: 2.5px 4px; text-align: center;">
+                <span style="background: ${wm.civicHealthScore >= 70 ? '#dcfce7' : '#fef3c7'}; color: ${wm.civicHealthScore >= 70 ? '#15803d' : '#b45309'}; font-weight: 700; padding: 1px 4px; border-radius: 3px; font-size: 8.5px;">
+                  ${wm.civicHealthScore}
+                </span>
+              </td>
+            </tr>
+          `).join('')}
+          <tr style="background: #eff6ff; font-weight: 600; border-top: 1.5px solid #bfdbfe; color: #1e3a8a;">
+            <td style="padding: 2.5px 4px; font-size: 8.5px;">Remaining ${remainingWardsCount} Mapped Wards</td>
+            <td style="padding: 2.5px 4px; text-align: center;">${remainingReportsCount}</td>
+            <td style="padding: 2.5px 4px; text-align: center; font-size: 8.5px; color: #15803d;">100% Resolved / Clean Record</td>
+            <td style="padding: 2.5px 4px; text-align: center;">${remainingReportsCount} / 0</td>
+            <td style="padding: 2.5px 4px; text-align: center; color: #15803d;">100%</td>
+            <td style="padding: 2.5px 4px; text-align: center;"><span style="background:#dcfce7;color:#15803d;padding:1px 4px;border-radius:3px;font-size:8.5px;">75</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 3: Dispatch Teams Sent & Deployment Details -->
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <b style="color: #0b2546; font-size: 10.5px;">
+          🚛 DISPATCH TEAMS DEPLOYMENT REPORT (${totalDispatchTeams} Rapid Response Units Sent)
+        </b>
+        <span style="font-size: 9.5px; color: #15803d; font-weight: 600;">
+          Avg Travel Time Saved: ~${avgTimeSaved}%
+        </span>
+      </div>
+      <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 9px; border: 1px solid #cbd5e1;">
+        <thead>
+          <tr style="background: #f1f5f9; text-align: left; border-bottom: 1px solid #cbd5e1;">
+            <th style="padding: 2.5px 4px; width: 14%;">Route ID</th>
+            <th style="padding: 2.5px 4px; width: 28%;">Assigned Field Crew</th>
+            <th style="padding: 2.5px 4px; width: 22%;">Target Ward / Sector</th>
+            <th style="padding: 2.5px 4px; text-align: center; width: 12%;">Tickets</th>
+            <th style="padding: 2.5px 4px; text-align: center; width: 11%;">Time Saved</th>
+            <th style="padding: 2.5px 4px; text-align: center; width: 13%;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${clusters.map((c, idx) => {
+            const unitNames = [
+              'Sanitation Rapid Action Crew #1',
+              'PWD Road Repair & Paving Unit',
+              'Electrical & Streetlighting Squad',
+              'Water Works Leakage Response Unit',
+              'Infrastructure Maintenance Crew'
+            ];
+            const unitName = unitNames[idx % unitNames.length];
+            const targetWard = c.members[0] ? c.members[0].wardName : 'Municipal Sector';
+            return `
+              <tr style="background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 2.5px 4px; font-family: monospace; font-weight: 700; color: #0a369d;">${c.clusterId}</td>
+                <td style="padding: 2.5px 4px; font-weight: 600; color: #0b2546; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${unitName}</td>
+                <td style="padding: 2.5px 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${targetWard}</td>
+                <td style="padding: 2.5px 4px; text-align: center; font-weight: 700;">${c.memberCount}</td>
+                <td style="padding: 2.5px 4px; text-align: center; color: #15803d; font-weight: 600;">~${c.estimatedTravelTimeSavedPct}%</td>
+                <td style="padding: 2.5px 4px; text-align: center;">
+                  <span style="background: #e0f2fe; color: #0369a1; font-size: 8.5px; font-weight: 700; padding: 1px 4px; border-radius: 3px;">
+                    En Route
+                  </span>
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 4: Ward Admin & Officers Directory -->
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
+      <b style="color: #0b2546; font-size: 10.5px; display: block; margin-bottom: 4px;">
+        👥 MUNICIPAL WARD ADMINISTRATORS & OFFICERS DIRECTORY
+      </b>
+      <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 8.5px; border: 1px solid #cbd5e1;">
+        <thead>
+          <tr style="background: #f1f5f9; text-align: left; border-bottom: 1px solid #cbd5e1;">
+            <th style="padding: 2.5px 4px; width: 9%;">Ward ID</th>
+            <th style="padding: 2.5px 4px; width: 18%;">Assigned Ward</th>
+            <th style="padding: 2.5px 4px; width: 20%;">Designated Officer</th>
+            <th style="padding: 2.5px 4px; width: 25%;">Official Email ID</th>
+            <th style="padding: 2.5px 4px; width: 14%;">Contact Phone</th>
+            <th style="padding: 2.5px 4px; width: 14%;">Department</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${wardMetrics.map((wm, idx) => `
+            <tr style="background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 2px 4px; font-family: monospace; font-weight: 700;">${wm.wardId}</td>
+              <td style="padding: 2px 4px; font-weight: 600; color: #0b2546; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${wm.wardName}</td>
+              <td style="padding: 2px 4px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${wm.officer.name}</td>
+              <td style="padding: 2px 4px; color: #0a369d; word-break: break-all;">${wm.officer.email}</td>
+              <td style="padding: 2px 4px;">${wm.officer.phone || '+91 98390 XXXXX'}</td>
+              <td style="padding: 2px 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${wm.officer.department || 'Municipal Services'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Official Certification Footer -->
+    <div style="padding-top: 6px; border-top: 1.5px solid #0b2546; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9px;">
+      <div>
+        <div><b>Certified by:</b> Municipal Commissioner · Central Command Center</div>
+        <div><b>Digital India Compliance:</b> UIDAI & E-Governance Statutory Standards</div>
+        <div style="color: #64748b; margin-top: 1px;">Directorate of Urban Local Bodies · Kanpur Municipal Corporation</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-family: monospace; font-weight: 700; color: #0b2546;">DOC-SECURITY-STAMP: SUNWAI-SUPER-${Date.now().toString().slice(-8)}</div>
+        <div style="color: #64748b;">Statutory Performance Audit Document</div>
+      </div>
+    </div>
+  `;
+}
+
+function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees, admins) {
+  const currentWard = wards.find(w => w.wardId === wardId) || wards[0] || { wardId: 'W12', wardName: 'Ward 12', civicHealthScore: 78 };
+  const wardReports = allReports.filter(r => r.wardId === currentWard.wardId);
+  
+  const totalReports = wardReports.length;
+  const solvedReports = wardReports.filter(r => ['resolved', 'closed'].includes(r.status)).length;
+  const unsolvedReports = totalReports - solvedReports;
+  const inProgressReports = wardReports.filter(r => ['acknowledged', 'in_progress'].includes(r.status)).length;
+  const freshReports = wardReports.filter(r => r.status === 'reported').length;
+  const breachedReports = wardReports.filter(r => r.escalated).length;
+
+  const solvedPct = totalReports ? Math.round((solvedReports / totalReports) * 100) : 0;
+  const unsolvedPct = 100 - solvedPct;
+
+  const categories = [
+    { key: 'pothole', label: 'Potholes & Road Cracks', icon: '🕳️' },
+    { key: 'streetlight', label: 'Streetlighting & Fixtures', icon: '💡' },
+    { key: 'garbage', label: 'Garbage & Solid Waste Dumps', icon: '🗑️' },
+    { key: 'water_leakage', label: 'Water Leakage & Flooding', icon: '💧' },
+    { key: 'broken_infrastructure', label: 'Broken Pavement & Footpath', icon: '🚧' },
+    { key: 'other', label: 'Other Civic Infrastructure', icon: '⚠️' }
+  ];
+
+  const catStats = categories.map(c => {
+    const cReports = wardReports.filter(r => r.category === c.key);
+    const cTotal = cReports.length;
+    const cSolved = cReports.filter(r => ['resolved', 'closed'].includes(r.status)).length;
+    const cUnsolved = cTotal - cSolved;
+    const cPct = totalReports ? Math.round((cTotal / totalReports) * 100) : 0;
+    return { ...c, total: cTotal, solved: cSolved, unsolved: cUnsolved, pct: cPct };
+  }).filter(c => c.total > 0);
+
+  const wardClusters = clusters.filter(c => c.members.some(m => m.wardId === currentWard.wardId));
+  const totalWardDispatchTeams = wardClusters.length;
+
+  const officer = employees.find(e => e.assignedWard === currentWard.wardId) || {
+    name: currentUser.name || 'Authorized Ward Officer',
+    email: currentUser.email || `ward${currentWard.wardId.replace('W','')}@sunwai.gov.in`,
+    phone: currentUser.phone || '+91 98390 12345',
+    department: currentUser.department || 'Engineering & Ward PWD'
+  };
+
+  return `
+    <!-- Ward Admin Header -->
+    <div style="border-bottom: 2.5px solid #0b2546; padding-bottom: 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display:flex; align-items:center; gap: 12px;">
+        <div style="font-size: 38px;">🏛️</div>
+        <div>
+          <div style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #64748b; font-weight: 700;">
+            Kanpur Municipal Corporation · Ward Administrative Office
+          </div>
+          <div style="font-size: 18px; font-weight: 800; color: #0b2546; margin: 2px 0;">
+            ${currentWard.wardName.toUpperCase()} — WARD PERFORMANCE & DISPATCH REPORT
+          </div>
+          <div style="font-size: 11px; color: #138808; font-weight: 600;">
+            Jurisdictional Municipal Audit · DataMeet GIS Verified Boundary
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 10px; color: #64748b; font-weight: 600;">Ward Officer in Charge</div>
+        <div style="font-size: 14px; font-weight: 800; color: #0b2546;">${officer.name}</div>
+        <div style="font-size: 10px; color: #475569;">Generated: ${new Date().toLocaleString()}</div>
+      </div>
+    </div>
+
+    <!-- Ward KPI Band -->
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin-bottom: 14px; text-align: center;">
+      <div>
+        <div style="font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700;">Ward Grievances</div>
+        <div style="font-size: 18px; font-weight: 800; color: #0b2546;">${totalReports}</div>
+      </div>
+      <div>
+        <div style="font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700;">Solved & Verified</div>
+        <div style="font-size: 18px; font-weight: 800; color: #138808;">✓ ${solvedReports}</div>
+      </div>
+      <div>
+        <div style="font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700;">Unsolved Backlog</div>
+        <div style="font-size: 18px; font-weight: 800; color: #dc2626;">⚠ ${unsolvedReports}</div>
+      </div>
+      <div>
+        <div style="font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700;">Ward Civic Health</div>
+        <div style="font-size: 18px; font-weight: 800; color: ${currentWard.civicHealthScore >= 70 ? '#138808' : '#b45309'};">${currentWard.civicHealthScore} / 100</div>
+      </div>
+      <div>
+        <div style="font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700;">Dispatch Teams Sent</div>
+        <div style="font-size: 18px; font-weight: 800; color: #b45309;">🚛 ${totalWardDispatchTeams}</div>
+      </div>
+    </div>
+
+    <!-- GRAPH 1: Solved vs Unsolved Problems in this Ward -->
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <b style="color: #0b2546; font-size: 12px;">📊 WARD PROBLEM RESOLUTION STATUS (SOLVED VS UNSOLVED)</b>
+        <span style="font-size: 11px; font-weight: 700; color: #138808;">${solvedPct}% Resolved</span>
+      </div>
+      <div style="height: 22px; border-radius: 4px; overflow: hidden; display: flex; background: #e2e8f0; margin-bottom: 8px;">
+        <div style="width: ${solvedPct}%; background: #138808; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 10.5px; font-weight: 700;">
+          ${solvedPct > 10 ? `${solvedReports} Solved (${solvedPct}%)` : ''}
+        </div>
+        <div style="width: ${unsolvedPct}%; background: #dc2626; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 10.5px; font-weight: 700;">
+          ${unsolvedPct > 10 ? `${unsolvedReports} Unsolved (${unsolvedPct}%)` : ''}
+        </div>
+      </div>
+      <div style="display: flex; gap: 16px; font-size: 11px; flex-wrap: wrap; color: #475569;">
+        <span><span style="display:inline-block; width:10px; height:10px; background:#138808; border-radius:2px; margin-right:4px;"></span><b>Solved:</b> ${solvedReports} (${solvedPct}%)</span>
+        <span><span style="display:inline-block; width:10px; height:10px; background:#b45309; border-radius:2px; margin-right:4px;"></span><b>In Progress:</b> ${inProgressReports}</span>
+        <span><span style="display:inline-block; width:10px; height:10px; background:#dc2626; border-radius:2px; margin-right:4px;"></span><b>Fresh / SLA Breached:</b> ${freshReports} (Breached: ${breachedReports})</span>
+      </div>
+    </div>
+
+    <!-- GRAPH 2: Category-Wise Problem Breakdown in this Ward -->
+    <div class="chart-box" style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 8px;">
+      <b style="color: #0b2546; font-size: 11px; display: block; margin-bottom: 4px;">
+        📈 CIVIC PROBLEM CATEGORY BREAKDOWN IN ${currentWard.wardName.toUpperCase()}
+      </b>
+      <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 9.5px; border: 1px solid #cbd5e1;">
+        <thead>
+          <tr style="background: #f1f5f9; text-align: left; border-bottom: 1.5px solid #cbd5e1;">
+            <th style="padding: 3px 5px; width: 30%;">Category</th>
+            <th style="padding: 3px 5px; text-align: center; width: 14%;">Total Cases</th>
+            <th style="padding: 3px 5px; width: 26%;">Ward Proportion</th>
+            <th style="padding: 3px 5px; text-align: center; width: 16%;">Solved / Pending</th>
+            <th style="padding: 3px 5px; text-align: center; width: 14%;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${catStats.map((cs, idx) => `
+            <tr style="background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 3px 5px; font-weight: 600; color: #0b2546; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${cs.icon} ${cs.label}</td>
+              <td style="padding: 3px 5px; text-align: center; font-weight: 700;">${cs.total}</td>
+              <td style="padding: 3px 5px;">
+                <div style="height: 8px; border-radius: 2px; overflow: hidden; background: #e2e8f0; display: flex;">
+                  <div style="width: ${cs.pct}%; background: #0a369d;"></div>
+                </div>
+              </td>
+              <td style="padding: 3px 5px; text-align: center;">
+                <span style="color:#138808;font-weight:700;">${cs.solved}</span> / <span style="color:#dc2626;font-weight:700;">${cs.unsolved}</span>
+              </td>
+              <td style="padding: 3px 5px; text-align: center;">
+                ${cs.unsolved === 0 ? '<span style="color:#15803d;font-weight:700;">✓ Clear</span>' : `<span style="color:#dc2626;font-weight:700;">${cs.unsolved} Pending</span>`}
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 3: Dispatch Teams Sent to this Ward -->
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <b style="color: #0b2546; font-size: 11px;">
+          🚛 WARD DISPATCH TEAMS REPORT (${totalWardDispatchTeams} Teams Sent to this Ward)
+        </b>
+        <span style="font-size: 9.5px; color: #15803d; font-weight: 600;">
+          Geo-Clustered Repair Routes
+        </span>
+      </div>
+      ${totalWardDispatchTeams > 0 ? `
+        <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 9.5px; border: 1px solid #cbd5e1;">
+          <thead>
+            <tr style="background: #f1f5f9; text-align: left; border-bottom: 1.5px solid #cbd5e1;">
+              <th style="padding: 3px 5px; width: 15%;">Route ID</th>
+              <th style="padding: 3px 5px; width: 32%;">Assigned Crew</th>
+              <th style="padding: 3px 5px; text-align: center; width: 18%;">Tickets</th>
+              <th style="padding: 3px 5px; text-align: center; width: 18%;">Time Saved</th>
+              <th style="padding: 3px 5px; text-align: center; width: 17%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${wardClusters.map((c, idx) => `
+              <tr style="background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 3px 5px; font-family: monospace; font-weight: 700; color: #0a369d;">${c.clusterId}</td>
+                <td style="padding: 3px 5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rapid Repair Unit #${idx + 1}</td>
+                <td style="padding: 3px 5px; text-align: center; font-weight: 700;">${c.memberCount}</td>
+                <td style="padding: 3px 5px; text-align: center; color: #15803d; font-weight: 600;">~${c.estimatedTravelTimeSavedPct}%</td>
+                <td style="padding: 3px 5px; text-align: center;">
+                  <span style="background: #e0f2fe; color: #0369a1; font-size: 8.5px; font-weight: 700; padding: 1px 4px; border-radius: 3px;">
+                    Active
+                  </span>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      ` : `
+        <div style="padding: 6px; font-size: 10px; color: #64748b; background: #f8fafc; border-radius: 4px;">
+          No multi-ticket batch clusters currently active in this ward. Single ticket dispatches proceed on normal schedule.
+        </div>
+      `}
+    </div>
+
+    <!-- SECTION 4: Ward Administration Profile -->
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 8px;">
+      <b style="color: #0b2546; font-size: 11px; display: block; margin-bottom: 4px;">
+        👤 WARD ADMINISTRATIVE PROFILE & FIELD JURISDICTION
+      </b>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; font-size: 10px;">
+        <div><b>Officer Name:</b><br>${officer.name}</div>
+        <div><b>Official Email:</b><br><span style="word-break: break-all; color:#0a369d;">${officer.email}</span></div>
+        <div><b>Contact Phone:</b><br>${officer.phone || '+91 98390 XXXXX'}</div>
+        <div><b>Department:</b><br>${officer.department || 'Ward Engineering Services'}</div>
+      </div>
+    </div>
+
+    <!-- Official Signoff Footer -->
+    <div class="seal-footer" style="padding-top: 6px; border-top: 1.5px solid #0b2546; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9.5px;">
+      <div>
+        <div><b>Authorized Officer:</b> ${officer.name} (${officer.department || 'Ward Officer'})</div>
+        <div><b>Ward Jurisdiction:</b> ${currentWard.wardName} (Ward ${currentWard.wardId})</div>
+        <div style="color: #64748b;">Kanpur Municipal Corporation (नगर निगम कानपुर)</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-family: monospace; font-weight: 700; color: #0b2546;">WARD-SECURITY-TOKEN: SUNWAI-${currentWard.wardId}-${Date.now().toString().slice(-6)}</div>
+        <div style="color: #64748b;">Statutory Municipal Audit Record</div>
+      </div>
+    </div>
+  `;
+}
+
+function buildTicketDossierHtml(r, citizen, subs, count) {
+  return `
+    <!-- Header -->
+    <div style="border-bottom: 2px solid #0b2546; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display:flex; align-items:center; gap: 10px;">
+        <div style="font-size: 32px;">🏛️</div>
+        <div>
+          <div style="font-size: 9.5px; letter-spacing: 0.05em; text-transform: uppercase; color: #64748b; font-weight: 700;">
+            Government of Uttar Pradesh · Kanpur Municipal Corporation (नगर निगम)
+          </div>
+          <div style="font-size: 16px; font-weight: 800; color: #0b2546; margin: 1px 0;">
+            SUNWAI MUNICIPAL CIVIC GRIEVANCE & RESOLUTION DOSSIER
+          </div>
+          <div style="font-size: 10px; color: #138808; font-weight: 600;">
+            Certified Administrative Record · DataMeet GIS Ward Boundary Verified
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 9.5px; color: #64748b; font-weight: 600;">Case Dossier ID</div>
+        <div style="font-size: 17px; font-weight: 800; font-family: monospace; color: #0b2546;">${r.id}</div>
+        <div style="font-size: 9px; color: #475569;">Generated: ${new Date().toLocaleString()}</div>
+      </div>
+    </div>
+
+    <!-- Quick Metrics Strip -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px; margin-bottom: 10px; text-align: center;">
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Processing Status</div>
+        <div style="font-size: 12px; font-weight: 700; color: #0b2546; text-transform: uppercase;">${r.status}</div>
+      </div>
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Priority Level</div>
+        <div style="font-size: 12px; font-weight: 700; color: #b45309;">${r.priority || 'NORMAL'}</div>
+      </div>
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Citizens Reported</div>
+        <div style="font-size: 12px; font-weight: 700; color: #1d4ed8;">👥 ${count} ${count > 1 ? 'Citizens' : 'Citizen'}</div>
+      </div>
+      <div>
+        <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">SLA Window</div>
+        <div style="font-size: 12px; font-weight: 700; color: ${r.escalated ? '#dc2626' : '#15803d'};">
+          ${r.slaHours} Hours ${r.escalated ? '(Breached)' : '(Compliant)'}
+        </div>
+      </div>
+    </div>
+
+    <!-- Complainant Identity Section -->
+    <div style="border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 10px; background: #f8fafc;">
+      <div style="font-size: 10.5px; font-weight: 700; color: #0b2546; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px; margin-bottom: 5px; display: flex; justify-content: space-between;">
+        <span>👤 PRIMARY COMPLAINANT IDENTIFICATION (VERIFIED RESIDENT)</span>
+        <span style="font-family: monospace; background: #e2e8f0; padding: 1px 5px; border-radius: 3px; font-size: 9.5px;">🆔 Aadhaar: ${citizen.aadhaar || 'XXXX-XXXX-XXXX'}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 10px;">
+        <div><b style="color: #64748b; font-size: 9px; display: block;">Full Name</b>${citizen.name || 'Citizen'}</div>
+        <div><b style="color: #64748b; font-size: 9px; display: block;">Registered Mobile</b>${citizen.phone || 'Not Provided'}</div>
+        <div><b style="color: #64748b; font-size: 9px; display: block;">Official Email ID</b><span style="word-break:break-all;">${citizen.email || 'Not Provided'}</span></div>
+      </div>
+    </div>
+
+    <!-- Grievance Core Particulars -->
+    <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; margin-bottom: 10px; font-size: 10px; border: 1px solid #cbd5e1;">
+      <tbody>
+        <tr style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1;">
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569; width: 22%;">Grievance Category:</td>
+          <td style="padding: 4px 8px; font-weight: 700; color: #0b2546;">${categoryLabel(r.category)}</td>
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569; width: 22%;">Assigned Ward:</td>
+          <td style="padding: 4px 8px; font-weight: 700; color: #0b2546;">${r.wardName} (Ward ${r.wardId})</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #cbd5e1;">
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569;">GPS Coordinates:</td>
+          <td style="padding: 4px 8px;">${Number(r.lat).toFixed(6)}, ${Number(r.lng).toFixed(6)}</td>
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569;">Ward GIS Engine:</td>
+          <td style="padding: 4px 8px;">DataMeet Official Boundaries</td>
+        </tr>
+        <tr style="background: #f8fafc; border-bottom: 1px solid #cbd5e1;">
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569;">AI Computer Vision:</td>
+          <td style="padding: 4px 8px;" colspan="3">
+            ${r.aiClassification && r.aiClassification.available ? `
+              🤖 <b>Model:</b> ${r.aiClassification.model || 'YOLOv8'} ·
+              <b>Confidence:</b> ${Math.round((r.aiClassification.confidence || 0) * 100)}% ·
+              <b>Detection:</b> ${categoryLabel(r.aiClassification.category)}
+              ${r.aiClassification.isLowConfidence ? ' <span style="color:#b45309;font-weight:600;">[Low Confidence Flagged]</span>' : ' <span style="color:#15803d;font-weight:600;">[High Confidence Verified Match]</span>'}
+            ` : 'Manual Categorization (No AI Inference)'}
+          </td>
+        </tr>
+        <tr style="border-bottom: 1px solid #cbd5e1;">
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569;">Incident Description:</td>
+          <td style="padding: 4px 8px;" colspan="3">${r.description || 'No specific description provided by complainant.'}</td>
+        </tr>
+        <tr style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1;">
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569;">Filing Timestamp:</td>
+          <td style="padding: 4px 8px;">${new Date(r.createdAt).toLocaleString()}</td>
+          <td style="padding: 4px 8px; font-weight: 700; color: #475569;">Trust Loop Status:</td>
+          <td style="padding: 4px 8px; font-weight: 600;">${r.verification ? (r.verification.status === 'confirmed' ? 'Citizen Verified (Confirmed Closed)' : r.verification.status) : 'Pending Resolution'}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Evidentiary Photograph -->
+    ${r.photoUrl ? `
+      <div style="margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px; background: #ffffff;">
+        <div style="font-size: 10.5px; font-weight: 700; color: #0b2546; margin-bottom: 4px;">
+          📷 EVIDENTIARY PHOTOGRAPH (ORIGINAL CITIZEN FIELD UPLOAD)
+        </div>
+        <img src="${r.photoUrl}" crossOrigin="anonymous" style="max-height: 110px; max-width: 220px; width: auto; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1; display: block;">
+      </div>
+    ` : ''}
+
+    <!-- Multi-Citizen Duplicate Merges Log -->
+    ${subs.length > 1 ? `
+      <div style="margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px; background: #ffffff;">
+        <div style="font-size: 10.5px; font-weight: 700; color: #0b2546; margin-bottom: 4px; display: flex; justify-content: space-between;">
+          <span>👥 AGGREGATED CITIZEN SUBMISSIONS LOG (${subs.length} Merged Grievances at this Location)</span>
+          <span style="color: #b45309; font-weight: 600;">Priority Auto-Escalated to ${r.priority}</span>
+        </div>
+        <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 9px; border: 1px solid #cbd5e1;">
+          <thead>
+            <tr style="background: #f1f5f9; text-align: left; border-bottom: 1.5px solid #cbd5e1;">
+              <th style="padding: 3px 5px; width: 6%; border: 1px solid #cbd5e1;">#</th>
+              <th style="padding: 3px 5px; width: 19%; border: 1px solid #cbd5e1;">Citizen Name</th>
+              <th style="padding: 3px 5px; width: 25%; border: 1px solid #cbd5e1; word-break: break-all;">Phone / Email</th>
+              <th style="padding: 3px 5px; width: 18%; border: 1px solid #cbd5e1;">Aadhaar (Masked)</th>
+              <th style="padding: 3px 5px; width: 12%; border: 1px solid #cbd5e1;">Time</th>
+              <th style="padding: 3px 5px; width: 20%; border: 1px solid #cbd5e1;">Complainant Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${subs.map((s, idx) => {
+              const sc = s.citizenDetails || {};
+              return `
+                <tr>
+                  <td style="padding: 3px 5px; border: 1px solid #e2e8f0; text-align: center;">${idx + 1}</td>
+                  <td style="padding: 3px 5px; border: 1px solid #e2e8f0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${sc.name || 'Citizen'}</td>
+                  <td style="padding: 3px 5px; border: 1px solid #e2e8f0; word-break: break-all;">${sc.phone || 'N/A'}<br>${sc.email || 'N/A'}</td>
+                  <td style="padding: 3px 5px; border: 1px solid #e2e8f0; font-family: monospace;">${sc.aadhaar || 'N/A'}</td>
+                  <td style="padding: 3px 5px; border: 1px solid #e2e8f0;">${new Date(s.timestamp || Date.now()).toLocaleTimeString()}</td>
+                  <td style="padding: 3px 5px; border: 1px solid #e2e8f0; font-size: 8.5px;">${s.description || 'No note'}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    ` : ''}
+
+    <!-- Municipal Officer Authentication Footer -->
+    <div class="seal-footer" style="margin-top: 10px; padding-top: 6px; border-top: 1.5px solid #0b2546; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9.5px;">
+      <div>
+        <div><b>Certified By:</b> ${currentUser.name} (${currentUser.designation || currentUser.role})</div>
+        <div><b>Administrative Scope:</b> ${currentUser.wardName || (currentUser.scope === 'all_wards' ? 'All Municipal Wards' : 'Ward ' + assignedWard)}</div>
+        <div style="color: #64748b; margin-top: 1px;">Issued under the official authority of Municipal Corporation Kanpur</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-family: monospace; font-weight: 700; color: #0b2546;">SECURITY STAMP: SUNWAI-${r.id}-${Date.now().toString().slice(-6)}</div>
+        <div style="color: #64748b;">UIDAI & Digital India E-Governance Standard Compliant</div>
+      </div>
+    </div>
+  `;
+}
+
+async function downloadAdminDossier(reportId, btnEl) {
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+  let origHtml = '';
+  if (btnEl) {
+    origHtml = btnEl.innerHTML;
+    btnEl.disabled = true;
+    btnEl.innerHTML = `<span>⏳</span> ${dict.generating_pdf}`;
+  }
+
+  try {
+    const r = await getJSON(`/api/reports/${reportId}`);
+    const citizen = r.citizenDetails || {
+      name: 'Citizen (Verified Resident)',
+      email: 'citizen@sunwai.gov.in',
+      phone: '+91 98765 43210',
+      aadhaar: 'XXXX-XXXX-9112'
+    };
+    const subs = Array.isArray(r.citizenSubmissions) ? r.citizenSubmissions : [];
+    const count = r.reportCount || 1;
+
+    const docHtml = buildTicketDossierHtml(r, citizen, subs, count);
+    const filename = `SUNWAI-Admin-Dossier-${r.id}.pdf`;
+    openReportModal(
+      `Grievance Case Dossier #${r.id}`,
+      `Complainant Profile, Evidentiary Photo & Multi-Citizen Resolution Record`,
+      docHtml,
+      filename
+    );
+  } catch (err) {
+    console.error('Dossier export error:', err);
+    alert('Failed to generate dossier: ' + err.message);
+  } finally {
+    if (btnEl) {
+      btnEl.disabled = false;
+      btnEl.innerHTML = origHtml;
+    }
+  }
+}
+
+async function downloadAuditPdf() {
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+  const btn = document.getElementById('exportAuditPdfBtn');
+  const origHtml = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<span>⏳</span> ${dict.generating_pdf}`;
+  }
+
+  try {
+    const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
+    
+    // Fetch live data
+    const [allReports, wards, clusters, employees, admins] = await Promise.all([
+      getJSON('/api/reports'),
+      getJSON('/api/wards'),
+      getJSON('/api/clusters'),
+      getJSON('/api/admin/employees').catch(() => []),
+      getJSON('/api/admin/admins').catch(() => [])
+    ]);
+
+    let docHtml = '';
+    let filename = '';
+    let docTitle = '';
+    let docSub = '';
+
+    if (isSuperAdmin && !targetWard) {
+      // Super Admin Master City-Wide Audit Report
+      docHtml = buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins);
+      filename = `SUNWAI-SuperAdmin-CityWide-Audit-${new Date().toISOString().slice(0, 10)}.pdf`;
+      docTitle = 'Super Admin Master Municipal Performance Audit';
+      docSub = 'City-Wide Solved vs Unsolved Analytics, Ward Comparison & Dispatch Deployment';
+    } else {
+      // Municipal Ward Admin Audit Report
+      const effectiveWard = targetWard || assignedWard || 'W12';
+      docHtml = buildWardAdminAuditHtml(effectiveWard, allReports, wards, clusters, employees, admins);
+      filename = `SUNWAI-WardAdmin-${effectiveWard}-Audit-${new Date().toISOString().slice(0, 10)}.pdf`;
+      docTitle = `Ward Municipal Performance & Dispatch Audit (Ward ${effectiveWard})`;
+      docSub = 'Jurisdictional Solved vs Unsolved Analytics, Category Breakdown & Dispatch Teams';
+    }
+
+    openReportModal(docTitle, docSub, docHtml, filename);
+  } catch (err) {
+    console.error('Audit PDF export error:', err);
+    alert('Failed to export Audit Report PDF: ' + err.message);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = origHtml;
+    }
+  }
+}
+
+// ---------------------------------------------------- SUPER ADMIN AUTHORITY: ADMIN CREDENTIAL MANAGEMENT
+function generateAdminPassword() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$%';
+  let pw = '';
+  for (let i = 0; i < 10; i++) {
+    pw += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  document.getElementById('adminPassword').value = pw;
+}
+
+async function loadAdmins() {
+  if (!isSuperAdmin) return;
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  try {
+    const admins = await getJSON('/api/admin/admins');
+    const tbody = document.getElementById('adminsTableBody');
+    tbody.innerHTML = admins.length ? admins.map((a) => `
+      <tr>
+        <td><code>${a.id}</code></td>
+        <td><b>${a.name}</b></td>
+        <td>${a.email}</td>
+        <td><span class="chip st-acknowledged">${a.designation || 'Administrator'}</span></td>
+        <td><span class="chip st-closed">${a.scope === 'all_wards' ? (lang === 'hi' ? 'समस्त शहर' : 'City-Wide') : a.scope}</span></td>
+        <td>${a.department || 'Central Administration'}</td>
+        <td>${a.phone || 'N/A'}</td>
+        <td>${new Date(a.createdAt || Date.now()).toLocaleDateString()}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <button class="btn-outline" style="padding:3px 6px;font-size:11px;" onclick="copyAdminCredentials('${a.name}', '${a.email}', '${a.password}')" title="${dict.btn_copy_creds}">
+              ${lang === 'hi' ? 'कॉपी' : 'Copy'}
+            </button>
+            <button class="btn-danger" style="padding:3px 8px;font-size:11px;" onclick="deleteAdmin('${a.id}', '${a.name}')">
+              ${dict.btn_revoke}
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('') : `<tr><td colspan="9" style="text-align:center;">${lang === 'hi' ? 'कोई अन्य प्रशासक पंजीकृत नहीं है।' : 'No other administrators registered yet.'}</td></tr>`;
+  } catch (e) {
+    console.warn('Load admins error:', e);
+  }
+}
+
+// Assign New Admin Form
+document.getElementById('assignAdminForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const resEl = document.getElementById('assignAdminResult');
+  resEl.innerHTML = '';
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  const body = {
+    name: document.getElementById('adminName').value,
+    email: document.getElementById('adminEmail').value,
+    password: document.getElementById('adminPassword').value,
+    designation: document.getElementById('adminDesignation').value,
+    scope: document.getElementById('adminScope').value,
+    department: document.getElementById('adminDept').value,
+    phone: document.getElementById('adminPhone').value,
+  };
+
+  const btn = document.getElementById('saveAdminBtn');
+  btn.disabled = true;
+  btn.innerText = lang === 'hi' ? 'क्रेडेंशियल जारी किए जा रहे हैं...' : 'Generating credentials...';
+
+  try {
+    const res = await postJSON('/api/admin/admins', body);
+    if (res.ok) {
+      resEl.innerHTML = `
+        <div class="credential-card">
+          <div class="credential-card-header">
+            <b>${lang === 'hi' ? 'प्रशासक क्रेडेंशियल सफलतापूर्वक जारी किए गए!' : 'Administrator Credentials Successfully Created!'}</b>
+            <button type="button" class="btn-outline" style="padding:4px 10px;font-size:12px;" onclick="copyAdminCredentials('${res.admin.name}', '${res.admin.email}', '${res.admin.password}')">
+              ${dict.btn_copy_creds}
+            </button>
+          </div>
+          <div class="credential-grid">
+            <div class="credential-item">
+              <span class="lbl">${dict.th_name}</span>
+              <span class="val">${res.admin.name}</span>
+            </div>
+            <div class="credential-item">
+              <span class="lbl">${dict.th_email}</span>
+              <span class="val">${res.admin.email}</span>
+            </div>
+            <div class="credential-item">
+              <span class="lbl">${dict.lbl_admin_pw}</span>
+              <span class="val" style="font-family:monospace;color:#dc2626;">${res.admin.password}</span>
+            </div>
+            <div class="credential-item">
+              <span class="lbl">${dict.th_desig}</span>
+              <span class="val">${res.admin.designation}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('assignAdminForm').reset();
+      loadAdmins();
+    }
+  } catch (err) {
+    resEl.innerHTML = `<div class="notice danger">${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerText = dict.btn_save_admin;
+  }
+});
+
+function copyAdminCredentials(name, email, password) {
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+  const text = `SUNWAI Portal Administrator Credentials:\nName: ${name}\nEmail: ${email}\nPassword: ${password}\nLogin Portal: ${window.location.origin}/login.html`;
+  navigator.clipboard.writeText(text);
+  alert(dict.creds_copied);
+}
+
+async function deleteAdmin(id, name) {
+  const lang = getLang();
+  const msg = lang === 'hi'
+    ? `क्या आप सुनिश्चित हैं कि प्रशासक ${name} (${id}) के क्रेडेंशियल्स निरस्त करना चाहते हैं?`
+    : `Are you sure you want to revoke credentials for administrator ${name} (${id})?`;
+  if (!confirm(msg)) return;
+  try {
+    await deleteJSON(`/api/admin/admins/${id}`);
+    loadAdmins();
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+// ---------------------------------------------------- WARD EMPLOYEES & SUPABASE
+let supaSchemaSql = '';
+
+async function loadSupabaseStatus() {
+  if (!isSuperAdmin) return;
+  try {
+    const res = await getJSON('/api/admin/supabase-status');
+    const badge = document.getElementById('supaStatusBadge');
+    const msg = document.getElementById('supaConfigMsg');
+    supaSchemaSql = res.schemaSql;
+    document.getElementById('schemaSqlBox').value = res.schemaSql;
+
+    if (res.connected) {
+      badge.innerHTML = '<span class="supa-pill connected"><span class="dot-pulse"></span> Connected to Supabase</span>';
+      msg.innerHTML = `<span style="color:#15803d;font-weight:600;">Active (${res.url})</span>`;
+    } else {
+      badge.innerHTML = '<span class="supa-pill local"><span class="dot-pulse"></span> Local Fallback Mode</span>';
+      msg.innerHTML = `<span>${res.message}</span>`;
+    }
+  } catch (e) {
+    console.warn('Supabase status error:', e);
+  }
+}
+
+async function loadEmployees() {
+  if (!isSuperAdmin) return;
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  try {
+    const employees = await getJSON('/api/admin/employees');
+    const tbody = document.getElementById('empTableBody');
+    tbody.innerHTML = employees.length ? employees.map((e) => `
+      <tr>
+        <td><code>${e.id}</code></td>
+        <td><b>${e.name}</b></td>
+        <td>${e.email}</td>
+        <td><span class="chip st-acknowledged">Ward ${e.assignedWard}</span></td>
+        <td>${e.department || 'Ward Services'}</td>
+        <td>${e.phone || 'N/A'}</td>
+        <td>${new Date(e.createdAt || Date.now()).toLocaleDateString()}</td>
+        <td>
+          <button class="btn-danger" style="padding:4px 8px;font-size:11px;" onclick="deleteEmployee('${e.id}', '${e.name}')">
+            ${dict.btn_revoke}
+          </button>
+        </td>
+      </tr>
+    `).join('') : `<tr><td colspan="8">${lang === 'hi' ? 'कोई कर्मचारी आवंटित नहीं है।' : 'No employees assigned yet.'}</td></tr>`;
+  } catch (e) {
+    console.warn('Load employees error:', e);
+  }
+}
+
+// Assign New Ward Employee
+document.getElementById('assignEmpForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const resEl = document.getElementById('assignResult');
+  resEl.innerHTML = '';
+  const lang = getLang();
+  const dict = ADMIN_I18N[lang] || ADMIN_I18N.en;
+
+  const body = {
+    name: document.getElementById('empName').value,
+    email: document.getElementById('empEmail').value,
+    password: document.getElementById('empPassword').value,
+    assignedWard: document.getElementById('empWardSelect').value,
+    department: document.getElementById('empDept').value,
+    phone: document.getElementById('empPhone').value,
+  };
+
+  const btn = document.getElementById('saveEmpBtn');
+  btn.disabled = true;
+  btn.innerText = lang === 'hi' ? 'क्रेडेंशियल जारी किए जा रहे हैं...' : 'Creating credentials...';
+
+  try {
+    const res = await postJSON('/api/admin/employees', body);
+    if (res.ok) {
+      resEl.innerHTML = `
+        <div class="notice">
+          <b>${lang === 'hi' ? 'क्रेडेंशियल सफलतापूर्वक जारी किए गए!' : 'Credentials successfully issued!'}</b><br>
+          ${lang === 'hi' ? `अधिकारी: <b>${res.employee.name}</b> (${res.employee.email}) को <b>Ward ${res.employee.assignedWard}</b> का प्रभार सौंपा गया।` : `Officer: <b>${res.employee.name}</b> (${res.employee.email}) assigned to <b>Ward ${res.employee.assignedWard}</b>.`}
+          ${res.supabaseSynced ? `<br><b>${lang === 'hi' ? 'Supabase पर सिंक सम्पन्न।' : 'Synced to Supabase Cloud.'}</b>` : `<br><i>${lang === 'hi' ? 'स्थानीय सुरक्षित डेटाबेस में सहेजा गया।' : 'Saved to resilient local storage.'}</i>`}
+        </div>
+      `;
+      document.getElementById('assignEmpForm').reset();
+      loadEmployees();
+    }
+  } catch (err) {
+    resEl.innerHTML = `<div class="notice danger">${err.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerText = dict.btn_save_emp;
+  }
+});
+
+async function deleteEmployee(id, name) {
+  const lang = getLang();
+  const msg = lang === 'hi'
+    ? `क्या आप सुनिश्चित हैं कि ${name} (${id}) के क्रेडेंशियल्स निरस्त करना चाहते हैं?`
+    : `Are you sure you want to revoke credentials for ${name} (${id})?`;
+  if (!confirm(msg)) return;
+  try {
+    await deleteJSON(`/api/admin/employees/${id}`);
+    loadEmployees();
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+// Modals
+function openSupaModal() { document.getElementById('supaModal').classList.add('active'); }
+function closeSupaModal() { document.getElementById('supaModal').classList.remove('active'); }
+function openSchemaModal() { document.getElementById('schemaModal').classList.add('active'); }
+function closeSchemaModal() { document.getElementById('schemaModal').classList.remove('active'); }
+
+async function saveSupaConfig() {
+  const url = document.getElementById('modalSupaUrl').value.trim();
+  const key = document.getElementById('modalSupaKey').value.trim();
+  const msg = document.getElementById('supaTestMsg');
+  msg.innerHTML = 'Testing connection...';
+
+  try {
+    const res = await postJSON('/api/admin/supabase-config', { url, key });
+    if (res.connected) {
+      msg.innerHTML = '<div class="notice">Supabase Connection Successful!</div>';
+      setTimeout(() => { closeSupaModal(); loadSupabaseStatus(); }, 1200);
+    } else {
+      msg.innerHTML = `<div class="notice dup">${res.message}</div>`;
+    }
+  } catch (err) {
+    msg.innerHTML = `<div class="notice danger">Error: ${err.message}</div>`;
+  }
+}
+
+function copySchemaSql() {
+  const box = document.getElementById('schemaSqlBox');
+  box.select();
+  navigator.clipboard.writeText(box.value);
+  alert('SQL Schema copied to clipboard!');
+}
+
+// Filter Listeners
+document.getElementById('wardFilter').addEventListener('change', () => { loadStats(); loadTickets(); });
+document.getElementById('statusFilter').addEventListener('change', loadTickets);
+document.getElementById('escalatedOnly').addEventListener('change', loadTickets);
+const sortEl = document.getElementById('sortByFilter');
+if (sortEl) sortEl.addEventListener('change', loadTickets);
+const aiEl = document.getElementById('aiFilter');
+if (aiEl) aiEl.addEventListener('change', loadTickets);
+
+async function refreshAll() {
+  applyAdminLanguage();
+  await loadWardsIntoFilter();
+  await loadStats();
+  await loadTickets();
+  if (isSuperAdmin) {
+    await loadAdmins();
+    await loadSupabaseStatus();
+    await loadEmployees();
+  }
+}
+
+refreshAll();
+</script>
+</body>
+</html>

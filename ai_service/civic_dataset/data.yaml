@@ -1,0 +1,9 @@
+names:
+  0: pothole
+  1: streetlight
+  2: garbage
+  3: water_leakage
+  4: broken_infrastructure
+path: C:/Users/devansh pandey/Downloads/SUNWAI-SEMI/sunwai-app/ai_service/civic_dataset
+train: images/train
+val: images/val

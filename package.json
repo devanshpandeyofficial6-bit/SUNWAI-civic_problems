@@ -1,0 +1,30 @@
+{
+  "name": "sunwai",
+  "version": "2.0.0",
+  "description": "SUNWAI: AI-powered civic issue reporting, YOLO auto-triage, geospatial deduplication, and citizen trust-loop platform.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node tests/test_ai_and_duplicates.js",
+    "lint": "node --check server.js lib/classifier.js lib/geo.js lib/supabase.js lib/ward-extractor.js",
+    "ai:start": "python ai_service/server.py --port 5001",
+    "ai:install": "pip install -r ai_service/requirements.txt"
+  },
+  "keywords": [
+    "civic-tech",
+    "smart-city",
+    "grievance-redressal",
+    "yolo",
+    "object-detection",
+    "fastapi",
+    "nodejs",
+    "leaflet",
+    "geospatial"
+  ],
+  "author": "Sunwai Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunwai: Field Dispatch Portal</title>
+<link rel="icon" type="image/png" href="sunwai-logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  body { font-size: 16px; }
+  .job-card {
+    background: #ffffff;
+    border: 1px solid var(--gov-border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: var(--gov-shadow);
+  }
+  .job-card button {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="wrap" style="max-width:680px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+    <div>
+      <h2 style="margin:0;" id="fieldHdr">Field Repair Orders</h2>
+      <div style="font-size:12.5px;color:var(--gov-muted);" id="workerInfo">Loading dispatcher session...</div>
+    </div>
+    <span class="chip st-in_progress" id="dutyStatus">On Duty</span>
+  </div>
+
+  <select id="wardFilter" style="margin-bottom:14px;padding:10px;font-size:15px;"></select>
+
+  <div id="jobList"></div>
+
+  <div class="card" style="margin-top:20px;">
+    <h3 style="margin:0 0 10px;" id="routeMapHdr">Cluster Route Map</h3>
+    <div id="routeMap" class="map small"></div>
+  </div>
+</div>
+
+<footer></footer>
+
+<script src="app.js"></script>
+<script>
+const currentUser = requireAuth(['ward_employee', 'admin', 'municipal_head']);
+if (!currentUser) {
+  // Handled by requireAuth
+}
+
+renderHeader('field.html');
+
+const isSuperAdmin = currentUser.role === 'municipal_head' || currentUser.isSuperAdmin;
+const isAdmin = currentUser.role === 'admin';
+const assignedWard = currentUser.assignedWard;
+
+const FIELD_I18N = {
+  en: {
+    page_title: 'Sunwai: Field Dispatch Portal',
+    field_hdr: 'Field Repair Orders',
+    route_hdr: 'Cluster Route Map',
+    on_duty: 'On Duty',
+    all_wards: 'All Wards (Consolidated View)',
+    jurisdiction_label: '[Jurisdiction]',
+    no_jobs: 'No pending field work orders assigned in this jurisdiction.',
+    start_job: 'Mark In Progress',
+    proof_photo_lbl: 'Resolution Proof Photo:',
+    resolve_job: 'Mark Resolved & Upload Proof',
+    uploading: 'Uploading resolution proof...',
+  },
+  hi: {
+    page_title: 'सुनवाई: फील्ड कार्य प्रेषण पोर्टल',
+    field_hdr: 'फील्ड मरम्मत कार्य',
+    route_hdr: 'क्लस्टर मार्ग मानचित्र',
+    on_duty: 'ड्यूटी पर सक्रिय',
+    all_wards: 'समस्त वार्ड (समेकित दृश्य)',
+    jurisdiction_label: '[क्षेत्राधिकार]',
+    no_jobs: 'इस क्षेत्राधिकार में फिलहाल कोई आवंटित कार्य लंबित नहीं है।',
+    start_job: 'कार्य प्रारंभ करें',
+    proof_photo_lbl: 'समाधान का वास्तविक फोटो प्रमाण:',
+    resolve_job: 'कार्य पूर्ण + प्रमाण अपलोड करें',
+    uploading: 'प्रमाण अपलोड किया जा रहा है...',
+  }
+};
+
+function applyFieldLanguage() {
+  const lang = getLang();
+  const dict = FIELD_I18N[lang] || FIELD_I18N.en;
+
+  document.title = dict.page_title;
+  document.getElementById('fieldHdr').innerText = dict.field_hdr;
+  document.getElementById('routeMapHdr').innerText = dict.route_hdr;
+  document.getElementById('dutyStatus').innerText = dict.on_duty;
+
+  const roleTitle = isSuperAdmin ? (lang === 'hi' ? 'मुख्य प्रशासक' : 'Super Admin') : isAdmin ? (lang === 'hi' ? 'प्रशासक' : 'Admin') : (lang === 'hi' ? 'वार्ड अधिकारी' : 'Ward Officer');
+  const scopeText = (isSuperAdmin || isAdmin) ? (lang === 'hi' ? 'समस्त शहर' : 'City-Wide') : currentUser.wardName;
+  document.getElementById('workerInfo').innerText = `${roleTitle}: ${currentUser.name} (${scopeText})`;
+
+  loadWards();
+  loadJobs();
+}
+
+window.onLanguageChange = function() {
+  applyFieldLanguage();
+};
+
+const routeMap = L.map('routeMap').setView([26.4499, 80.3319], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors', maxZoom: 19 }).addTo(routeMap);
+let routeMarkers = [];
+
+async function loadWards() {
+  const wards = await getJSON('/api/wards');
+  const sel = document.getElementById('wardFilter');
+  const lang = getLang();
+  const dict = FIELD_I18N[lang] || FIELD_I18N.en;
+
+  if (isSuperAdmin || isAdmin) {
+    sel.innerHTML = `<option value="">${dict.all_wards}</option>` + wards.map(w => `<option value="${w.wardId}">${w.wardName}</option>`).join('');
+    sel.disabled = false;
+  } else {
+    const myWard = wards.find(w => w.wardId === assignedWard);
+    sel.innerHTML = `<option value="${assignedWard}" selected>${myWard ? myWard.wardName : 'Ward ' + assignedWard} ${dict.jurisdiction_label}</option>`;
+    sel.disabled = true;
+  }
+}
+
+async function loadJobs() {
+  const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
+  const wardParam = targetWard ? '&ward=' + targetWard : '';
+  const [ack, prog] = await Promise.all([
+    getJSON('/api/reports?status=acknowledged' + wardParam),
+    getJSON('/api/reports?status=in_progress' + wardParam),
+  ]);
+  const jobs = [...ack, ...prog];
+  const list = document.getElementById('jobList');
+  const lang = getLang();
+  const dict = FIELD_I18N[lang] || FIELD_I18N.en;
+
+  list.innerHTML = jobs.length ? jobs.map((r) => {
+    const count = r.reportCount || (r.upvotes ? r.upvotes.length : 1);
+    const ai = r.aiClassification;
+    return `
+    <div class="job-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <b>${r.id}</b>
+          <span class="citizen-count-badge ${count >= 3 ? 'high-volume' : ''}">👥 ${count} ${lang === 'hi' ? 'नागरिक' : 'Citizens'}</span>
+          <span class="priority-pill priority-${r.priority || 'NORMAL'}">${r.priority || 'NORMAL'}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="chip st-${r.status}">${statusLabel(r.status)}</span>
+          ${ai && ai.available ? `<span class="ai-pill ${ai.isLowConfidence ? 'low-conf' : ''}">🤖 ${Math.round(ai.confidence * 100)}%</span>` : ''}
+        </div>
+      </div>
+      <div style="margin:8px 0;font-size:15px;color:var(--gov-navy);font-weight:600;">
+        ${categoryLabel(r.category)}: ${r.description || ''}
+      </div>
+      <div class="report-meta">${r.wardName} · ${timeAgo(r.createdAt)}</div>
+      ${r.photoUrl ? `<img class="thumb" src="${r.photoUrl}">` : ''}
+
+      ${r.status === 'acknowledged' ? `
+        <button class="btn-secondary" data-progress="${r.id}">${dict.start_job}</button>
+      ` : ''}
+
+      ${r.status === 'in_progress' ? `
+        <div style="margin-top:12px;background:#f8fafc;padding:10px;border-radius:4px;border:1px dashed #cbd5e1;">
+          <label style="margin:0 0 6px;font-size:13px;">${dict.proof_photo_lbl}</label>
+          <input type="file" accept="image/*" capture="environment" data-proof="${r.id}">
+        </div>
+        <button class="btn-primary" data-resolve="${r.id}">${dict.resolve_job}</button>
+      ` : ''}
+    </div>
+  `).join('') : `<div class="notice">${dict.no_jobs}</div>`;
+
+  list.querySelectorAll('[data-progress]').forEach((btn) => btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    await patchJSON(`/api/reports/${btn.getAttribute('data-progress')}/status`, { status: 'in_progress' });
+    loadJobs(); loadRoute();
+  }));
+
+  list.querySelectorAll('[data-resolve]').forEach((btn) => btn.addEventListener('click', async () => {
+    const id = btn.getAttribute('data-resolve');
+    const fileInput = list.querySelector(`[data-proof="${id}"]`);
+    let resolutionPhotoBase64 = null;
+    if (fileInput && fileInput.files[0]) resolutionPhotoBase64 = await fileToBase64(fileInput.files[0]);
+
+    btn.disabled = true;
+    btn.innerText = dict.uploading;
+    await patchJSON(`/api/reports/${id}/status`, { status: 'resolved', resolutionPhotoBase64 });
+    loadJobs(); loadRoute();
+  }));
+}
+
+async function loadRoute() {
+  const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
+  const params = targetWard ? '?ward=' + targetWard : '';
+  const clusters = await getJSON('/api/clusters' + params);
+  routeMarkers.forEach((m) => routeMap.removeLayer(m));
+  routeMarkers = [];
+
+  clusters.forEach((c, i) => {
+    c.members.forEach((m) => {
+      routeMarkers.push(L.circleMarker([m.lat, m.lng], { radius: 8, color: '#b45309', fillColor: '#b45309', fillOpacity: 0.85 }).bindTooltip(`${m.id} (Route ${i+1})`).addTo(routeMap));
+    });
+    if (c.memberCount > 1) {
+      routeMarkers.push(L.polyline(c.members.map(m => [m.lat, m.lng]), { color: '#0b2546', weight: 2.5, dashArray: '5,7' }).addTo(routeMap));
+    }
+  });
+
+  if (clusters.length && clusters[0].center) {
+    routeMap.setView([clusters[0].center.lat, clusters[0].center.lng], 13);
+  }
+}
+
+document.getElementById('wardFilter').addEventListener('change', () => {
+  loadJobs();
+  loadRoute();
+});
+
+applyFieldLanguage();
+loadRoute();
+</script>
+</body>
+</html>
