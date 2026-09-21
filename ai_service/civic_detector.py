@@ -33,130 +33,12 @@ COCO_CIVIC_MAPPING = {
     "cup": ("garbage", 0.25, 0.90),
 }
 
-def extract_features(img_bgr):
-    h, w = img_bgr.shape[:2]
-    img = cv2.resize(img_bgr, (320, 320))
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    blue_sky = cv2.inRange(hsv, np.array([85, 30, 80]), np.array([135, 255, 255]))
-    white_sky = cv2.inRange(hsv, np.array([0, 0, 185]), np.array([180, 45, 255]))
-    sky_cand = cv2.bitwise_or(blue_sky, white_sky)
-    sky_ratio = float(np.count_nonzero(sky_cand)) / float(320 * 320)
-    
-    upper_gray = gray[:160, :]
-    lower_gray = gray[160:, :]
-    upper_hsv = hsv[:160, :, :]
-    lower_hsv = hsv[160:, :, :]
-    
-    mean_bright = float(np.mean(gray))
-    std_bright = float(np.std(gray))
-    mean_sat = float(np.mean(hsv[:, :, 1]))
-    std_sat = float(np.std(hsv[:, :, 1]))
-    
-    upper_bright = float(np.mean(upper_gray))
-    lower_bright = float(np.mean(lower_gray))
-    upper_sat = float(np.mean(upper_hsv[:, :, 1]))
-    lower_sat = float(np.mean(lower_hsv[:, :, 1]))
-    
-    sat_g = lower_hsv[:, :, 1]
-    val_g = lower_hsv[:, :, 2]
-    hue_g = lower_hsv[:, :, 0]
-    
-    vivid_mask = (sat_g > 60) & (val_g > 45)
-    vivid_count = np.count_nonzero(vivid_mask)
-    vivid_ratio = vivid_count / float(160 * 320)
-    
-    if vivid_count > 20:
-        vh = hue_g[vivid_mask]
-        hue_std = float(np.std(vh))
-        blues = np.count_nonzero((vh >= 85) & (vh <= 135))
-        blue_pct = (blues / float(vivid_count))
-        reds = np.count_nonzero((vh < 15) | (vh > 165))
-        red_pct = (reds / float(vivid_count))
-        greens = np.count_nonzero((vh >= 35) & (vh < 85))
-        green_pct = (greens / float(vivid_count))
-        yellows = np.count_nonzero((vh >= 15) & (vh < 35))
-        yellow_pct = (yellows / float(vivid_count))
-    else:
-        hue_std = 0.0
-        blue_pct = 0.0
-        red_pct = 0.0
-        green_pct = 0.0
-        yellow_pct = 0.0
-        
-    water_chroma = (hsv[:, :, 0] >= 80) & (hsv[:, :, 0] <= 140) & (hsv[:, :, 1] > 20)
-    water_chroma_ratio = float(np.count_nonzero(water_chroma)) / float(320 * 320)
-    
-    blur = cv2.GaussianBlur(gray, (7, 7), 0)
-    _, thresh = cv2.threshold(blur, 50, 255, cv2.THRESH_BINARY_INV)
-    cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    cavity_areas = [cv2.contourArea(c) for c in cnts if 500 < cv2.contourArea(c) < (320 * 320 * 0.5)]
-    has_cavity = 1.0 if len(cavity_areas) > 0 else 0.0
-    max_cavity_area = max(cavity_areas) / float(320 * 320) if cavity_areas else 0.0
-    
-    lap_var = float(cv2.Laplacian(gray, cv2.CV_64F).var())
-    lap_lower = float(cv2.Laplacian(lower_gray, cv2.CV_64F).var())
-    
-    edges = cv2.Canny(lower_gray, 40, 120)
-    edge_density = float(np.count_nonzero(edges)) / float(160 * 320)
-    lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 25, minLineLength=25, maxLineGap=10)
-    line_count = float(len(lines)) if lines is not None else 0.0
-    
-    fg_sky = cv2.bitwise_not(sky_cand[:200, :])
-    k_pole = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 7))
-    fg_pole = cv2.morphologyEx(fg_sky, cv2.MORPH_OPEN, k_pole)
-    pole_cnts, _ = cv2.findContours(fg_pole, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    max_pole_aspect = 0.0
-    for pc in pole_cnts:
-        if cv2.contourArea(pc) > 200:
-            _, _, pw, ph = cv2.boundingRect(pc)
-            asp = ph / float(pw + 1e-5)
-            if asp > max_pole_aspect:
-                max_pole_aspect = asp
-
-    h_hist = cv2.calcHist([hsv], [0], None, [8], [0, 180]).flatten() / float(320 * 320)
-    s_hist = cv2.calcHist([hsv], [1], None, [8], [0, 256]).flatten() / float(320 * 320)
-    v_hist = cv2.calcHist([hsv], [2], None, [8], [0, 256]).flatten() / float(320 * 320)
-    
-    feats = [
-        sky_ratio,
-        mean_bright,
-        std_bright,
-        mean_sat,
-        std_sat,
-        upper_bright,
-        lower_bright,
-        upper_sat,
-        lower_sat,
-        vivid_ratio,
-        hue_std,
-        blue_pct,
-        red_pct,
-        green_pct,
-        yellow_pct,
-        water_chroma_ratio,
-        has_cavity,
-        max_cavity_area,
-        lap_var,
-        lap_lower,
-        edge_density,
-        line_count,
-        max_pole_aspect
-    ]
-    feats.extend(h_hist)
-    feats.extend(s_hist)
-    feats.extend(v_hist)
-    return np.array(feats, dtype=np.float32)
-
 class CivicDetector:
     def __init__(self, model_path=None):
         self.model_path = model_path or self._resolve_model_path()
         self.model = None
         self.base_model = None
-        self.clf = None
-        self.classes = ["pothole", "streetlight", "garbage", "water_leakage", "broken_infrastructure"]
-        self.model_name = "SUNWAI-Civic-Ensemble-v2"
+        self.model_name = "SUNWAI-MultiDefect-Engine-v2"
         self._load_models()
 
     def _resolve_model_path(self):
@@ -172,16 +54,6 @@ class CivicDetector:
         return "yolov8n.pt"
 
     def _load_models(self):
-        pkl_path = ROOT_DIR / "civic_classifier.pkl"
-        if pkl_path.exists():
-            try:
-                with open(pkl_path, "rb") as f:
-                    data = pickle.load(f)
-                    self.clf = data.get("model")
-                    self.classes = data.get("classes", self.classes)
-            except Exception:
-                self.clf = None
-
         try:
             self.model = YOLO(self.model_path)
         except Exception:
@@ -229,178 +101,239 @@ class CivicDetector:
         h, w = img_bgr.shape[:2]
         gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
         hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
-        
         sky_mask = self.extract_sky_mask(img_bgr)
         sky_ratio = float(np.count_nonzero(sky_mask)) / float(h * w)
 
-        feats = extract_features(img_bgr).reshape(1, -1)
-        if self.clf is not None:
-            probs = self.clf.predict_proba(feats)[0]
-            pred_idx = int(np.argmax(probs))
-            primary_cat = self.classes[pred_idx]
-            primary_conf = round(float(probs[pred_idx]), 2)
-        else:
-            primary_cat = "other"
-            primary_conf = 0.50
-            probs = [0.2] * len(self.classes)
-
-        is_streetlight = (primary_cat == "streetlight") or (sky_ratio > 0.25)
-
         detections = []
-        if is_streetlight:
-            primary_cat = "streetlight"
-            primary_conf = max(0.92, primary_conf)
-            fg_sky = cv2.bitwise_not(sky_mask)
-            k_small = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-            fg_clean = cv2.morphologyEx(fg_sky, cv2.MORPH_OPEN, k_small)
-            contours, _ = cv2.findContours(fg_clean, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            pole_boxes = []
-            for c in contours:
-                area = cv2.contourArea(c)
-                if area > 800:
-                    rx, ry, rw, rh = cv2.boundingRect(c)
-                    aspect = rh / float(rw + 1e-5)
-                    if (aspect > 1.7 and rh > h * 0.20) or (rw > w * 0.12 and aspect < 0.85 and ry < h * 0.70):
-                        pole_boxes.append([rx, ry, rx + rw, ry + rh])
-            if pole_boxes:
-                bx1 = max(0, min(b[0] for b in pole_boxes) - 15)
-                by1 = max(0, min(b[1] for b in pole_boxes) - 15)
-                bx2 = min(w, max(b[2] for b in pole_boxes) + 15)
-                by2 = min(h, max(b[3] for b in pole_boxes) + 15)
-            else:
-                bx1, by1, bx2, by2 = int(w * 0.25), int(h * 0.10), int(w * 0.75), int(h * 0.85)
+
+        fg_sky = cv2.bitwise_not(sky_mask)
+        k_small = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+        fg_clean = cv2.morphologyEx(fg_sky, cv2.MORPH_OPEN, k_small)
+        contours, _ = cv2.findContours(fg_clean, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        pole_boxes = []
+        for c in contours:
+            area = cv2.contourArea(c)
+            if area > 800:
+                rx, ry, rw, rh = cv2.boundingRect(c)
+                aspect = rh / float(rw + 1e-5)
+                if (aspect > 1.7 and rh > h * 0.20) or (rw > w * 0.12 and aspect < 0.85 and ry < h * 0.70):
+                    pole_boxes.append([rx, ry, rx + rw, ry + rh])
+
+        has_streetlight = False
+        if (pole_boxes and sky_ratio > 0.20) or (len(pole_boxes) >= 2):
+            bx1 = max(0, min(b[0] for b in pole_boxes) - 15)
+            by1 = max(0, min(b[1] for b in pole_boxes) - 15)
+            bx2 = min(w, max(b[2] for b in pole_boxes) + 15)
+            by2 = min(h, max(b[3] for b in pole_boxes) + 15)
             detections.append({
                 "category": "streetlight",
-                "confidence": primary_conf,
+                "confidence": 0.94,
                 "bbox": [bx1, by1, bx2, by2],
                 "label": "streetlight"
             })
-        else:
-            ground_mask = np.ones((h, w), dtype=np.uint8) * 255
-            ground_mask[:int(h * 0.20), :] = 0
-            ground_mask[sky_mask > 0] = 0
-            
-            if primary_cat == "pothole":
-                blur = cv2.GaussianBlur(gray, (9, 9), 0)
-                _, thresh = cv2.threshold(blur, 52, 255, cv2.THRESH_BINARY_INV)
-                thresh[ground_mask == 0] = 0
-                cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                valid_p = [c for c in cnts if (h * w * 0.015) < cv2.contourArea(c) < (h * w * 0.60)]
-                if valid_p:
-                    best_c = max(valid_p, key=cv2.contourArea)
-                    rx, ry, rw, rh = cv2.boundingRect(best_c)
-                    pb = [max(0, rx - 10), max(0, ry - 10), min(w, rx + rw + 10), min(h, ry + rh + 10)]
-                else:
-                    pb = [int(w * 0.20), int(h * 0.35), int(w * 0.80), int(h * 0.80)]
-                primary_conf = max(0.88, primary_conf)
-                detections.append({
-                    "category": "pothole",
-                    "confidence": primary_conf,
-                    "bbox": pb,
-                    "label": "pothole"
-                })
+            has_streetlight = True
 
-                p_roi = hsv[pb[1]:pb[3], pb[0]:pb[2]]
-                if p_roi.size > 0:
-                    p_water = (p_roi[:, :, 0] >= 80) & (p_roi[:, :, 0] <= 140) & (p_roi[:, :, 1] > 20)
-                    w_ratio = np.count_nonzero(p_water) / float(p_roi.shape[0] * p_roi.shape[1])
-                    if w_ratio > 0.15:
-                        sec_conf = round(min(0.78, primary_conf - 0.12), 2)
-                        inset_x = int((pb[2] - pb[0]) * 0.1)
-                        inset_y = int((pb[3] - pb[1]) * 0.1)
+        mean_brightness = float(np.mean(gray))
+        if not has_streetlight and sky_ratio < 0.10 and mean_brightness < 55:
+            upper_roi = hsv[:int(h * 0.50), :]
+            bright_light = cv2.inRange(upper_roi, np.array([0, 0, 230]), np.array([180, 50, 255]))
+            light_cnts, _ = cv2.findContours(bright_light, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            for lc in light_cnts:
+                la = cv2.contourArea(lc)
+                if (h * w * 0.003) < la < (h * w * 0.08):
+                    lx, ly, lw, lh = cv2.boundingRect(lc)
+                    surr_y1, surr_y2 = max(0, ly - 30), min(h, ly + lh + 30)
+                    surr_x1, surr_x2 = max(0, lx - 30), min(w, lx + lw + 30)
+                    if float(np.mean(gray[surr_y1:surr_y2, surr_x1:surr_x2])) < 80:
                         detections.append({
-                            "category": "water_leakage",
-                            "confidence": sec_conf,
-                            "bbox": [pb[0] + inset_x, pb[1] + inset_y, pb[2] - inset_x, pb[3] - inset_y],
-                            "label": "water_leakage"
+                            "category": "streetlight",
+                            "confidence": 0.91,
+                            "bbox": [max(0, lx - 20), max(0, ly - 20), min(w, lx + lw + 20), min(h, ly + lh + 120)],
+                            "label": "streetlight"
+                        })
+                        has_streetlight = True
+                        break
+
+        if sky_ratio > 0.35 or (has_streetlight and sky_ratio > 0.18):
+            return self._format_result(detections, img_bgr, h, w)
+
+        ground_mask = np.ones((h, w), dtype=np.uint8) * 255
+        ground_mask[:int(h * 0.20), :] = 0
+        ground_mask[sky_mask > 0] = 0
+        tot_ground = max(1, np.count_nonzero(ground_mask))
+
+        blur = cv2.GaussianBlur(gray, (9, 9), 0)
+        _, thresh = cv2.threshold(blur, 68, 255, cv2.THRESH_BINARY_INV)
+        thresh[ground_mask == 0] = 0
+        cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        large_cavities = [c for c in cnts if (h * w * 0.02) < cv2.contourArea(c) < (h * w * 0.55)]
+        
+        pothole_box = None
+        if large_cavities:
+            best_c = max(large_cavities, key=cv2.contourArea)
+            rx, ry, rw, rh = cv2.boundingRect(best_c)
+            aspect = rw / float(rh + 1e-5)
+            if 0.35 < aspect < 3.5:
+                roi_g = gray[ry:ry + rh, rx:rx + rw]
+                lap_v = cv2.Laplacian(roi_g, cv2.CV_64F).var()
+                if lap_v > 18:
+                    pothole_box = [max(0, rx - 10), max(0, ry - 10), min(w, rx + rw + 10), min(h, ry + rh + 10)]
+                    detections.append({
+                        "category": "pothole",
+                        "confidence": round(min(0.95, max(0.88, 0.74 + (cv2.contourArea(best_c) / float(h * w)) * 0.45)), 2),
+                        "bbox": pothole_box,
+                        "label": "pothole"
+                    })
+        else:
+            dark_rims = [c for c in cnts if 1500 < cv2.contourArea(c) < (h * w * 0.40)]
+            if len(dark_rims) >= 2:
+                all_pts = np.vstack([c.reshape(-1, 2) for c in dark_rims])
+                rx, ry, rw, rh = cv2.boundingRect(all_pts)
+                aspect = rw / float(rh + 1e-5)
+                if 0.4 < aspect < 3.0 and (rw * rh) > (h * w * 0.05):
+                    pothole_box = [max(0, rx - 10), max(0, ry - 10), min(w, rx + rw + 10), min(h, ry + rh + 10)]
+                    detections.append({
+                        "category": "pothole",
+                        "confidence": 0.90,
+                        "bbox": pothole_box,
+                        "label": "pothole"
+                    })
+
+        water_chroma = (hsv[:, :, 0] >= 75) & (hsv[:, :, 0] <= 140) & (hsv[:, :, 1] > 28) & (ground_mask > 0)
+        specular = (hsv[:, :, 2] > 140) & (hsv[:, :, 1] < 70) & (ground_mask > 0)
+        dark_wet = (hsv[:, :, 2] < 75) & (ground_mask > 0)
+        cand_water = cv2.bitwise_or(water_chroma.astype(np.uint8) * 255,
+                                    cv2.bitwise_and(specular.astype(np.uint8) * 255, dark_wet.astype(np.uint8) * 255))
+        k_w = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))
+        cand_water = cv2.morphologyEx(cand_water, cv2.MORPH_CLOSE, k_w)
+        w_cnts, _ = cv2.findContours(cand_water, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        valid_w = [c for c in w_cnts if cv2.contourArea(c) > (h * w * 0.02)]
+
+        pothole_has_water = False
+        if pothole_box is not None:
+            px1, py1, px2, py2 = pothole_box
+            p_roi_hsv = hsv[py1:py2, px1:px2]
+            if p_roi_hsv.size > 0:
+                p_water_px = (p_roi_hsv[:, :, 0] >= 75) & (p_roi_hsv[:, :, 0] <= 140) & (p_roi_hsv[:, :, 1] > 28)
+                p_spec_px = (p_roi_hsv[:, :, 2] > 125) & (p_roi_hsv[:, :, 1] < 75)
+                p_puddle = np.count_nonzero(p_water_px | p_spec_px) / float(p_roi_hsv.shape[0] * p_roi_hsv.shape[1])
+                if p_puddle > 0.08:
+                    pothole_has_water = True
+                    inset_x = int((px2 - px1) * 0.10)
+                    inset_y = int((py2 - py1) * 0.10)
+                    detections.append({
+                        "category": "water_leakage",
+                        "confidence": 0.85,
+                        "bbox": [px1 + inset_x, py1 + inset_y, px2 - inset_x, py2 - inset_y],
+                        "label": "water_leakage"
+                    })
+
+        if valid_w and not pothole_has_water:
+            all_pts = np.vstack([c.reshape(-1, 2) for c in valid_w])
+            wx, wy, ww, wh = cv2.boundingRect(all_pts)
+            w_roi_hsv = hsv[wy:wy + wh, wx:wx + ww]
+            w_vivid = (w_roi_hsv[:, :, 1] > 40) & (w_roi_hsv[:, :, 2] > 50)
+            w_hues = w_roi_hsv[:, :, 0][w_vivid]
+            if len(w_hues) > 500:
+                w_blues = np.count_nonzero((w_hues >= 75) & (w_hues <= 140))
+                w_blue_pct = (w_blues / float(len(w_hues))) * 100.0
+                if w_blue_pct > 65.0:
+                    w_ratio = (ww * wh) / float(h * w)
+                    detections.append({
+                        "category": "water_leakage",
+                        "confidence": round(min(0.94, max(0.82, 0.75 + w_ratio * 0.5)), 2),
+                        "bbox": [max(0, wx - 10), max(0, wy - 10), min(w, wx + ww + 10), min(h, wy + wh + 10)],
+                        "label": "water_leakage"
+                    })
+
+        vivid_mask = (hsv[:, :, 1] > 60) & (hsv[:, :, 2] > 45) & (ground_mask > 0)
+        k_c = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11))
+        cand_g = cv2.morphologyEx(vivid_mask.astype(np.uint8) * 255, cv2.MORPH_CLOSE, k_c)
+        g_cnts, _ = cv2.findContours(cand_g, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        valid_g = [c for c in g_cnts if cv2.contourArea(c) > 300]
+        if valid_g:
+            all_pts = np.vstack([c.reshape(-1, 2) for c in valid_g])
+            gx, gy, gw, gh = cv2.boundingRect(all_pts)
+            roi_g_hsv = hsv[gy:gy + gh, gx:gx + gw]
+            roi_vivid = (roi_g_hsv[:, :, 1] > 60) & (roi_g_hsv[:, :, 2] > 45)
+            v_hues = roi_g_hsv[:, :, 0][roi_vivid]
+            if len(v_hues) > 80:
+                blues = np.count_nonzero((v_hues >= 80) & (v_hues <= 140))
+                blue_pct = (blues / float(len(v_hues))) * 100.0
+                reds = np.count_nonzero((v_hues < 15) | (v_hues > 165))
+                red_pct = (reds / float(len(v_hues))) * 100.0
+                hue_std = float(np.std(v_hues))
+                if red_pct < 95.0:
+                    if (hue_std > 25.0 and blue_pct < 60.0) or len(valid_g) >= 2 or len(v_hues) > 4000:
+                        g_conf = round(min(0.94, max(0.80, 0.74 + (len(v_hues) / float(tot_ground)) * 0.8)), 2)
+                        detections.append({
+                            "category": "garbage",
+                            "confidence": g_conf,
+                            "bbox": [max(0, gx - 10), max(0, gy - 10), min(w, gx + gw + 10), min(h, gy + gh + 10)],
+                            "label": "garbage"
                         })
 
-            elif primary_cat == "water_leakage":
-                water_cand = (hsv[:, :, 0] >= 75) & (hsv[:, :, 0] <= 140) & (hsv[:, :, 1] > 18) & (ground_mask > 0)
-                cand_mask = (water_cand.astype(np.uint8)) * 255
-                k_w = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))
-                cand_mask = cv2.morphologyEx(cand_mask, cv2.MORPH_CLOSE, k_w)
-                w_cnts, _ = cv2.findContours(cand_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                valid_w = [c for c in w_cnts if cv2.contourArea(c) > (h * w * 0.015)]
-                if valid_w:
-                    all_pts = np.vstack([c.reshape(-1, 2) for c in valid_w])
-                    wx, wy, ww, wh = cv2.boundingRect(all_pts)
-                    wb = [max(0, wx - 10), max(0, wy - 10), min(w, wx + ww + 10), min(h, wy + wh + 10)]
-                else:
-                    wb = [int(w * 0.20), int(h * 0.35), int(w * 0.80), int(h * 0.85)]
-                primary_conf = max(0.88, primary_conf)
-                detections.append({
-                    "category": "water_leakage",
-                    "confidence": primary_conf,
-                    "bbox": wb,
-                    "label": "water_leakage"
-                })
-
-            elif primary_cat == "garbage":
-                vivid_mask = (hsv[:, :, 1] > 55) & (hsv[:, :, 2] > 40) & (ground_mask > 0)
-                cand_mask = (vivid_mask.astype(np.uint8)) * 255
-                k_c = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11))
-                cand_mask = cv2.morphologyEx(cand_mask, cv2.MORPH_CLOSE, k_c)
-                g_cnts, _ = cv2.findContours(cand_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                valid_g = [c for c in g_cnts if cv2.contourArea(c) > (h * w * 0.015)]
-                if valid_g:
-                    all_pts = np.vstack([c.reshape(-1, 2) for c in valid_g])
-                    gx, gy, gw, gh = cv2.boundingRect(all_pts)
-                    gb = [max(0, gx - 10), max(0, gy - 10), min(w, gx + gw + 10), min(h, gy + gh + 10)]
-                else:
-                    gb = [int(w * 0.25), int(h * 0.40), int(w * 0.75), int(h * 0.85)]
-                primary_conf = max(0.88, primary_conf)
-                detections.append({
-                    "category": "garbage",
-                    "confidence": primary_conf,
-                    "bbox": gb,
-                    "label": "garbage"
-                })
-
-            elif primary_cat == "broken_infrastructure":
-                edges = cv2.Canny(gray[int(h * 0.20):, :], 40, 120)
-                lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 25, minLineLength=int(h * 0.06), maxLineGap=12)
-                if lines is not None and len(lines) > 0:
+        if not any(d["category"] in ["pothole", "garbage"] for d in detections):
+            edges = cv2.Canny(gray[int(h * 0.20):, :], 40, 120)
+            lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 25, minLineLength=int(h * 0.06), maxLineGap=12)
+            if lines is not None and len(lines) >= 8:
+                lap_ground = cv2.Laplacian(gray[int(h * 0.20):, :], cv2.CV_64F).var()
+                if lap_ground > 100:
                     all_pts = np.array([[l[0][0], l[0][1] + int(h * 0.20)] for l in lines] +
                                        [[l[0][2], l[0][3] + int(h * 0.20)] for l in lines])
                     rx, ry, rw, rh = cv2.boundingRect(all_pts)
-                    ib = [max(0, rx - 10), max(0, ry - 10), min(w, rx + rw + 10), min(h, ry + rh + 10)]
-                else:
-                    ib = [int(w * 0.15), int(h * 0.30), int(w * 0.85), int(h * 0.80)]
-                primary_conf = max(0.88, primary_conf)
+                    detections.append({
+                        "category": "broken_infrastructure",
+                        "confidence": round(min(0.90, 0.75 + min(0.15, len(lines) * 0.01)), 2),
+                        "bbox": [max(0, rx - 10), max(0, ry - 10), min(w, rx + rw + 10), min(h, ry + rh + 10)],
+                        "label": "broken_infrastructure"
+                    })
+            elif valid_g and len(v_hues) > 10000 and red_pct >= 95.0:
                 detections.append({
                     "category": "broken_infrastructure",
-                    "confidence": primary_conf,
-                    "bbox": ib,
+                    "confidence": 0.88,
+                    "bbox": [int(w * 0.15), int(h * 0.25), int(w * 0.85), int(h * 0.85)],
                     "label": "broken_infrastructure"
                 })
 
-        detections.sort(key=lambda d: d["confidence"], reverse=True)
+        return self._format_result(detections, img_bgr, h, w)
 
+    def _format_result(self, detections, img_bgr, h, w):
+        detections.sort(key=lambda d: d["confidence"], reverse=True)
+        
         category_breakdown = {c: 0.0 for c in CIVIC_CATEGORIES}
-        if is_streetlight:
-            category_breakdown["streetlight"] = primary_conf
+        for d in detections:
+            c = d["category"]
+            category_breakdown[c] = max(category_breakdown[c], d["confidence"])
+
+        all_categories = []
+        for c, conf in category_breakdown.items():
+            if conf >= 0.25:
+                all_categories.append({
+                    "category": c,
+                    "confidence": conf,
+                    "percentage": int(round(conf * 100))
+                })
+        all_categories.sort(key=lambda x: x["confidence"], reverse=True)
+        all_categories = all_categories[:3]
+
+        if not detections:
+            detections.append({
+                "category": "other",
+                "confidence": 0.50,
+                "bbox": [0, 0, w, h],
+                "label": "general civic issue"
+            })
+            primary_cat = "other"
+            primary_conf = 0.50
             all_categories = [{
-                "category": "streetlight",
-                "confidence": primary_conf,
-                "percentage": int(round(primary_conf * 100))
+                "category": "other",
+                "confidence": 0.50,
+                "percentage": 50
             }]
         else:
-            category_breakdown[primary_cat] = primary_conf
-            for d in detections[1:]:
-                c = d["category"]
-                category_breakdown[c] = max(category_breakdown.get(c, 0.0), d["confidence"])
-            
-            all_categories = []
-            for c, conf in category_breakdown.items():
-                if conf >= 0.25:
-                    all_categories.append({
-                        "category": c,
-                        "confidence": conf,
-                        "percentage": int(round(conf * 100))
-                    })
-            all_categories.sort(key=lambda x: x["confidence"], reverse=True)
-            all_categories = all_categories[:3]
+            primary_cat = detections[0]["category"]
+            primary_conf = detections[0]["confidence"]
 
         annotated_bgr = img_bgr.copy()
         placed_banners = []
