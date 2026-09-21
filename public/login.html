@@ -6,8 +6,7 @@
 <title>Sunwai: Official Portal Login</title>
 <link rel="icon" type="image/png" href="sunwai-logo.png">
 <link rel="stylesheet" href="style.css">
-<style>
-  .login-container {
+<style>.login-container {
     max-width: 540px;
     margin: 40px auto;
   }
@@ -97,13 +96,11 @@
       </button>
     </form>
 
-    <!-- One-Click Demo Credentials Helper -->
     <div class="demo-creds-box">
       <div style="font-weight:700;color:var(--gov-navy);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
         <span id="demoHeading">Quick Demo Credentials (Click to auto-fill):</span>
       </div>
 
-      <!-- 1. Super Admin -->
       <div style="margin-bottom:8px;">
         <b id="demoSuperAdminLabel" style="color:var(--gov-navy);">Municipal Commissioner (Super Admin):</b><br>
         <button type="button" class="demo-btn" onclick="fillCreds('admin@gmail.com', 'admin123')">
@@ -111,7 +108,6 @@
         </button>
       </div>
 
-      <!-- 2. Registered Municipal Admin -->
       <div style="margin-bottom:8px;" id="demoAdminsBlock">
         <b id="demoAdminLabel" style="color:var(--gov-chakra);">Registered Admin (Assigned by Super Admin):</b><br>
         <button type="button" class="demo-btn" onclick="fillCreds('anand.admin@sunwai.gov.in', 'adminpass1001')">
@@ -119,7 +115,6 @@
         </button>
       </div>
 
-      <!-- 3. Ward Officers -->
       <div>
         <b id="demoWardLabel" style="color:var(--gov-green);">Ward Officers (Restricted to respective ward):</b><br>
         <button type="button" class="demo-btn" onclick="fillCreds('ward74@sunwai.gov.in', 'ward74pass')">
@@ -143,7 +138,6 @@
       </div>
     </div>
 
-    <!-- Legal warning -->
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--gov-border);font-size:11px;color:var(--gov-muted);line-height:1.4;" id="legalNotice">
       <b>NOTICE:</b> This is a secure Government Information System. Unauthorized access or data tampering is a punishable offense under the Information Technology Act 2000.
     </div>
@@ -154,10 +148,8 @@
 <footer></footer>
 
 <script src="app.js"></script>
-<script>
-renderHeader('login.html');
+<script>renderHeader('login.html');
 
-// Language Strings Dictionary for Login Page
 const LOGIN_I18N = {
   en: {
     page_title: 'Sunwai: Official Portal Login',
@@ -219,14 +211,12 @@ function applyLoginLanguage() {
   document.getElementById('legalNotice').innerHTML = dict.legal;
 }
 
-// Hook into app.js language switch event
 window.onLanguageChange = function() {
   applyLoginLanguage();
 };
 
 applyLoginLanguage();
 
-// Captcha generator
 let currentCaptcha = '';
 function generateCaptcha() {
   const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -247,7 +237,6 @@ function fillCreds(email, password) {
   document.getElementById('captchaInput').value = currentCaptcha;
 }
 
-// Check if already logged in
 const existingUser = getAuthUser();
 if (existingUser) {
   window.location.href = 'admin.html';

@@ -1,13 +1,10 @@
-# Dependencies
 node_modules/
 package-lock.json
 
-# Environment and secrets
 .env
 .env.local
 .env.*.local
 
-# Python artifacts
 __pycache__/
 *.py[cod]
 *$py.class
@@ -34,20 +31,17 @@ wheels/
 .pytest_cache/
 *.cache
 
-# YOLO training outputs and experiments
 ai_service/runs/
 runs/
 
-# Ephemeral user uploads (preserve directory structure via .gitkeep)
 uploads/*
 !uploads/.gitkeep
 
-# Temporary and scratch files
 scratch/
 *.tmp
 *.log
+*.zip
 
-# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -56,9 +50,9 @@ scratch/
 ehthumbs.db
 Thumbs.db
 
-# IDE & editor files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+

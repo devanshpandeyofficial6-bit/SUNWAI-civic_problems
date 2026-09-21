@@ -8,8 +8,7 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<style>
-  .hero-banner {
+<style>.hero-banner {
     background: linear-gradient(135deg, #0b2546 0%, #163e6b 100%);
     color: #ffffff;
     border-radius: 8px;
@@ -63,7 +62,6 @@
 
 <div class="wrap">
 
-  <!-- Hero Government Banner -->
   <div class="hero-banner">
     <div>
       <h1 id="heroTitle">National Civic Grievance Redressal & Ward Management Portal</h1>
@@ -84,7 +82,6 @@
     </div>
   </div>
 
-  <!-- SECTION 1: FILE A GRIEVANCE -->
   <div class="card card-header-band saffron" id="file">
     <h2>
       <span id="sec1Title">1. File a Grievance</span>
@@ -102,7 +99,6 @@
           <button class="btn-outline" id="useMyLocation" type="button">Use My Current Location</button>
         </div>
 
-        <!-- Real-Time Ward Detection Result -->
         <div id="wardDetectBox" style="display:none;" class="ward-detect-badge">
           <div style="flex:1;min-width:180px;">
             <div>
@@ -122,7 +118,6 @@
           </div>
         </div>
 
-        <!-- Manual Ward Dropdown for Citizen Verification / Override -->
         <div id="manualWardBox" style="display:none;margin-top:8px;padding:10px 12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;">
           <label id="lblManualWard" style="font-size:12px;font-weight:700;color:var(--gov-navy);margin-bottom:4px;display:block;">
             Select Correct Municipal Ward:
@@ -142,7 +137,6 @@
         <label id="lblPhoto">Upload Photo of Issue</label>
         <input type="file" id="photoInput" accept="image/*" capture="environment">
 
-        <!-- Real-Time YOLO AI Visual Analysis Panel -->
         <div id="aiAnalysisBox" style="display:none;margin-top:10px;padding:12px;border-radius:6px;border:1px solid #cbd5e1;background:#f8fafc;">
           <div id="aiStatusLine" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
             <div style="display:flex;align-items:center;gap:8px;">
@@ -159,13 +153,15 @@
           <canvas id="bboxCanvas"></canvas>
         </div>
 
+        <div id="aiCategoryBars" style="display:none;margin-top:10px;"></div>
+
         <label id="lblCat">Category of Grievance</label>
         <select id="categorySelect">
           <option value="" id="optAutoCat">AI Auto-Detect from Photo</option>
           <option value="pothole" id="optPothole">Pothole</option>
           <option value="streetlight" id="optStreetlight">Broken Streetlight</option>
-          <option value="garbage" id="optGarbage">Garbage Pile-up</option>
-          <option value="water_leakage" id="optWater">Water Leakage</option>
+          <option value="garbage" id="optGarbage">Garbage Pile-up / Debris</option>
+          <option value="water_leakage" id="optWater">Water Leakage / Waterlogging</option>
           <option value="broken_infrastructure" id="optInfra">Damaged Infrastructure</option>
           <option value="other" id="optOther">Other Issue</option>
         </select>
@@ -173,34 +169,33 @@
         <label id="lblDesc">Description of Grievance <span class="req">*</span></label>
         <textarea id="descInput" placeholder="Enter clear description, landmark, and details..."></textarea>
 
-        <!-- Citizen Personal Identity & Contact Details Section -->
         <div style="margin-top:14px;padding:14px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;">
           <div style="font-size:13px;font-weight:700;color:var(--gov-navy);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-            <span>👤</span> <span id="lblCitizenDetailsHdr">Citizen Identity & Contact Details (नागरिक विवरण)</span>
+            <span>👤</span> <span id="lblCitizenDetailsHdr">Citizen Identity & Contact Details</span>
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <div>
-              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenName">Full Name (पूरा नाम) <span class="req">*</span></label>
+              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenName">Full Name <span class="req">*</span></label>
               <input type="text" id="citizenNameInput" placeholder="e.g. Ramesh Kumar" style="padding:8px 10px;font-size:13px;" required>
             </div>
             <div>
-              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenPhone">Mobile Number (मोबाइल) <span class="req">*</span></label>
+              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenPhone">Mobile Number <span class="req">*</span></label>
               <input type="tel" id="citizenPhoneInput" placeholder="10-digit mobile" maxlength="10" style="padding:8px 10px;font-size:13px;" required>
             </div>
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
             <div>
-              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenEmail">Email Address (ईमेल पता) <span class="req">*</span></label>
+              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenEmail">Email Address <span class="req">*</span></label>
               <input type="email" id="citizenEmailInput" placeholder="e.g. ramesh@example.com" style="padding:8px 10px;font-size:13px;" required>
             </div>
             <div>
-              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenAadhaar">Aadhaar Number (आधार संख्या) <span class="req">*</span></label>
+              <label style="margin:2px 0 3px;font-size:12px;" id="lblCitizenAadhaar">Aadhaar Number (Masked) <span class="req">*</span></label>
               <input type="text" id="citizenAadhaarInput" placeholder="XXXX XXXX XXXX" maxlength="14" style="padding:8px 10px;font-size:13px;letter-spacing:1px;" required>
             </div>
           </div>
-          <div style="font-size:11px;color:var(--gov-muted);margin-top:6px;">
+          <div style="font-size:11px;color:var(--gov-muted);margin-top:6px;" id="citizenUidaiNote">
             🔒 Certified under UIDAI & MoHUA data protection guidelines. Municipal ward teams will use these details to contact you regarding problem resolution.
           </div>
         </div>
@@ -214,7 +209,6 @@
     </div>
   </div>
 
-  <!-- SECTION 2: TRACK TICKET -->
   <div class="card card-header-band" style="margin-top:24px;" id="track">
     <h2 id="sec2Title">2. Track Grievance Status</h2>
     <p class="section-lead" id="sec2Lead">Enter your Grievance ID to track resolution progress in real time.</p>
@@ -225,7 +219,6 @@
     <div id="trackResult"></div>
   </div>
 
-  <!-- SECTION 3: PUBLIC MAP -->
   <div class="card card-header-band" style="margin-top:24px;" id="map">
     <h2 id="sec3Title">3. Live Civic Issues & Ward Map</h2>
     <p class="section-lead" id="sec3Lead">
@@ -234,7 +227,6 @@
     <div id="publicMap" class="map" style="height:440px;width:100%;min-height:400px;border-radius:6px;border:1px solid #cbd5e1;background:#e2e8f0;position:relative;z-index:1;"></div>
   </div>
 
-  <!-- SECTION 4: CIVIC HEALTH SCORES -->
   <div class="card card-header-band green" style="margin-top:24px;" id="scores">
     <h2 id="sec4Title">4. Ward Civic Health Index</h2>
     <p class="section-lead" id="sec4Lead">
@@ -248,10 +240,8 @@
 <footer></footer>
 
 <script src="app.js"></script>
-<script>
-renderHeader('index.html');
+<script>renderHeader('index.html');
 
-// Pure English / Pure Hindi Dictionary for Citizen Portal
 const INDEX_I18N = {
   en: {
     hero_title: 'National Civic Grievance Redressal & Ward Management Portal',
@@ -268,21 +258,40 @@ const INDEX_I18N = {
     lbl_loc: 'Issue Location: Click on the map to drop a pin',
     btn_my_loc: 'Use My Current Location',
     lbl_det_ward: 'Detected Ward:',
+    ward_not_selected: 'Not Selected',
+    ward_source_datameet: 'DataMeet GIS',
+    ward_source_knn: 'Kanpur Nagar Nigam GIS',
     lbl_photo: 'Upload Photo of Issue',
     lbl_cat: 'Category of Grievance',
     opt_auto: 'AI Auto-Detect from Photo',
     opt_pothole: 'Pothole',
     opt_light: 'Broken Streetlight',
-    opt_garbage: 'Garbage Pile-up',
-    opt_water: 'Water Leakage',
+    opt_garbage: 'Garbage Pile-up / Debris',
+    opt_water: 'Water Leakage / Waterlogging',
     opt_infra: 'Damaged Infrastructure',
     opt_other: 'Other Issue',
     lbl_desc: 'Description of Grievance',
     ph_desc: 'Enter clear description, landmark, and details...',
+    lbl_citizen_hdr: 'Citizen Identity & Contact Details',
+    lbl_citizen_name: 'Full Name',
+    ph_citizen_name: 'e.g. Ramesh Kumar',
+    lbl_citizen_phone: 'Mobile Number',
+    ph_citizen_phone: '10-digit mobile',
+    lbl_citizen_email: 'Email Address',
+    ph_citizen_email: 'e.g. ramesh@example.com',
+    lbl_citizen_aadhaar: 'Aadhaar Number (Masked)',
+    ph_citizen_aadhaar: 'XXXX XXXX XXXX',
+    citizen_uidai_note: '🔒 Certified under UIDAI & MoHUA data protection guidelines. Municipal ward teams will use these details to contact you regarding problem resolution.',
     btn_submit: 'Submit Grievance →',
     submitting: 'Submitting grievance...',
     select_loc_err: 'Please select issue location on the map first.',
     enter_desc_err: 'Please enter a description of the grievance.',
+    err_name: 'Please enter your Full Name.',
+    err_phone: 'Please enter a valid 10-digit mobile number.',
+    err_email: 'Please enter a valid email address.',
+    err_aadhaar: 'Please enter a valid 12-digit Aadhaar number.',
+    submit_success_title: 'Grievance Registered Successfully!',
+    submit_success_desc: 'Redirecting to your official confirmation receipt & downloadable PDF...',
     sec2_title: '2. Track Grievance Status',
     sec2_lead: 'Enter your Grievance ID to track resolution progress in real time.',
     ph_track: 'e.g. SNW-1001 or Ack ID',
@@ -330,21 +339,40 @@ const INDEX_I18N = {
     lbl_loc: 'घटना स्थल: मानचित्र पर क्लिक करके पिन लगाएं',
     btn_my_loc: 'मेरा वर्तमान स्थान उपयोग करें',
     lbl_det_ward: 'पहचाना गया वार्ड:',
+    ward_not_selected: 'चयनित नहीं',
+    ward_source_datameet: 'डेटा-मीट जीआईएस',
+    ward_source_knn: 'कानपुर नगर निगम जीआईएस',
     lbl_photo: 'समस्या का वास्तविक फोटो',
     lbl_cat: 'समस्या की श्रेणी',
     opt_auto: 'एआई द्वारा स्वतः पहचान',
     opt_pothole: 'सड़क का गड्ढा',
     opt_light: 'खराब स्ट्रीट लाइट',
-    opt_garbage: 'कचरे का ढेर',
-    opt_water: 'जल रिसाव / पाइप लीकेज',
+    opt_garbage: 'कचरे का ढेर / मलबा',
+    opt_water: 'जल रिसाव / जलभराव',
     opt_infra: 'क्षतिग्रस्त बुनियादी ढांचा',
     opt_other: 'अन्य नागरिक समस्या',
     lbl_desc: 'समस्या का संक्षिप्त विवरण',
     ph_desc: 'समस्या का स्पष्ट विवरण, निकटतम लैंडमार्क आदि लिखें...',
+    lbl_citizen_hdr: 'नागरिक पहचान एवं संपर्क विवरण',
+    lbl_citizen_name: 'पूरा नाम',
+    ph_citizen_name: 'उदा. रमेश कुमार',
+    lbl_citizen_phone: 'मोबाइल नंबर',
+    ph_citizen_phone: '10 अंकों का मोबाइल',
+    lbl_citizen_email: 'ईमेल पता',
+    ph_citizen_email: 'उदा. ramesh@example.com',
+    lbl_citizen_aadhaar: 'आधार संख्या (सुरक्षित)',
+    ph_citizen_aadhaar: 'XXXX XXXX XXXX',
+    citizen_uidai_note: '🔒 यूआईडीएआई (UIDAI) एवं आवासन और शहरी कार्य मंत्रालय (MoHUA) डेटा सुरक्षा दिशानिर्देशों के तहत प्रमाणित। नगर निगम वार्ड दल समस्या समाधान हेतु आपसे संपर्क करने के लिए इन विवरणों का उपयोग करेगा।',
     btn_submit: 'शिकायत दर्ज करें →',
     submitting: 'शिकायत दर्ज की जा रही है...',
     select_loc_err: 'कृपया पहले मानचित्र पर समस्या का स्थान चुनें।',
     enter_desc_err: 'कृपया समस्या का विवरण अवश्य दर्ज करें।',
+    err_name: 'कृपया अपना पूरा नाम दर्ज करें।',
+    err_phone: 'कृपया मान्य 10 अंकों का मोबाइल नंबर दर्ज करें।',
+    err_email: 'कृपया मान्य ईमेल पता दर्ज करें।',
+    err_aadhaar: 'कृपया मान्य 12 अंकों की आधार संख्या दर्ज करें।',
+    submit_success_title: 'शिकायत आधिकारिक रूप से दर्ज कर ली गई है!',
+    submit_success_desc: 'पुष्टि पावती एवं डाउनलोड योग्य पीडीएफ रसीद पर भेजा जा रहा है...',
     sec2_title: '2. शिकायत की स्थिति जांचें',
     sec2_lead: 'अपनी शिकायत संख्या दर्ज करें और वास्तविक समय में समाधान प्रगति देखें।',
     ph_track: 'उदा. SNW-1001 या पावती संख्या',
@@ -396,9 +424,46 @@ function applyIndexLanguage() {
   document.getElementById('sec1Title').innerText = dict.sec1_title;
   document.getElementById('sec1Sub').innerText = dict.sec1_sub;
   document.getElementById('sec1Lead').innerText = dict.sec1_lead;
-  document.getElementById('lblLoc').childNodes[0].nodeValue = dict.lbl_loc + ' ';
+  const lblLoc = document.getElementById('lblLoc');
+  if (lblLoc && lblLoc.childNodes[0]) lblLoc.childNodes[0].nodeValue = dict.lbl_loc + ' ';
   document.getElementById('useMyLocation').innerText = dict.btn_my_loc;
+
   document.getElementById('lblDetectedWard').innerText = dict.lbl_det_ward;
+  const detectedWardNameEl = document.getElementById('detectedWardName');
+  if (detectedWardNameEl) {
+    if (userOverriddenWard) {
+      detectedWardNameEl.innerText = userOverriddenWard.wardName;
+    } else if (currentDetectedWard) {
+      detectedWardNameEl.innerText = currentDetectedWard.wardName;
+    } else {
+      detectedWardNameEl.innerText = dict.ward_not_selected;
+    }
+  }
+  const detectedWardSourceEl = document.getElementById('detectedWardSource');
+  if (detectedWardSourceEl) {
+    if (userOverriddenWard) {
+      detectedWardSourceEl.innerText = dict.badge_override;
+    } else if (currentDetectedWard) {
+      detectedWardSourceEl.innerText = lang === 'hi'
+        ? (currentDetectedWard.source === 'DataMeet GIS' ? dict.ward_source_datameet : dict.ward_source_knn)
+        : (currentDetectedWard.source || 'DataMeet GIS');
+    } else {
+      detectedWardSourceEl.innerText = dict.ward_source_datameet;
+    }
+  }
+  const wardPrecisionTagEl = document.getElementById('wardPrecisionTag');
+  if (wardPrecisionTagEl) {
+    if (userOverriddenWard) {
+      wardPrecisionTagEl.innerText = dict.badge_override;
+    } else if (currentDetectedWard) {
+      if (currentDetectedWard.precision === 'exact') wardPrecisionTagEl.innerText = dict.badge_gis_exact;
+      else if (currentDetectedWard.precision === 'snapped') wardPrecisionTagEl.innerText = dict.badge_snapped;
+      else wardPrecisionTagEl.innerText = dict.badge_gis_high;
+    } else {
+      wardPrecisionTagEl.innerText = dict.badge_gis_high;
+    }
+  }
+
   document.getElementById('lblPhoto').innerText = dict.lbl_photo;
   document.getElementById('lblCat').innerText = dict.lbl_cat;
   document.getElementById('optAutoCat').innerText = dict.opt_auto;
@@ -408,8 +473,36 @@ function applyIndexLanguage() {
   document.getElementById('optWater').innerText = dict.opt_water;
   document.getElementById('optInfra').innerText = dict.opt_infra;
   document.getElementById('optOther').innerText = dict.opt_other;
-  document.getElementById('lblDesc').childNodes[0].nodeValue = dict.lbl_desc + ' ';
+  const lblDesc = document.getElementById('lblDesc');
+  if (lblDesc && lblDesc.childNodes[0]) lblDesc.childNodes[0].nodeValue = dict.lbl_desc + ' ';
   document.getElementById('descInput').placeholder = dict.ph_desc;
+
+  const lblCitizenDetailsHdr = document.getElementById('lblCitizenDetailsHdr');
+  if (lblCitizenDetailsHdr) lblCitizenDetailsHdr.innerText = dict.lbl_citizen_hdr;
+
+  const lblCitizenName = document.getElementById('lblCitizenName');
+  if (lblCitizenName) lblCitizenName.innerHTML = `${dict.lbl_citizen_name} <span class="req">*</span>`;
+  const citizenNameInput = document.getElementById('citizenNameInput');
+  if (citizenNameInput) citizenNameInput.placeholder = dict.ph_citizen_name;
+
+  const lblCitizenPhone = document.getElementById('lblCitizenPhone');
+  if (lblCitizenPhone) lblCitizenPhone.innerHTML = `${dict.lbl_citizen_phone} <span class="req">*</span>`;
+  const citizenPhoneInput = document.getElementById('citizenPhoneInput');
+  if (citizenPhoneInput) citizenPhoneInput.placeholder = dict.ph_citizen_phone;
+
+  const lblCitizenEmail = document.getElementById('lblCitizenEmail');
+  if (lblCitizenEmail) lblCitizenEmail.innerHTML = `${dict.lbl_citizen_email} <span class="req">*</span>`;
+  const citizenEmailInput = document.getElementById('citizenEmailInput');
+  if (citizenEmailInput) citizenEmailInput.placeholder = dict.ph_citizen_email;
+
+  const lblCitizenAadhaar = document.getElementById('lblCitizenAadhaar');
+  if (lblCitizenAadhaar) lblCitizenAadhaar.innerHTML = `${dict.lbl_citizen_aadhaar} <span class="req">*</span>`;
+  const citizenAadhaarInput = document.getElementById('citizenAadhaarInput');
+  if (citizenAadhaarInput) citizenAadhaarInput.placeholder = dict.ph_citizen_aadhaar;
+
+  const citizenUidaiNote = document.getElementById('citizenUidaiNote');
+  if (citizenUidaiNote) citizenUidaiNote.innerText = dict.citizen_uidai_note;
+
   document.getElementById('submitReport').innerText = dict.btn_submit;
 
   document.getElementById('sec2Title').innerText = dict.sec2_title;
@@ -433,6 +526,71 @@ function applyIndexLanguage() {
     populateManualWardSelect();
   }
 
+  if (lastAiResult) {
+    const confPct = Math.round((lastAiResult.confidence || 0) * 100);
+    const isLow = lastAiResult.isLowConfidence;
+    const aiIcon = document.getElementById('aiStatusIcon');
+    const aiText = document.getElementById('aiStatusText');
+    const aiBadge = document.getElementById('aiConfidenceBadge');
+    const aiDetails = document.getElementById('aiDetectionDetails');
+
+    if (lastAiResult.available) {
+      if (aiIcon) aiIcon.innerText = isLow ? '⚠️' : '✓';
+      if (aiBadge) {
+        aiBadge.style.display = 'inline-flex';
+        aiBadge.className = isLow ? 'ai-pill low-conf' : 'ai-pill';
+        aiBadge.innerText = lang === 'hi'
+          ? `${confPct}% विश्वसनीयता (${lastAiResult.model || 'YOLOv8'})`
+          : `${confPct}% Confidence (${lastAiResult.model || 'YOLOv8'})`;
+      }
+      if (aiText) {
+        if (isLow) {
+          aiText.innerHTML = lang === 'hi'
+            ? `एआई अनुमान: <b>${categoryLabel(lastAiResult.category)}</b> (विश्वसनीयता कम है — कृपया नीचे सही श्रेणी का चयन करें)`
+            : `AI Prediction: <b>${categoryLabel(lastAiResult.category)}</b> (Low confidence — please verify or select category below)`;
+        } else {
+          aiText.innerHTML = lang === 'hi'
+            ? `एआई द्वारा पहचाना गया: <b style="color:var(--gov-green);">${categoryLabel(lastAiResult.category)}</b>`
+            : `AI Detected: <b style="color:var(--gov-green);">${categoryLabel(lastAiResult.category)}</b>`;
+        }
+      }
+      if (aiDetails && lastAiResult.detections && lastAiResult.detections.length) {
+        aiDetails.style.display = 'block';
+        aiDetails.innerHTML = lang === 'hi'
+          ? `पहचाने गए ऑब्जेक्ट: <b>${lastAiResult.detections.length}</b> · मुख्य श्रेणी: <b>${categoryLabel(lastAiResult.category)}</b> (${confPct}%)`
+          : `Localized objects: <b>${lastAiResult.detections.length}</b> · Primary: <b>${categoryLabel(lastAiResult.category)}</b> (${confPct}%)`;
+        const canvas = document.getElementById('aiBboxCanvas');
+        const preview = document.getElementById('photoPreview');
+        if (canvas && preview && typeof renderBoundingBoxes === 'function') {
+          renderBoundingBoxes(canvas, preview, lastAiResult.detections);
+        }
+      }
+
+      const barsContainer = document.getElementById('aiCategoryBars');
+      const allCats = (lastAiResult.allCategories && lastAiResult.allCategories.length)
+        ? lastAiResult.allCategories
+        : (lastAiResult.categoryBreakdown ? Object.entries(lastAiResult.categoryBreakdown).map(([c, v]) => ({ category: c, confidence: v, percentage: Math.round(v * 100) })).filter(item => item.percentage >= 25 || (item.category === lastAiResult.category && item.percentage > 0)) : []);
+
+      if (barsContainer && allCats.length && typeof renderAiCategoryBars === 'function') {
+        renderAiCategoryBars(barsContainer, allCats, lastAiResult.category, (selectedCat) => {
+          const catSelect = document.getElementById('categorySelect');
+          if (catSelect) catSelect.value = selectedCat;
+          if (picked) checkNearby(picked.lat, picked.lng);
+        });
+      }
+    }
+  }
+
+  if (picked) {
+    checkNearby(picked.lat, picked.lng);
+  }
+
+  const trackInp = document.getElementById('trackInput');
+  const trackRes = document.getElementById('trackResult');
+  if (trackInp && trackInp.value.trim() && trackRes && trackRes.innerHTML.trim()) {
+    document.getElementById('trackBtn').click();
+  }
+
   if (typeof loadPublicMap === 'function' && typeof publicMap !== 'undefined' && publicMap) {
     loadPublicMap();
   }
@@ -445,25 +603,21 @@ window.onLanguageChange = function() {
   applyIndexLanguage();
 };
 
-// State Variables
 let pickMarker = null, picked = null, currentDetectedWard = null;
 let userOverriddenWard = null;
 let allWardsList = [];
 let publicMarkers = [];
 
-// Initialize Location Picker Map
 const pickMap = L.map('pickMap').setView([26.4499, 80.3319], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
 }).addTo(pickMap);
 
-// Initialize Public Issues Map
 const publicMap = L.map('publicMap').setView([26.4499, 80.3319], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
 }).addTo(publicMap);
 
-// Invalidate map sizes to ensure crisp rendering
 setTimeout(() => {
   pickMap.invalidateSize();
   publicMap.invalidateSize();
@@ -513,7 +667,9 @@ document.getElementById('manualWardSelect').addEventListener('change', (e) => {
     userOverriddenWard = null;
     if (currentDetectedWard) {
       nameEl.innerText = currentDetectedWard.wardName;
-      badge.innerText = currentDetectedWard.source || 'Kanpur Nagar Nigam GIS';
+      badge.innerText = lang === 'hi'
+        ? (currentDetectedWard.source === 'DataMeet GIS' ? dict.ward_source_datameet : dict.ward_source_knn)
+        : (currentDetectedWard.source || 'Kanpur Nagar Nigam GIS');
       badge.style.background = '#d1fae5';
       badge.style.color = '#047857';
       precTag.innerText = currentDetectedWard.precision === 'exact' ? dict.badge_gis_exact : dict.badge_gis_high;
@@ -549,7 +705,9 @@ async function setPicked(lat, lng) {
 
     if (!userOverriddenWard) {
       wardNameEl.innerText = detected.wardName;
-      wardSourceEl.innerText = detected.source || 'Kanpur Nagar Nigam GIS';
+      wardSourceEl.innerText = lang === 'hi'
+        ? (detected.source === 'DataMeet GIS' ? dict.ward_source_datameet : dict.ward_source_knn)
+        : (detected.source || 'Kanpur Nagar Nigam GIS');
       wardSourceEl.style.background = '#d1fae5';
       wardSourceEl.style.color = '#047857';
 
@@ -644,11 +802,21 @@ async function checkNearby(lat, lng) {
   } catch (e) { /* non-fatal */ }
 }
 
-document.getElementById('categorySelect').addEventListener('change', () => {
+document.getElementById('categorySelect').addEventListener('change', (e) => {
   if (picked) checkNearby(picked.lat, picked.lng);
+  const chosen = e.target.value;
+  const barsContainer = document.getElementById('aiCategoryBars');
+  if (barsContainer) {
+    barsContainer.querySelectorAll('.ai-stat-row').forEach((r) => {
+      if (r.getAttribute('data-cat') === chosen) {
+        r.classList.add('selected');
+      } else {
+        r.classList.remove('selected');
+      }
+    });
+  }
 });
 
-// Photo Preview & Real-Time YOLO AI Visual Analysis
 let lastAiResult = null;
 
 document.getElementById('photoInput').addEventListener('change', async (e) => {
@@ -665,21 +833,23 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
   const aiDetails = document.getElementById('aiDetectionDetails');
   const lang = getLang();
 
-  // Load preview image
   const base64 = await fileToBase64(file);
   preview.src = base64;
   photoWrap.style.display = 'inline-block';
 
-  // Clear previous canvas bounding boxes
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Show analyzing status
   aiBox.style.display = 'block';
   aiIcon.innerText = '⏳';
   aiText.innerText = lang === 'hi' ? 'YOLO एआई द्वारा फोटो का विश्लेषण किया जा रहा है...' : 'Analyzing photo with YOLO AI...';
   aiBadge.style.display = 'none';
   aiDetails.style.display = 'none';
+  const barsContainer = document.getElementById('aiCategoryBars');
+  if (barsContainer) {
+    barsContainer.style.display = 'none';
+    barsContainer.innerHTML = '';
+  }
 
   try {
     const res = await postJSON('/api/ai/analyze', { photoBase64: base64, filename: file.name });
@@ -692,8 +862,9 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
 
       aiIcon.innerText = isLow ? '⚠️' : '✓';
       aiBadge.style.display = 'inline-flex';
-      aiBadge.className = isLow ? 'ai-pill low-conf' : 'ai-pill';
-      aiBadge.innerText = `${confPct}% Confidence (${ai.model})`;
+      aiBadge.innerText = lang === 'hi'
+        ? `${confPct}% विश्वसनीयता (${ai.model || 'YOLOv8'})`
+        : `${confPct}% Confidence (${ai.model || 'YOLOv8'})`;
 
       if (isLow) {
         aiText.innerHTML = lang === 'hi'
@@ -703,8 +874,7 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
         aiText.innerHTML = lang === 'hi'
           ? `एआई द्वारा पहचाना गया: <b style="color:var(--gov-green);">${categoryLabel(ai.category)}</b>`
           : `AI Detected: <b style="color:var(--gov-green);">${categoryLabel(ai.category)}</b>`;
-        
-        // Auto-select category
+
         const catSelect = document.getElementById('categorySelect');
         if (catSelect && ai.category) {
           catSelect.value = ai.category;
@@ -726,7 +896,22 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
         if (preview.complete) renderBoxes();
       }
 
-      // If location is already picked, re-check nearby duplicates with new category
+      const allCats = (ai.allCategories && ai.allCategories.length)
+        ? ai.allCategories
+        : (ai.categoryBreakdown ? Object.entries(ai.categoryBreakdown).map(([c, v]) => ({ category: c, confidence: v, percentage: Math.round(v * 100) })).filter(item => item.percentage >= 25 || (item.category === ai.category && item.percentage > 0)) : []);
+
+      if (barsContainer && allCats.length && typeof renderAiCategoryBars === 'function') {
+        renderAiCategoryBars(barsContainer, allCats, ai.category, (selectedCat) => {
+          const catSelect = document.getElementById('categorySelect');
+          if (catSelect) {
+            catSelect.value = selectedCat;
+          }
+          if (picked) {
+            checkNearby(picked.lat, picked.lng);
+          }
+        });
+      }
+
       if (picked) {
         checkNearby(picked.lat, picked.lng);
       }
@@ -746,7 +931,6 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
   }
 });
 
-// Submit Report
 document.getElementById('submitReport').addEventListener('click', async () => {
   const lang = getLang();
   const dict = INDEX_I18N[lang] || INDEX_I18N.en;
@@ -761,31 +945,30 @@ document.getElementById('submitReport').addEventListener('click', async () => {
     return;
   }
 
-  // Citizen Identity & Contact Validation
   const citizenName = document.getElementById('citizenNameInput').value.trim();
   const citizenPhone = document.getElementById('citizenPhoneInput').value.trim();
   const citizenEmail = document.getElementById('citizenEmailInput').value.trim();
   const citizenAadhaar = document.getElementById('citizenAadhaarInput').value.trim();
 
   if (!citizenName) {
-    resultEl.innerHTML = `<div class="notice danger">${lang === 'hi' ? 'कृपया अपना पूरा नाम दर्ज करें।' : 'Please enter your Full Name.'}</div>`;
+    resultEl.innerHTML = `<div class="notice danger">${dict.err_name}</div>`;
     document.getElementById('citizenNameInput').focus();
     return;
   }
   const cleanPhone = citizenPhone.replace(/\D/g, '');
   if (cleanPhone.length !== 10) {
-    resultEl.innerHTML = `<div class="notice danger">${lang === 'hi' ? 'कृपया मान्य 10 अंकों का मोबाइल नंबर दर्ज करें।' : 'Please enter a valid 10-digit mobile number.'}</div>`;
+    resultEl.innerHTML = `<div class="notice danger">${dict.err_phone}</div>`;
     document.getElementById('citizenPhoneInput').focus();
     return;
   }
   if (!citizenEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(citizenEmail)) {
-    resultEl.innerHTML = `<div class="notice danger">${lang === 'hi' ? 'कृपया मान्य ईमेल पता दर्ज करें।' : 'Please enter a valid email address.'}</div>`;
+    resultEl.innerHTML = `<div class="notice danger">${dict.err_email}</div>`;
     document.getElementById('citizenEmailInput').focus();
     return;
   }
   const cleanAadhaar = citizenAadhaar.replace(/\D/g, '');
   if (cleanAadhaar.length !== 12) {
-    resultEl.innerHTML = `<div class="notice danger">${lang === 'hi' ? 'कृपया मान्य 12 अंकों की आधार संख्या दर्ज करें।' : 'Please enter a valid 12-digit Aadhaar number.'}</div>`;
+    resultEl.innerHTML = `<div class="notice danger">${dict.err_aadhaar}</div>`;
     document.getElementById('citizenAadhaarInput').focus();
     return;
   }
@@ -822,7 +1005,6 @@ document.getElementById('submitReport').addEventListener('click', async () => {
     const res = await postJSON('/api/reports', body);
     const report = res.report;
 
-    // Save citizen details to localStorage for next time
     localStorage.setItem('sunwai_citizen_name', citizenName);
     localStorage.setItem('sunwai_citizen_phone', citizenPhone);
     localStorage.setItem('sunwai_citizen_email', citizenEmail);
@@ -831,15 +1013,14 @@ document.getElementById('submitReport').addEventListener('click', async () => {
     resultEl.innerHTML = `
       <div class="notice" style="background:#ecfdf5;border-color:#a7f3d0;color:#065f46;padding:16px;">
         <div style="font-weight:700;font-size:14px;margin-bottom:4px;">
-          ✓ ${lang === 'hi' ? 'शिकायत आधिकारिक रूप से दर्ज कर ली गई है!' : 'Grievance Registered Successfully!'}
+          ✓ ${dict.submit_success_title}
         </div>
         <div>
-          ${lang === 'hi' ? 'पुष्टि पावती एवं डाउनलोड योग्य पीडीएफ रसीद पर भेजा जा रहा है...' : 'Redirecting to your official confirmation receipt & downloadable PDF...'}
+          ${dict.submit_success_desc}
         </div>
       </div>
     `;
 
-    // Seamlessly redirect to the dedicated Thank You page
     setTimeout(() => {
       window.location.href = `thankyou.html?id=${encodeURIComponent(report.id)}`;
     }, 600);
@@ -851,7 +1032,6 @@ document.getElementById('submitReport').addEventListener('click', async () => {
   }
 });
 
-// Auto-format Aadhaar number with space every 4 digits
 const aadhaarInput = document.getElementById('citizenAadhaarInput');
 if (aadhaarInput) {
   aadhaarInput.addEventListener('input', (e) => {
@@ -865,7 +1045,6 @@ if (aadhaarInput) {
   });
 }
 
-// Prefill saved citizen details if available
 (function prefillCitizen() {
   const name = localStorage.getItem('sunwai_citizen_name');
   const phone = localStorage.getItem('sunwai_citizen_phone');
@@ -877,7 +1056,6 @@ if (aadhaarInput) {
   if (aadhaar && document.getElementById('citizenAadhaarInput')) document.getElementById('citizenAadhaarInput').value = aadhaar;
 })();
 
-// Track Ticket
 document.getElementById('trackBtn').addEventListener('click', async () => {
   const id = document.getElementById('trackInput').value.trim();
   const el = document.getElementById('trackResult');
@@ -963,16 +1141,16 @@ async function loadPublicMap() {
       <div style="font-family:sans-serif;font-size:12.5px;">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
           <b>${r.id}</b>: <span>${categoryLabel(r.category)}</span>
-          <span class="priority-pill priority-${r.priority || 'NORMAL'}">${r.priority || 'NORMAL'}</span>
+          <span class="priority-pill priority-${r.priority || 'NORMAL'}">${typeof priorityLabel === 'function' ? priorityLabel(r.priority) : (r.priority || 'NORMAL')}</span>
         </div>
         <div style="margin:4px 0;">
           <span class="chip st-${r.status}">${statusLabel(r.status)}</span>
-          ${r.escalated ? '<span class="chip escalated">SLA Breach</span>' : ''}
+          ${r.escalated ? `<span class="chip escalated">${lang === 'hi' ? 'समयसीमा समाप्त (SLA)' : 'SLA Breach'}</span>` : ''}
           ${ai && ai.available ? `<span class="ai-pill ${ai.isLowConfidence ? 'low-conf' : ''}" style="margin-left:4px;">🤖 ${Math.round(ai.confidence * 100)}%</span>` : ''}
         </div>
         <div class="popup-desc" style="margin:6px 0;font-size:12px;">${r.description || ''}</div>
         <div class="popup-meta" style="font-size:11.5px;color:var(--gov-navy);font-weight:700;">
-          👥 <b>${count} ${lang === 'hi' ? 'नागरिकों द्वारा दर्ज' : 'Citizens Reported'}</b> · ${r.wardName || 'Local Ward'}
+          👥 <b>${count} ${count > 1 ? (lang === 'hi' ? 'नागरिकों द्वारा दर्ज' : 'Citizens Reported') : (lang === 'hi' ? 'नागरिक द्वारा दर्ज' : 'Citizen Reported')}</b> · ${r.wardName || (lang === 'hi' ? 'स्थानीय वार्ड' : 'Local Ward')}
         </div>
         <button class="btn-outline" style="margin-top:8px;padding:4px 10px;font-size:11.5px;" data-upvote="${r.id}">
           ${lang === 'hi' ? 'जन-समर्थन दें' : 'Upvote / Confirm'} (${upvotesCount})
@@ -991,7 +1169,6 @@ async function loadPublicMap() {
   });
 }
 
-// Ward Civic Health Scores
 async function loadWardScores() {
   const wards = await getJSON('/api/wards');
   const el = document.getElementById('wardScores');
@@ -1014,7 +1191,6 @@ async function loadWardScores() {
   }).join('') + (wards.length > 10 ? `<div style="font-size:12px;color:var(--gov-muted);text-align:center;padding:8px 0;">${lang === 'hi' ? `+ अन्य ${wards.length - 10} वार्ड सक्रिय रूप से निगरानी में हैं...` : `+ ${wards.length - 10} more wards under continuous monitoring...`}</div>` : '');
 }
 
-// Initial renders after all DOM, maps, and listeners are fully bound
 applyIndexLanguage();
 loadPublicMap();
 loadWardScores();

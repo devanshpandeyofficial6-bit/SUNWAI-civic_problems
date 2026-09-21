@@ -1,13 +1,3 @@
-"""
-SUNWAI AI Inference Microservice (FastAPI + YOLO)
--------------------------------------------------
-Accepts civic issue photos, runs YOLO visual object detection,
-and returns structured predictions with confidence, category, and bounding boxes.
-
-Run with:
-  python server.py --port 5001
-"""
-
 import os
 import sys
 import argparse
@@ -24,7 +14,6 @@ app = FastAPI(
     version="2.0.0"
 )
 
-# Enable CORS for communication with Node.js backend and frontends
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,7 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize global detector
 detector = None
 
 @app.on_event("startup")
@@ -85,9 +73,6 @@ def get_categories():
 
 @app.post("/predict", response_model=PredictResponse)
 async def predict(request: PredictRequest):
-    """
-    Accepts JSON with image_base64 string and returns detected civic issues.
-    """
     if not detector:
         raise HTTPException(status_code=503, detail="AI Detector not initialized yet")
 
@@ -100,9 +85,6 @@ async def predict(request: PredictRequest):
 
 @app.post("/predict/upload", response_model=PredictResponse)
 async def predict_upload(file: UploadFile = File(...), threshold: float = Form(0.25)):
-    """
-    Accepts multipart file upload and returns detected civic issues.
-    """
     if not detector:
         raise HTTPException(status_code=503, detail="AI Detector not initialized yet")
 

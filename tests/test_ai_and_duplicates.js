@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * End-to-End Test Suite for SUNWAI AI Civic Detection & Duplicate Integration
- */
-
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -51,14 +47,12 @@ async function runTests() {
   console.log('🧪 Starting SUNWAI AI & Duplicate Aggregation Test Suite');
   console.log('========================================================\n');
 
-  // Test 1: Health endpoint
   console.log('[TEST 1] Testing /api/health...');
   const healthRes = await request('GET', '/api/health');
   assert.strictEqual(healthRes.status, 200, 'Health endpoint should return 200');
   assert.strictEqual(healthRes.body.ok, true);
   console.log('  ✓ Backend server is healthy.\n');
 
-  // Test 2: AI Status endpoint
   console.log('[TEST 2] Testing /api/ai/status...');
   const aiStatusRes = await request('GET', '/api/ai/status');
   assert.strictEqual(aiStatusRes.status, 200);
@@ -70,12 +64,10 @@ async function runTests() {
     console.log('  ℹ️  AI Service is offline. Testing with resilient manual-triage fallback.\n');
   }
 
-  // Sample image for tests
   const sampleImagePath = path.join(__dirname, '..', 'ai_service', 'civic_dataset', 'images', 'train', 'pothole_asphalt_train.jpg');
   const sampleImageBuf = fs.readFileSync(sampleImagePath);
   const sampleBase64 = 'data:image/jpeg;base64,' + sampleImageBuf.toString('base64');
 
-  // Test 3: AI Analysis Endpoint
   console.log('[TEST 3] Testing /api/ai/analyze...');
   const analyzeRes = await request('POST', '/api/ai/analyze', {
     photoBase64: sampleBase64,
@@ -98,12 +90,10 @@ async function runTests() {
     console.log('  ✓ Graceful fallback verified: classification.available === false.\n');
   }
 
-  // Generate unique test coordinates for this test run to ensure idempotency
-  const offset = ((Date.now() % 10000) / 10000) * 0.1;
-  const baseLat = 26.4800 + offset;
-  const baseLng = 80.3200 + offset;
+  const offset = (Math.random() * 0.3) + 0.02 + ((Date.now() % 50000) / 50000) * 0.15;
+  const baseLat = 26.4500 + offset;
+  const baseLng = 80.3000 + offset;
 
-  // Test 4: Creating a canonical grievance with real AI detection & citizen identity
   console.log(`[TEST 4] Filing canonical grievance at lat: ${baseLat.toFixed(4)}, lng: ${baseLng.toFixed(4)}...`);
   const create1 = await request('POST', '/api/reports', {
     lat: baseLat,
@@ -134,7 +124,6 @@ async function runTests() {
   console.log(`  ✓ Canonical Ticket Created: ${canonicalTicket.id} (Category: ${canonicalTicket.category}, Citizen Count: ${canonicalTicket.reportCount}).`);
   console.log(`  ✓ Citizen identity preserved: ${canonicalTicket.citizenDetails.name}, Phone: ${canonicalTicket.citizenDetails.phone}, Aadhaar: ${canonicalTicket.citizenDetails.aadhaar}.\n`);
 
-  // Test 5: Second citizen submits SAME issue category ~19m away (Duplicate Proximity)
   console.log('[TEST 5] Second citizen (Bob) reports same issue ~19 meters away (within 50m radius)...');
   const create2 = await request('POST', '/api/reports', {
     lat: baseLat + 0.00015,
@@ -161,7 +150,6 @@ async function runTests() {
   console.log(`  ✓ Successfully merged into ${canonicalTicket.id}! Total citizen count is now: ${create2.body.reportCount}.`);
   console.log(`  ✓ Merged citizen identity captured: ${bobSub.citizenDetails.name} (Aadhaar: ${bobSub.citizenDetails.aadhaar}).\n`);
 
-  // Test 6: Same citizen (Bob) submits again -> count should NOT double-increment
   console.log('[TEST 6] Bob clicks submit again -> verifying deduplication prevents repeat count...');
   const create2Repeat = await request('POST', '/api/reports', {
     lat: baseLat + 0.00015,
@@ -174,7 +162,6 @@ async function runTests() {
   assert.strictEqual(create2Repeat.body.reportCount, 2, 'Report count should remain 2 for the same citizen ID');
   console.log('  ✓ Deduplication verified: Citizen count correctly remains 2.\n');
 
-  // Test 7: Third citizen (Charlie) submits same issue
   console.log('[TEST 7] Third citizen (Charlie) reports same pothole...');
   const create3 = await request('POST', '/api/reports', {
     lat: baseLat + 0.0002,
@@ -188,7 +175,6 @@ async function runTests() {
   assert.strictEqual(create3.body.report.priority, 'HIGH', '3+ citizen reports on pothole escalates priority to HIGH');
   console.log(`  ✓ Ticket ${canonicalTicket.id} report count is now ${create3.body.reportCount} with priority "${create3.body.report.priority}".\n`);
 
-  // Test 8: Different Category at Same Location must NOT be merged
   console.log('[TEST 8] Different category ("streetlight") at exact same location...');
   const createDiff = await request('POST', '/api/reports', {
     lat: baseLat,
@@ -202,7 +188,6 @@ async function runTests() {
   assert.notStrictEqual(createDiff.body.report.id, canonicalTicket.id);
   console.log(`  ✓ Verified: Different category created distinct ticket: ${createDiff.body.report.id} (Category: ${createDiff.body.report.category}).\n`);
 
-  // Test 9: Reports beyond 50m radius must NOT be merged
   console.log('[TEST 9] Same category ("pothole") ~2.2km away (outside 50m duplicate radius)...');
   const createFar = await request('POST', '/api/reports', {
     lat: baseLat + 0.02,
@@ -216,7 +201,6 @@ async function runTests() {
   assert.notStrictEqual(createFar.body.report.id, canonicalTicket.id);
   console.log(`  ✓ Verified: Far report created distinct ticket: ${createFar.body.report.id}.\n`);
 
-  // Test 10: Sorting by reportCount and priority
   console.log('[TEST 10] Testing sorting by reportCount in /api/reports...');
   const sortedReports = await request('GET', '/api/reports?sortBy=reportCount');
   assert.strictEqual(sortedReports.status, 200);
@@ -226,15 +210,13 @@ async function runTests() {
   assert(foundCanonical && foundCanonical.reportCount === 3, 'Canonical ticket should have reportCount 3');
   console.log(`  ✓ Top sorted ticket is ${sortedReports.body[0].id} with ${sortedReports.body[0].reportCount} citizen reports (Canonical ${canonicalTicket.id} has ${foundCanonical.reportCount}).\n`);
 
-  // Test 11: Trust Loop Verification flow remains functional
   console.log('[TEST 11] Verifying Trust Loop resolution & citizen verification...');
-  // Move ticket to resolved
+
   await request('PATCH', `/api/reports/${canonicalTicket.id}/status`, { status: 'resolved' });
   const checkResolved = await request('GET', `/api/reports/${canonicalTicket.id}`);
   assert.strictEqual(checkResolved.body.status, 'resolved');
   assert.strictEqual(checkResolved.body.verification.status, 'pending');
 
-  // Citizen confirms resolution
   const verifyRes = await request('POST', `/api/reports/${canonicalTicket.id}/verify`, {
     result: 'confirm',
     userId: 'citizen-alice-101',

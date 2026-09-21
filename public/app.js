@@ -1,9 +1,6 @@
-// ---- Sunwai Government-Grade Client Library & i18n Engine ----
-
-// ---------------------------------------------------- Internationalization (i18n) Engine
 const TRANSLATIONS = {
   en: {
-    // Top Bar & Branding
+
     gov_india: 'Government of India',
     mohua: 'Ministry of Housing & Urban Affairs',
     helpline_label: 'Toll-Free Helpline:',
@@ -11,7 +8,6 @@ const TRANSLATIONS = {
     portal_sub: 'National Civic Grievance Redressal & Ward Management Portal · Govt. of India E-Governance',
     lang_label: 'Language:',
 
-    // Public Navigation
     nav_citizen_portal: 'Citizen Portal',
     nav_file_grievance: 'File Grievance',
     nav_track_status: 'Track Status',
@@ -19,7 +15,6 @@ const TRANSLATIONS = {
     nav_ward_scores: 'Ward Scores',
     nav_official_login: 'Official Sign-In',
 
-    // Official Navigation
     nav_head_center: 'Municipal Command Center',
     nav_admin_center: 'Municipal Administration Console',
     nav_ward_console: 'Ward Console',
@@ -29,14 +24,12 @@ const TRANSLATIONS = {
     admin_badge: 'Administrator',
     ward_badge: 'Ward Officer',
 
-    // Statuses
     status_reported: 'Reported',
     status_acknowledged: 'Acknowledged',
     status_in_progress: 'In Progress',
     status_resolved: 'Resolved (Awaiting Verification)',
     status_closed: 'Closed (Citizen-Verified)',
 
-    // Categories
     cat_all: 'All Categories',
     cat_pothole: 'Pothole',
     cat_streetlight: 'Broken Streetlight',
@@ -45,13 +38,11 @@ const TRANSLATIONS = {
     cat_broken_infrastructure: 'Damaged Infrastructure',
     cat_other: 'Other Civic Issue',
 
-    // Time Ago
     time_just_now: 'just now',
     time_m_ago: 'm ago',
     time_h_ago: 'h ago',
     time_d_ago: 'd ago',
 
-    // AI & Duplicates
     ai_analyzing: 'Analyzing photo with YOLO AI...',
     ai_detected: 'Detected by AI',
     ai_confidence: 'AI Confidence',
@@ -67,7 +58,6 @@ const TRANSLATIONS = {
     priority_medium: 'Medium Priority',
     priority_normal: 'Normal Priority',
 
-    // Footer
     footer_desc: 'National civic grievance redressal, geospatial ward intelligence, and public accountability platform developed under Digital India and Ministry of Housing & Urban Affairs (MoHUA) e-governance guidelines.',
     footer_gigw: 'Guidelines for Indian Government Websites (GIGW) Compliant',
     footer_ssl: 'Secured with 256-bit SSL Encryption',
@@ -85,7 +75,7 @@ const TRANSLATIONS = {
     footer_nic: 'Designed & Developed with DataMeet & Open Geospatial Standards',
   },
   hi: {
-    // Top Bar & Branding
+
     gov_india: 'भारत सरकार',
     mohua: 'आवासन और शहरी कार्य मंत्रालय',
     helpline_label: 'टोल-फ्री हेल्पलाइन:',
@@ -93,7 +83,6 @@ const TRANSLATIONS = {
     portal_sub: 'राष्ट्रीय नागरिक शिकायत निवारण एवं वार्ड प्रबंधन पोर्टल · भारत सरकार ई-गवर्नेंस',
     lang_label: 'भाषा:',
 
-    // Public Navigation
     nav_citizen_portal: 'नागरिक पोर्टल',
     nav_file_grievance: 'शिकायत दर्ज करें',
     nav_track_status: 'स्थिति ट्रैक करें',
@@ -101,7 +90,6 @@ const TRANSLATIONS = {
     nav_ward_scores: 'वार्ड स्वास्थ्य',
     nav_official_login: 'अधिकारी लॉगिन',
 
-    // Official Navigation
     nav_head_center: 'नगर निगम प्रशासनिक नियंत्रण कक्ष',
     nav_admin_center: 'नगर निगम प्रशासनिक कंसोल',
     nav_ward_console: 'वार्ड नियंत्रण कक्ष',
@@ -111,14 +99,12 @@ const TRANSLATIONS = {
     admin_badge: 'प्रशासक',
     ward_badge: 'वार्ड अधिकारी',
 
-    // Statuses
     status_reported: 'दर्ज',
     status_acknowledged: 'स्वीकृत',
     status_in_progress: 'प्रगति पर',
     status_resolved: 'निस्तारित (सत्यापन प्रतीक्षित)',
     status_closed: 'बंद (नागरिक प्रमाणित)',
 
-    // Categories
     cat_all: 'सभी श्रेणियां',
     cat_pothole: 'सड़क का गड्ढा',
     cat_streetlight: 'खराब स्ट्रीट लाइट',
@@ -127,13 +113,11 @@ const TRANSLATIONS = {
     cat_broken_infrastructure: 'क्षतिग्रस्त बुनियादी ढांचा',
     cat_other: 'अन्य नागरिक समस्या',
 
-    // Time Ago
     time_just_now: 'अभी-अभी',
     time_m_ago: 'मिनट पहले',
     time_h_ago: 'घंटे पहले',
     time_d_ago: 'दिन पहले',
 
-    // AI & Duplicates
     ai_analyzing: 'YOLO एआई द्वारा फोटो का विश्लेषण किया जा रहा है...',
     ai_detected: 'एआई द्वारा पहचाना गया',
     ai_confidence: 'एआई विश्वसनीयता',
@@ -149,7 +133,6 @@ const TRANSLATIONS = {
     priority_medium: 'मध्यम प्राथमिकता',
     priority_normal: 'सामान्य प्राथमिकता',
 
-    // Footer
     footer_desc: 'डिजिटल इंडिया एवं आवासन और शहरी कार्य मंत्रालय (MoHUA) की ई-गवर्नेंस पहल के अंतर्गत विकसित राष्ट्रीय नागरिक शिकायत निवारण, भू-स्थानिक वार्ड विश्लेषण एवं जवाबदेही प्रणाली।',
     footer_gigw: 'भारतीय सरकारी वेबसाइट दिशानिर्देश (GIGW) अनुपालन',
     footer_ssl: '256-बिट एसएसएल एन्क्रिप्शन द्वारा सुरक्षित',
@@ -219,7 +202,6 @@ function updateDomTranslations() {
   });
 }
 
-// ---------------------------------------------------- Auth Session Management
 function getAuthUser() {
   try {
     const raw = localStorage.getItem('sunwai_auth_user');
@@ -258,7 +240,6 @@ function requireAuth(allowedRoles = []) {
   return user;
 }
 
-// ---------------------------------------------------- API Helpers
 async function api(method, url, body) {
   const opts = { method, headers: {} };
   const token = getAuthToken();
@@ -280,7 +261,6 @@ const postJSON = (url, body) => api('POST', url, body);
 const patchJSON = (url, body) => api('PATCH', url, body);
 const deleteJSON = (url) => api('DELETE', url);
 
-// Device ID for anonymous citizens
 function getDeviceId() {
   let id = localStorage.getItem('sunwai_device_id');
   if (!id) {
@@ -316,13 +296,25 @@ function categoryLabel(c) {
   const map = {
     pothole: lang === 'hi' ? 'सड़क का गड्ढा' : 'Pothole',
     streetlight: lang === 'hi' ? 'खराब स्ट्रीट लाइट' : 'Broken Streetlight',
-    garbage: lang === 'hi' ? 'कचरे का ढेर' : 'Garbage Pile-up',
-    water_leakage: lang === 'hi' ? 'जल रिसाव / पाइप लीकेज' : 'Water Leakage',
+    garbage: lang === 'hi' ? 'कचरे का ढेर / मलबा' : 'Garbage / Debris Clutter',
+    water_leakage: lang === 'hi' ? 'जल रिसाव / जलभराव' : 'Water Leakage / Waterlogging',
     broken_infrastructure: lang === 'hi' ? 'क्षतिग्रस्त बुनियादी ढांचा' : 'Damaged Infrastructure',
     other: lang === 'hi' ? 'अन्य नागरिक समस्या' : 'Other Issue',
   };
   return map[c] || c;
 }
+
+function priorityLabel(p) {
+  const lang = getLang();
+  const up = (p || 'NORMAL').toUpperCase();
+  if (lang === 'hi') {
+    if (up === 'HIGH') return 'उच्च';
+    if (up === 'MEDIUM') return 'मध्यम';
+    return 'सामान्य';
+  }
+  return up;
+}
+window.priorityLabel = priorityLabel;
 
 function timeAgo(iso) {
   const lang = getLang();
@@ -339,7 +331,6 @@ function timeAgo(iso) {
   return lang === 'hi' ? `${days} दिन पहले` : `${days}d ago`;
 }
 
-// ---------------------------------------------------- Accessibility & Theme
 function getFontScale() {
   const saved = localStorage.getItem('sunwai_font_scale');
   const parsed = parseFloat(saved);
@@ -350,10 +341,10 @@ function setFontScale(scale) {
   const clamped = Math.min(1.8, Math.max(0.7, Math.round(scale * 100) / 100));
   document.documentElement.style.setProperty('--font-scale', clamped);
   localStorage.setItem('sunwai_font_scale', clamped.toString());
-  
+
   const pct = Math.round(clamped * 100);
   const isHi = getLang() === 'hi';
-  
+
   const btnReset = document.getElementById('btnFontReset');
   if (btnReset) {
     btnReset.setAttribute('title', isHi ? `मूल आकार पर रीसेट करें (${pct}%)` : `Reset to original font size (${pct}%)`);
@@ -404,11 +395,11 @@ function updateThemeButton(isDark) {
 function toggleTheme() {
   const isCurrentlyDark = document.body.classList.contains('dark-theme') || document.body.classList.contains('high-contrast');
   const targetDark = !isCurrentlyDark;
-  
+
   document.body.classList.toggle('dark-theme', targetDark);
   document.body.classList.toggle('high-contrast', targetDark);
   document.documentElement.setAttribute('data-theme', targetDark ? 'dark' : 'light');
-  
+
   localStorage.setItem('sunwai_theme', targetDark ? 'dark' : 'light');
   localStorage.setItem('sunwai_high_contrast', targetDark ? '1' : '0');
   updateThemeButton(targetDark);
@@ -419,7 +410,7 @@ window.toggleContrast = toggleTheme;
 (function initAccessibility() {
   const savedScale = localStorage.getItem('sunwai_font_scale');
   if (savedScale) document.documentElement.style.setProperty('--font-scale', savedScale);
-  
+
   const isDark = localStorage.getItem('sunwai_theme') === 'dark' || localStorage.getItem('sunwai_high_contrast') === '1';
   if (isDark) {
     document.documentElement.setAttribute('data-theme', 'dark');
@@ -443,7 +434,6 @@ window.toggleContrast = toggleTheme;
   });
 })();
 
-// National Ashoka Emblem SVG Motif
 const ASHOKA_EMBLEM_SVG = `
 <svg class="gov-emblem-svg" viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
   <path d="M50 5 C40 5 35 15 35 25 C35 35 42 42 45 46 C40 48 30 52 25 60 C20 68 22 78 28 84 C32 88 40 90 50 90 C60 90 68 88 72 84 C78 78 80 68 75 60 C70 52 60 48 55 46 C58 42 65 35 65 25 C65 15 60 5 50 5 Z" fill="#ffd700"/>
@@ -454,7 +444,6 @@ const ASHOKA_EMBLEM_SVG = `
 </svg>
 `;
 
-// ---------------------------------------------------- Render Standard Government Header
 function renderHeader(current = '') {
   window._currentPage = current;
   const user = getAuthUser();
@@ -464,7 +453,6 @@ function renderHeader(current = '') {
   const lang = getLang();
   document.documentElement.setAttribute('lang', lang);
 
-  // Build navigation items (clean professional typography, no informal emojis)
   let navHtml = '';
   if (user) {
     const isSuperAdmin = user.role === 'municipal_head' || user.isSuperAdmin;
@@ -498,7 +486,7 @@ function renderHeader(current = '') {
   }
 
   headerEl.innerHTML = `
-    <!-- Top Government Utility Bar -->
+
     <div class="gov-topbar">
       <div class="gov-topbar-left">
         <div style="display:flex;align-items:center;gap:6px;">
@@ -517,8 +505,7 @@ function renderHeader(current = '') {
           <span>${t('helpline_label')}</span>
           <b>1916 / 1800-11-2026</b>
         </div>
-        
-        <!-- Language Switcher: Pure English / Pure Hindi Toggle -->
+
         <div class="gov-lang-switcher">
           <span class="lang-label">${t('lang_label')}</span>
           <div class="lang-btn-group">
@@ -536,14 +523,12 @@ function renderHeader(current = '') {
       </div>
     </div>
 
-    <!-- National Tricolour Bar -->
     <div class="tricolour-bar">
       <div class="t-saffron"></div>
       <div class="t-white"></div>
       <div class="t-green"></div>
     </div>
 
-    <!-- Main Official Header with Official Logo -->
     <header class="gov-main-header">
       <div class="gov-brand-container">
         <a href="index.html" class="gov-logo-link" title="Sunwai Portal">
@@ -564,7 +549,6 @@ function renderHeader(current = '') {
   `;
 }
 
-// ---------------------------------------------------- Render GIGW Compliant Government Footer
 function renderFooter() {
   const footerEl = document.querySelector('footer');
   if (!footerEl) return;
@@ -621,7 +605,6 @@ document.addEventListener('DOMContentLoaded', () => {
   updateDomTranslations();
 });
 
-// ---------------------------------------------------- Bounding Box Overlay Renderer
 function renderBoundingBoxes(canvasEl, imgEl, detections) {
   if (!canvasEl || !imgEl) return;
   const ctx = canvasEl.getContext('2d');
@@ -634,41 +617,212 @@ function renderBoundingBoxes(canvasEl, imgEl, detections) {
 
   if (!detections || !detections.length) return;
 
-  const colors = {
-    pothole: '#dc2626',
-    streetlight: '#f59e0b',
-    garbage: '#16a34a',
-    water_leakage: '#0284c7',
-    broken_infrastructure: '#9333ea',
-    other: '#475569',
+  const lang = (typeof getLang === 'function') ? getLang() : 'en';
+
+  const catMeta = {
+    pothole: { color: '#dc2626', label: lang === 'hi' ? 'सड़क का गड्ढा' : 'POTHOLE' },
+    water_leakage: { color: '#0284c7', label: lang === 'hi' ? 'जलभराव / लीकेज' : 'WATER ACCUMULATION' },
+    garbage: { color: '#16a34a', label: lang === 'hi' ? 'कचरा / मलबा' : 'GARBAGE / DEBRIS' },
+    streetlight: { color: '#f59e0b', label: lang === 'hi' ? 'स्ट्रीट लाइट' : 'STREETLIGHT' },
+    broken_infrastructure: { color: '#9333ea', label: lang === 'hi' ? 'क्षतिग्रस्त ढांचा' : 'BROKEN INFRA' },
+    other: { color: '#475569', label: lang === 'hi' ? 'अन्य नागरिक समस्या' : 'CIVIC ISSUE' },
   };
+
+  const occupiedBadges = [];
 
   detections.forEach((d) => {
     if (!d.bbox || d.bbox.length !== 4) return;
     const [x1, y1, x2, y2] = d.bbox;
-    const col = colors[d.category] || '#dc2626';
+    const meta = catMeta[d.category] || catMeta.other;
     const conf = Math.round((d.confidence || 0) * 100);
 
-    // Box
-    ctx.strokeStyle = col;
-    ctx.lineWidth = Math.max(3, Math.round(w / 160));
+    ctx.fillStyle = meta.color + '1c';
+    ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
+
+    ctx.strokeStyle = meta.color;
+    ctx.lineWidth = Math.max(3, Math.round(w / 180));
     ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
 
-    // Label background
-    const label = `${d.category.replace('_', ' ').toUpperCase()} ${conf}%`;
-    const fontSize = Math.max(13, Math.round(w / 35));
+    const label = `${meta.label} ${conf}%`;
+    const fontSize = Math.max(12, Math.round(w / 40));
     ctx.font = `bold ${fontSize}px sans-serif`;
     const textWidth = ctx.measureText(label).width;
-    const padding = 6;
-    const badgeHeight = fontSize + padding * 2;
+    const padding = 5;
+    const badgeW = textWidth + padding * 2;
+    const badgeH = fontSize + padding * 2;
 
-    ctx.fillStyle = col;
-    ctx.fillRect(x1, Math.max(0, y1 - badgeHeight), textWidth + padding * 2, badgeHeight);
+    let bx1 = Math.max(0, x1);
+    let by1 = Math.max(0, y1 - badgeH);
 
-    // Text
+    const isColliding = occupiedBadges.some(b => {
+      return !(bx1 + badgeW < b.x || bx1 > b.x + b.w || by1 + badgeH < b.y || by1 > b.y + b.h);
+    });
+
+    if (isColliding) {
+      if (y2 + badgeH <= h) {
+        by1 = y2 + 2;
+      } else {
+        by1 = Math.min(h - badgeH, y1 + 4);
+      }
+    }
+
+    occupiedBadges.push({ x: bx1, y: by1, w: badgeW, h: badgeH });
+
+    ctx.fillStyle = meta.color;
+    ctx.fillRect(bx1, by1, badgeW, badgeH);
+
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(label, x1 + padding, Math.max(badgeHeight - padding, y1 - padding));
+    ctx.fillText(label, bx1 + padding, by1 + fontSize + padding - 2);
   });
 }
 window.renderBoundingBoxes = renderBoundingBoxes;
 
+function renderAiCategoryBars(containerEl, allCategories, primaryCategory, onSelectCategory = null) {
+  if (!containerEl) return;
+
+  if (!allCategories || !allCategories.length) {
+    containerEl.style.display = 'none';
+    containerEl.innerHTML = '';
+    return;
+  }
+
+  const lang = (typeof getLang === 'function') ? getLang() : 'en';
+
+  const catMeta = {
+    pothole: {
+      icon: '🕳️',
+      name: lang === 'hi' ? 'सड़क का गड्ढा' : 'Pothole',
+      color: '#dc2626',
+      class: 'bar-pothole',
+    },
+    water_leakage: {
+      icon: '💧',
+      name: lang === 'hi' ? 'जल रिसाव / जलभराव' : 'Water Leakage / Waterlogging',
+      color: '#0284c7',
+      class: 'bar-water_leakage',
+    },
+    broken_infrastructure: {
+      icon: '🏗️',
+      name: lang === 'hi' ? 'क्षतिग्रस्त बुनियादी ढांचा' : 'Damaged Infrastructure',
+      color: '#7c3aed',
+      class: 'bar-broken_infrastructure',
+    },
+    garbage: {
+      icon: '🗑️',
+      name: lang === 'hi' ? 'कचरे का ढेर / मलबा' : 'Garbage / Debris Clutter',
+      color: '#059669',
+      class: 'bar-garbage',
+    },
+    streetlight: {
+      icon: '💡',
+      name: lang === 'hi' ? 'खराब स्ट्रीट लाइट' : 'Broken Streetlight',
+      color: '#d97706',
+      class: 'bar-streetlight',
+    },
+    other: {
+      icon: '📌',
+      name: lang === 'hi' ? 'अन्य नागरिक समस्या' : 'Other Issue',
+      color: '#64748b',
+      class: 'bar-other',
+    },
+  };
+
+  const MIN_DETECTION_THRESHOLD = 25;
+  const detectedCategories = allCategories
+    .filter((item) => {
+      const pct = typeof item.percentage === 'number' ? item.percentage : Math.round((item.confidence || 0) * 100);
+      return (item.category === primaryCategory && pct > 0) || pct >= MIN_DETECTION_THRESHOLD;
+    })
+    .slice(0, 3);
+
+  if (!detectedCategories.length) {
+    containerEl.style.display = 'none';
+    containerEl.innerHTML = '';
+    return;
+  }
+
+  const isSingle = detectedCategories.length === 1;
+  const titleText = lang === 'hi'
+    ? '📊 दृश्य पहचान संभाव्यता एवं सांख्यिकी'
+    : '📊 Visual Classification Probabilities & Stats';
+  const subtitleText = isSingle
+    ? (lang === 'hi' ? 'पुष्ट दृश्य पहचान (सटीक मिलान)' : 'Confirmed Visual Detection (High Accuracy)')
+    : (lang === 'hi' ? `शीर्ष ${detectedCategories.length} पहचानी गई नागरिक समस्याएं` : `Top ${detectedCategories.length} Visible Civic Issues Detected`);
+  const primaryBadgeText = lang === 'hi' ? 'मुख्य पहचान' : 'Primary Match';
+  const hintText = isSingle
+    ? (lang === 'hi' ? 'यह समस्या फोटो में स्पष्ट रूप से पहचानी गई है और स्वचालित रूप से चयनित है।' : 'Visibly verified in uploaded photo and automatically selected.')
+    : (lang === 'hi' ? 'सुझाव: जिस समस्या की रिपोर्ट करना चाहते हैं, उस श्रेणी पट्टी पर क्लिक करके मुख्य श्रेणी के रूप में चुन सकते हैं।' : 'Tip: Click any detected category bar to select it as your primary grievance category.');
+
+  function buildRow(item) {
+    const cat = item.category || 'other';
+    const meta = catMeta[cat] || catMeta.other;
+    const pct = typeof item.percentage === 'number' ? item.percentage : Math.round((item.confidence || 0) * 100);
+    const isPrimary = cat === primaryCategory;
+
+    return `
+      <div class="ai-stat-row ${isPrimary ? 'selected' : ''}" data-cat="${cat}" title="${lang === 'hi' ? 'इसे चुनने के लिए क्लिक करें' : 'Click to select ' + meta.name}">
+        <div class="ai-stat-info">
+          <span class="ai-stat-label">
+            <span>${meta.icon}</span>
+            <span>${meta.name}</span>
+            ${isPrimary ? `<span class="ai-stat-tag">★ ${primaryBadgeText}</span>` : ''}
+          </span>
+          <span class="ai-stat-pct" style="color:${meta.color};">${pct}%</span>
+        </div>
+        <div class="ai-stat-bar-track">
+          <div class="ai-stat-bar-fill ${meta.class}" data-pct="${pct}" style="width:0%;"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  const mainRowsHtml = detectedCategories.map(buildRow).join('');
+
+  containerEl.innerHTML = `
+    <div class="ai-stats-panel">
+      <div class="ai-stats-header">
+        <div class="ai-stats-title">${titleText}</div>
+        <div class="ai-stats-subtitle">${subtitleText}</div>
+      </div>
+      <div class="ai-stats-rows">
+        ${mainRowsHtml}
+      </div>
+      <div class="ai-stat-hint">${hintText}</div>
+    </div>
+  `;
+  containerEl.style.display = 'block';
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      containerEl.querySelectorAll('.ai-stats-rows .ai-stat-bar-fill').forEach((bar) => {
+        const pct = bar.getAttribute('data-pct');
+        bar.style.width = `${pct}%`;
+      });
+    }, 50);
+  });
+
+  containerEl.querySelectorAll('.ai-stat-row').forEach((row) => {
+    row.addEventListener('click', () => {
+      const cat = row.getAttribute('data-cat');
+      containerEl.querySelectorAll('.ai-stat-row').forEach((r) => r.classList.remove('selected'));
+      row.classList.add('selected');
+
+      if (typeof onSelectCategory === 'function') {
+        onSelectCategory(cat);
+      } else if (typeof onSelectCategory === 'string') {
+        const selectEl = document.getElementById(onSelectCategory);
+        if (selectEl) {
+          selectEl.value = cat;
+          selectEl.dispatchEvent(new Event('change'));
+        }
+      } else {
+        const defaultSelect = document.getElementById('categorySelect');
+        if (defaultSelect) {
+          defaultSelect.value = cat;
+          defaultSelect.dispatchEvent(new Event('change'));
+        }
+      }
+    });
+  });
+}
+window.renderAiCategoryBars = renderAiCategoryBars;

@@ -72,7 +72,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---------------------------------------------------- Accessibility & Top Gov Bar */
 .gov-topbar {
   background: #061527;
   color: #c2d4e5;
@@ -182,7 +181,6 @@ body {
   font-weight: 700;
 }
 
-/* ---------------------------------------------------- National Tricolor Stripe */
 .tricolour-bar {
   height: 4px;
   display: flex;
@@ -192,7 +190,6 @@ body {
 .tricolour-bar .t-white { background: #ffffff; flex: 1; border-top: 0.5px solid #eee; border-bottom: 0.5px solid #eee; }
 .tricolour-bar .t-green { background: var(--gov-green); flex: 1; }
 
-/* ---------------------------------------------------- Main Gov Header */
 header.gov-main-header {
   background: linear-gradient(180deg, var(--gov-navy) 0%, var(--gov-navy-dark) 100%);
   color: #ffffff;
@@ -272,7 +269,6 @@ header.gov-main-header {
   gap: 6px;
 }
 
-/* ---------------------------------------------------- Navigation */
 nav.gov-nav {
   display: flex;
   align-items: center;
@@ -339,7 +335,6 @@ nav.gov-nav a.current {
   margin-left: 4px;
 }
 
-/* ---------------------------------------------------- Layout & Containers */
 .wrap {
   max-width: 1200px;
   margin: 0 auto;
@@ -356,7 +351,6 @@ nav.gov-nav a.current {
   .gov-topbar { flex-direction: column; align-items: flex-start; }
 }
 
-/* ---------------------------------------------------- Government Cards */
 .card {
   background: var(--gov-card);
   border: 1px solid var(--gov-border);
@@ -389,7 +383,6 @@ h4 { font-size: calc(14px * var(--font-scale)); font-weight: 600; }
   margin-bottom: 16px;
 }
 
-/* ---------------------------------------------------- Forms & Inputs */
 label {
   display: block;
   font-size: calc(13px * var(--font-scale));
@@ -419,7 +412,6 @@ input:focus, select:focus, textarea:focus {
 
 textarea { resize: vertical; min-height: 80px; }
 
-/* ---------------------------------------------------- Buttons */
 button {
   cursor: pointer;
   font-family: inherit;
@@ -470,7 +462,6 @@ button {
 }
 .btn-ghost:hover { background: #dfe5ec; }
 
-/* ---------------------------------------------------- Chips & Status Badges */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -489,7 +480,6 @@ button {
 .chip.st-closed { background: #f0fff4; color: #22543d; border: 1px solid #c6f6d5; }
 .chip.escalated { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; margin-left: 6px; }
 
-/* ---------------------------------------------------- Stat Band */
 .stat-band {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -524,7 +514,6 @@ button {
   letter-spacing: 0.03em;
 }
 
-/* ---------------------------------------------------- Notice Banners */
 .notice {
   background: #f0fdf4;
   border: 1px solid #bbf7d0;
@@ -557,7 +546,6 @@ button {
   color: #1e40af;
 }
 
-/* ---------------------------------------------------- Maps & Media */
 .map {
   height: 420px;
   border-radius: var(--gov-radius);
@@ -575,7 +563,6 @@ button {
   margin-top: 8px;
 }
 
-/* ---------------------------------------------------- Report & Ticket Queue Items */
 .report-item {
   background: var(--gov-card);
   border: 1px solid var(--gov-border);
@@ -610,7 +597,6 @@ button {
   margin-top: 6px;
 }
 
-/* ---------------------------------------------------- Ward Row & Score Badges */
 .ward-row {
   display: flex;
   justify-content: space-between;
@@ -633,7 +619,6 @@ button {
   text-align: center;
 }
 
-/* ---------------------------------------------------- Table Styling */
 .gov-table {
   width: 100%;
   border-collapse: collapse;
@@ -657,7 +642,6 @@ button {
   background: var(--gov-card-hover);
 }
 
-/* ---------------------------------------------------- Official Receipt Styling */
 .receipt-card {
   background: var(--gov-card);
   border: 2px solid var(--gov-border);
@@ -697,7 +681,6 @@ button {
 .receipt-label { color: var(--gov-muted); font-weight: 500; }
 .receipt-value { font-weight: 600; color: var(--gov-text-heading); text-align: right; }
 
-/* ---------------------------------------------------- Toggle Row & Tabs */
 .toggle-row {
   display: flex;
   gap: 10px;
@@ -736,7 +719,6 @@ button {
   background: rgba(242, 113, 28, 0.05);
 }
 
-/* ---------------------------------------------------- Supabase Status Indicator */
 .supa-pill {
   display: inline-flex;
   align-items: center;
@@ -763,7 +745,6 @@ button {
   100% { transform: scale(0.95); opacity: 0; }
 }
 
-/* ---------------------------------------------------- Official Government Footer */
 footer.gov-footer {
   background: #07192f;
   color: #94a3b8;
@@ -821,7 +802,6 @@ footer.gov-footer {
   color: #e2e8f0;
 }
 
-/* ---------------------------------------------------- Admin Credential Management UI */
 .credential-card {
   background: #f0fdf4;
   border: 1px solid #86efac;
@@ -884,18 +864,11 @@ footer.gov-footer {
   background: #e2e8f0;
 }
 
-/* ====================================================
-   SUNWAI MODERN POLISHED DARK THEME SPECIFICATION
-   High-contrast, accessible, eye-friendly civic dark mode
-   ==================================================== */
-
-/* Global Transitions for smooth theme toggling */
 body, .card, .report-item, .stat, .ward-row, .gov-table td, .gov-table th, 
 input, select, textarea, button, .modal-box, .notice, .toggle-row, .hero-banner {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Custom Sleek Dark Scrollbars */
 body.dark-theme::-webkit-scrollbar, body.high-contrast::-webkit-scrollbar,
 body.dark-theme ::-webkit-scrollbar, body.high-contrast ::-webkit-scrollbar {
   width: 8px;
@@ -915,13 +888,11 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover, body.high-contrast ::-webkit-sc
   background: #2b4973;
 }
 
-/* Dark Mode Selection */
 body.dark-theme ::selection, body.high-contrast ::selection {
   background: #1e3a68;
   color: #ffffff;
 }
 
-/* Topbar & Header in Dark Mode */
 body.dark-theme .gov-topbar, body.high-contrast .gov-topbar {
   background: #040811;
   border-bottom: 1px solid #101c2e;
@@ -997,7 +968,6 @@ body.dark-theme .user-session-badge, body.high-contrast .user-session-badge {
   color: #e2e8f0;
 }
 
-/* Card Header Bands in Dark Mode */
 body.dark-theme .card-header-band, body.high-contrast .card-header-band {
   border-top-color: #38bdf8;
 }
@@ -1008,7 +978,6 @@ body.dark-theme .card-header-band.green, body.high-contrast .card-header-band.gr
   border-top-color: var(--gov-green);
 }
 
-/* Buttons in Dark Mode */
 body.dark-theme .btn-primary, body.high-contrast .btn-primary {
   background: #16a34a;
   color: #ffffff;
@@ -1051,7 +1020,6 @@ body.dark-theme .btn-danger:hover, body.high-contrast .btn-danger:hover {
   background: #ef4444;
 }
 
-/* Form Inputs & Selects in Dark Mode */
 body.dark-theme input:focus, body.dark-theme select:focus, body.dark-theme textarea:focus,
 body.high-contrast input:focus, body.high-contrast select:focus, body.high-contrast textarea:focus {
   border-color: #38bdf8;
@@ -1066,7 +1034,6 @@ body.high-contrast input::placeholder, body.high-contrast textarea::placeholder 
   color: #64748b;
 }
 
-/* Chips & Badges in Dark Mode */
 body.dark-theme .chip.st-reported, body.high-contrast .chip.st-reported {
   background: #172435;
   color: #cbd5e1;
@@ -1098,7 +1065,6 @@ body.dark-theme .chip.escalated, body.high-contrast .chip.escalated {
   border: 1px solid rgba(239, 68, 68, 0.45);
 }
 
-/* Stat Cards in Dark Mode */
 body.dark-theme .stat, body.high-contrast .stat {
   border-left-color: #38bdf8;
 }
@@ -1112,7 +1078,6 @@ body.dark-theme .stat.stat-closed, body.high-contrast .stat.stat-closed {
   border-left-color: var(--gov-green);
 }
 
-/* Notice Alerts in Dark Mode */
 body.dark-theme .notice, body.high-contrast .notice {
   background: rgba(34, 197, 94, 0.1);
   border-color: rgba(34, 197, 94, 0.3);
@@ -1138,7 +1103,6 @@ body.dark-theme .notice.info, body.high-contrast .notice.info {
   color: #93c5fd;
 }
 
-/* Hero Banners & Portal Badges */
 body.dark-theme .hero-banner, body.high-contrast .hero-banner,
 body.dark-theme .admin-header-card, body.high-contrast .admin-header-card {
   background: linear-gradient(135deg, #091524 0%, #0d2138 100%);
@@ -1152,7 +1116,6 @@ body.dark-theme .ward-detect-badge, body.high-contrast .ward-detect-badge {
   color: #86efac;
 }
 
-/* Tabs & Tab Navigation */
 body.dark-theme .tab-nav, body.high-contrast .tab-nav {
   border-bottom-color: var(--gov-border);
 }
@@ -1168,7 +1131,6 @@ body.dark-theme .tab-btn.active, body.high-contrast .tab-btn.active {
   background: rgba(249, 115, 22, 0.12);
 }
 
-/* Admin Modals & Overlays */
 body.dark-theme .modal-overlay, body.high-contrast .modal-overlay {
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(2px);
@@ -1180,7 +1142,6 @@ body.dark-theme .modal-box, body.high-contrast .modal-box {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
 }
 
-/* Login Card & Auth UI */
 body.dark-theme .login-card, body.high-contrast .login-card {
   background: var(--gov-card);
   border: 1px solid var(--gov-border);
@@ -1206,7 +1167,6 @@ body.dark-theme .captcha-box, body.high-contrast .captcha-box {
   color: #facc15;
 }
 
-/* Credentials UI in Admin */
 body.dark-theme .credential-card, body.high-contrast .credential-card {
   background: #052117;
   border: 1px solid #065f46;
@@ -1226,13 +1186,11 @@ body.dark-theme .pw-gen-btn:hover, body.high-contrast .pw-gen-btn:hover {
   color: #ffffff;
 }
 
-/* Field Worker Job Cards */
 body.dark-theme .job-card, body.high-contrast .job-card {
   background: var(--gov-card);
   border: 1px solid var(--gov-border);
 }
 
-/* Code tags */
 body.dark-theme code, body.high-contrast code {
   background: var(--gov-code-bg);
   color: #7dd3fc;
@@ -1241,7 +1199,6 @@ body.dark-theme code, body.high-contrast code {
   border: 1px solid #223a59;
 }
 
-/* Leaflet Maps Dark GIS Mode */
 body.dark-theme .map, body.high-contrast .map {
   background: #090e17;
   border-color: var(--gov-border);
@@ -1286,7 +1243,6 @@ body.dark-theme .popup-meta, body.high-contrast .popup-meta {
   color: #94a3b8 !important;
 }
 
-/* Footer in Dark Mode */
 body.dark-theme footer.gov-footer, body.high-contrast footer.gov-footer {
   background: #040811;
   border-top: 3px solid var(--gov-saffron);
@@ -1305,7 +1261,6 @@ body.dark-theme .gov-footer-bottom, body.high-contrast .gov-footer-bottom {
   border-top: 1px solid #101c2e;
 }
 
-/* Overrides for hardcoded inline backgrounds */
 body.dark-theme [style*="background:#f8fafc"], body.high-contrast [style*="background:#f8fafc"],
 body.dark-theme [style*="background:#fafafa"], body.high-contrast [style*="background:#fafafa"],
 body.dark-theme [style*="background:#f1f5f9"], body.high-contrast [style*="background:#f1f5f9"] {
@@ -1341,7 +1296,6 @@ body.dark-theme #schemaSqlBox, body.high-contrast #schemaSqlBox {
   .card { box-shadow: none !important; border: 1px solid #000 !important; }
 }
 
-/* ---------------------------------------------------- AI & Citizen Count Badges */
 .ai-pill {
   display: inline-flex;
   align-items: center;
@@ -1359,6 +1313,119 @@ body.dark-theme #schemaSqlBox, body.high-contrast #schemaSqlBox {
   background: #fffbeb;
   border-color: #fde68a;
   color: #92400e;
+}
+
+.ai-stats-panel {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.ai-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.ai-stats-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gov-navy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ai-stats-subtitle {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+.ai-stat-row {
+  margin-bottom: 9px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease-in-out;
+}
+.ai-stat-row:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateX(2px);
+}
+.ai-stat-row.selected {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+.ai-stat-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+.ai-stat-label {
+  font-weight: 600;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ai-stat-pct {
+  font-weight: 700;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+.ai-stat-bar-track {
+  height: 9px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+.ai-stat-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  width: 0%;
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ai-stat-bar-fill.bar-pothole {
+  background: linear-gradient(90deg, #f87171, #dc2626);
+}
+.ai-stat-bar-fill.bar-water_leakage {
+  background: linear-gradient(90deg, #38bdf8, #0284c7);
+}
+.ai-stat-bar-fill.bar-broken_infrastructure {
+  background: linear-gradient(90deg, #a78bfa, #7c3aed);
+}
+.ai-stat-bar-fill.bar-garbage {
+  background: linear-gradient(90deg, #34d399, #059669);
+}
+.ai-stat-bar-fill.bar-streetlight {
+  background: linear-gradient(90deg, #fbbf24, #d97706);
+}
+.ai-stat-bar-fill.bar-other {
+  background: linear-gradient(90deg, #94a3b8, #64748b);
+}
+.ai-stat-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: #dcfce7;
+  color: #15803d;
+  margin-left: 4px;
+}
+.ai-stat-hint {
+  font-size: 10.5px;
+  color: #64748b;
+  margin-top: 8px;
+  text-align: right;
+  font-style: italic;
 }
 .citizen-count-badge {
   display: inline-flex;
@@ -1426,7 +1493,6 @@ body.dark-theme #schemaSqlBox, body.high-contrast #schemaSqlBox {
   pointer-events: none;
 }
 
-/* ---------------------------------------------------- Neatly Aligned Filter Toolbar & Controls */
 .filter-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1473,7 +1539,6 @@ body.dark-theme #schemaSqlBox, body.high-contrast #schemaSqlBox {
   accent-color: #dc2626;
 }
 
-/* ---------------------------------------------------- Consolidated Report Alerts & Cards */
 .consolidated-alert-banner {
   background: #eff6ff;
   border: 1px solid #bfdbfe;
@@ -1595,5 +1660,3 @@ body.high-contrast .citizen-sub-card {
   border: 1px solid var(--gov-border);
   border-radius: 8px;
 }
-
-

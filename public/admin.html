@@ -9,8 +9,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="vendor/html2pdf.bundle.min.js"></script>
-<style>
-  .admin-header-card {
+<style>.admin-header-card {
     background: linear-gradient(135deg, #0b2546 0%, #163e6b 100%);
     color: #ffffff;
     border-radius: 8px;
@@ -98,7 +97,6 @@
 
 <div class="wrap">
 
-  <!-- Role Welcome Card -->
   <div class="admin-header-card" id="roleWelcomeCard">
     <div class="admin-role-badge" id="roleBadge">Municipal Command Center</div>
     <h2 id="roleTitle">Municipal Command Center</h2>
@@ -108,13 +106,12 @@
     </div>
   </div>
 
-  <!-- Navigation Tabs -->
   <div class="tab-nav">
     <button class="tab-btn active" onclick="switchTab('tab-tickets')" id="btnTabTickets">Ticket Queue</button>
     <button class="tab-btn" onclick="switchTab('tab-map')" id="btnTabMap">GIS Map</button>
     <button class="tab-btn" onclick="switchTab('tab-dispatch')" id="btnTabDispatch">Batch Dispatch</button>
     <button class="tab-btn" onclick="switchTab('tab-reports')" id="btnTabReports">Audit Report</button>
-    <!-- Super Admin Only Tabs -->
+
     <button class="tab-btn" id="adminMgmtTabBtn" style="display:none;" onclick="switchTab('tab-admins')">
       Admin Management
     </button>
@@ -123,10 +120,8 @@
     </button>
   </div>
 
-  <!-- Stat Band -->
   <div class="stat-band" id="statBand"></div>
 
-  <!-- -------------------- TAB 1: TICKETS -------------------- -->
   <div id="tab-tickets" class="tab-content">
     <div class="card card-header-band">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
@@ -136,8 +131,6 @@
         </div>
       </div>
 
-      <!-- Filters Row -->
-      <!-- Neatly Aligned Filters Toolbar -->
       <div class="filter-toolbar">
         <div class="filter-group">
           <label id="lblWardFilter">Ward:</label>
@@ -198,7 +191,6 @@
     </div>
   </div>
 
-  <!-- -------------------- TAB 2: GIS MAP -------------------- -->
   <div id="tab-map" class="tab-content" style="display:none;">
     <div class="card card-header-band">
       <h3 id="gisMapHdr">Municipal GIS Ward Analysis</h3>
@@ -209,7 +201,6 @@
     </div>
   </div>
 
-  <!-- -------------------- TAB 3: BATCH DISPATCH -------------------- -->
   <div id="tab-dispatch" class="tab-content" style="display:none;">
     <div class="card card-header-band">
       <h3 id="dispatchHdr">Geo-Clustered Batch Dispatch Routes</h3>
@@ -223,7 +214,6 @@
     </div>
   </div>
 
-  <!-- -------------------- TAB 4: AUDIT REPORTS -------------------- -->
   <div id="tab-reports" class="tab-content" style="display:none;">
     <div class="card card-header-band">
       <h3 id="auditHdr">Automated Monthly Ward Performance Audit</h3>
@@ -242,7 +232,6 @@
     </div>
   </div>
 
-  <!-- -------------------- TAB 5: SUPER ADMIN AUTHORITY - ADMIN MANAGEMENT -------------------- -->
   <div id="tab-admins" class="tab-content" style="display:none;">
     <div class="card card-header-band saffron">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
@@ -255,7 +244,6 @@
         <span class="chip st-acknowledged" style="font-weight:700;">Super Admin Authority</span>
       </div>
 
-      <!-- Create Admin Form -->
       <div class="card" style="background:#fafafa;border:1px solid var(--gov-border);margin-bottom:24px;">
         <h4 style="margin:0 0 12px;color:var(--gov-navy);font-size:15px;" id="hdrCreateAdmin">
           Register and Assign Credentials to New Administrator
@@ -330,7 +318,6 @@
         </form>
       </div>
 
-      <!-- Active Admins Table -->
       <h4 style="margin:0 0 10px;color:var(--gov-navy);font-size:15px;" id="hdrAdminsTable">
         Active Registered Administrators Directory
       </h4>
@@ -357,7 +344,6 @@
     </div>
   </div>
 
-  <!-- -------------------- TAB 6: WARD OFFICERS & SUPABASE (Super Admin Only) -------------------- -->
   <div id="tab-employees" class="tab-content" style="display:none;">
     <div class="card card-header-band saffron">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
@@ -372,7 +358,6 @@
         </div>
       </div>
 
-      <!-- Supabase Configuration Bar -->
       <div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:12px 16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
         <div>
           <b id="supaDbLabel">Supabase Database Connection:</b>
@@ -388,7 +373,6 @@
         </div>
       </div>
 
-      <!-- Employee Assignment Form -->
       <div class="card" style="background:#fafafa;border:1px solid var(--gov-border);margin-bottom:24px;">
         <h4 style="margin:0 0 12px;color:var(--gov-navy);font-size:15px;" id="hdrCreateEmp">
           Assign New Ward Officer Credentials
@@ -441,7 +425,6 @@
         </form>
       </div>
 
-      <!-- Active Employees Table -->
       <h4 style="margin:0 0 10px;color:var(--gov-navy);font-size:15px;" id="hdrEmpTable">
         Active Ward Officers and Employees Directory
       </h4>
@@ -469,7 +452,6 @@
 
 </div>
 
-<!-- Supabase Config Modal -->
 <div class="modal-overlay" id="supaModal">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
@@ -494,7 +476,6 @@
   </div>
 </div>
 
-<!-- SQL Schema Modal -->
 <div class="modal-overlay" id="schemaModal">
   <div class="modal-box" style="max-width:680px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
@@ -512,10 +493,9 @@
   </div>
 </div>
 
-<!-- Interactive Report & PDF Export Preview Modal -->
 <div class="modal-overlay" id="reportPreviewModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,37,70,0.75);z-index:99999;align-items:center;justify-content:center;padding:16px;">
   <div style="background:#ffffff;border-radius:8px;max-width:860px;width:96%;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);overflow:hidden;">
-    <!-- Modal Toolbar -->
+
     <div style="background:#0b2546;color:#ffffff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
       <div style="display:flex;align-items:center;gap:10px;">
         <span style="font-size:22px;">🏛️</span>
@@ -534,11 +514,10 @@
         <button class="btn-ghost" onclick="closeReportModal()" style="color:#ffffff;padding:4px 8px;font-size:18px;cursor:pointer;" title="Close">&times;</button>
       </div>
     </div>
-    
-    <!-- Document Display Area (Visible, rendered in full layout) -->
+
     <div style="padding:16px;overflow-y:auto;background:#e2e8f0;flex:1;" id="modalReportScroll">
       <div id="modalPrintableContent" style="background:#ffffff;width:720px;max-width:720px;min-width:720px;box-sizing:border-box;margin:0 auto;padding:14px 16px;border:1.5px solid #0b2546;border-radius:4px;color:#1e293b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:10.5px;line-height:1.4;">
-        <!-- Dynamic Document HTML goes here -->
+
       </div>
     </div>
   </div>
@@ -547,11 +526,9 @@
 <footer></footer>
 
 <script src="app.js"></script>
-<script>
-// 1. Authenticate Guard
-const currentUser = requireAuth(['municipal_head', 'admin', 'ward_employee']);
+<script>const currentUser = requireAuth(['municipal_head', 'admin', 'ward_employee']);
 if (!currentUser) {
-  // Handled by requireAuth
+
 }
 
 renderHeader('admin.html');
@@ -560,7 +537,6 @@ const isSuperAdmin = currentUser.role === 'municipal_head' || currentUser.isSupe
 const isAdmin = currentUser.role === 'admin';
 const assignedWard = currentUser.assignedWard;
 
-// 2. Multilingual Dictionary for Admin Portal (Clean English / Clean Hindi)
 const ADMIN_I18N = {
   en: {
     page_title: 'Sunwai: Municipal Administration Portal',
@@ -732,7 +708,6 @@ function applyAdminLanguage() {
 
   document.title = dict.page_title;
 
-  // Header card
   if (isSuperAdmin) {
     document.getElementById('roleBadge').innerText = dict.badge_super_admin;
     document.getElementById('roleTitle').innerText = dict.title_super_admin;
@@ -751,7 +726,6 @@ function applyAdminLanguage() {
     document.getElementById('jurisdictionNoticeText').innerText = dict.jurisdiction_locked;
   }
 
-  // Tabs
   document.getElementById('btnTabTickets').innerText = dict.tab_tickets;
   document.getElementById('btnTabMap').innerText = dict.tab_map;
   document.getElementById('btnTabDispatch').innerText = dict.tab_dispatch;
@@ -759,7 +733,6 @@ function applyAdminLanguage() {
   document.getElementById('adminMgmtTabBtn').innerText = dict.tab_admins;
   document.getElementById('employeeTabBtn').innerText = dict.tab_employees;
 
-  // Section Headers & Labels
   document.getElementById('ticketQueueHeader').innerText = dict.hdr_tickets;
   document.getElementById('lblWardFilter').innerText = dict.lbl_ward;
   document.getElementById('lblStatusFilter').innerText = dict.lbl_status;
@@ -776,7 +749,6 @@ function applyAdminLanguage() {
   const exportAuditLbl = document.getElementById('lblExportAuditPdf');
   if (exportAuditLbl) exportAuditLbl.innerText = dict.export_audit_pdf;
 
-  // Admin Management tab elements
   document.getElementById('adminMgmtHdr').innerText = dict.hdr_admin_mgmt;
   document.getElementById('adminMgmtLead').innerText = dict.lead_admin_mgmt;
   document.getElementById('hdrCreateAdmin').innerText = dict.hdr_create_admin;
@@ -798,7 +770,6 @@ function applyAdminLanguage() {
   document.getElementById('thAdminDate').innerText = dict.th_date;
   document.getElementById('thAdminAction').innerText = dict.th_action;
 
-  // Ward Employees tab elements
   document.getElementById('empMgmtHdr').innerText = dict.hdr_emp_mgmt;
   document.getElementById('empMgmtLead').innerText = dict.lead_emp_mgmt;
   document.getElementById('hdrCreateEmp').innerText = dict.hdr_create_emp;
@@ -818,7 +789,6 @@ function applyAdminLanguage() {
   document.getElementById('thEmpDate').innerText = dict.th_date;
   document.getElementById('thEmpAction').innerText = dict.th_action;
 
-  // Re-render tickets and stats
   loadStats();
   loadTickets();
   if (isSuperAdmin) {
@@ -831,7 +801,6 @@ window.onLanguageChange = function() {
   applyAdminLanguage();
 };
 
-// 3. Tab Visibility Setup
 if (isSuperAdmin) {
   document.getElementById('adminMgmtTabBtn').style.display = 'inline-block';
   document.getElementById('employeeTabBtn').style.display = 'inline-block';
@@ -853,7 +822,6 @@ function switchTab(tabId) {
   }
 }
 
-// 4. Map Setup
 let wardsCache = [];
 const adminMap = L.map('adminMap').setView([26.4499, 80.3319], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors', maxZoom: 19 }).addTo(adminMap);
@@ -869,7 +837,6 @@ initFullAdminMap();
 
 const STATUS_COLOR = { reported: '#888', acknowledged: '#2c5a8c', in_progress: '#a9670e', resolved: '#1c7a5c', closed: '#128808' };
 
-// 5. Load Wards and Apply Jurisdiction Isolation
 async function loadWardsIntoFilter() {
   wardsCache = await getJSON('/api/wards');
   const sel = document.getElementById('wardFilter');
@@ -893,7 +860,6 @@ async function loadWardsIntoFilter() {
       wardsCache.map((w) => `<option value="${w.wardId}">${w.wardName}</option>`).join('');
   }
 
-  // Polygons
   wardLayers.forEach((l) => adminMap.removeLayer(l));
   wardLayers = wardsCache.map((w) => {
     const isMine = (!isSuperAdmin && !isAdmin) && w.wardId === assignedWard;
@@ -914,7 +880,6 @@ async function loadWardsIntoFilter() {
   });
 }
 
-// 6. Load Stats
 async function loadStats() {
   const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
   const params = targetWard ? `?ward=${targetWard}` : '';
@@ -934,7 +899,6 @@ async function loadStats() {
   `;
 }
 
-// 7. Load Tickets Queue
 async function loadTickets() {
   const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
   const status = document.getElementById('statusFilter').value;
@@ -1045,7 +1009,6 @@ async function loadTickets() {
 
         ${consolidatedBanner}
 
-        <!-- Complainant Profile (Verified Citizen) -->
         <div class="complainant-card" style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid var(--gov-chakra);border-radius:4px;padding:8px 12px;margin:8px 0;font-size:12px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:4px;">
             <b style="color:var(--gov-navy);">${dict.complainant_profile}</b>
@@ -1068,7 +1031,6 @@ async function loadTickets() {
         ${r.photoUrl ? `<img class="thumb" src="${r.photoUrl}" style="max-height:130px;width:auto;margin:6px 0;border-radius:4px;">` : ''}
         ${multiSubHtml}
 
-        <!-- Status Pipeline & PDF Dossier Controls -->
         <div style="margin-top:10px;padding-top:8px;border-top:1px solid #edf2f7;display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <span style="font-size:12px;font-weight:600;color:var(--gov-navy);">${dict.update_status}</span>
@@ -1128,7 +1090,6 @@ async function loadTickets() {
   }
 }
 
-// 8. Geo-Clustered Batch Dispatch
 document.getElementById('loadClusters').addEventListener('click', async () => {
   const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
   const params = targetWard ? '?ward=' + targetWard : '';
@@ -1152,7 +1113,6 @@ document.getElementById('loadClusters').addEventListener('click', async () => {
   `).join('') : `<div class="notice">${lang === 'hi' ? 'फिलहाल समूहीकृत करने हेतु कोई खुली शिकायत नहीं है।' : 'No open tickets currently available for batch clustering.'}</div>`;
 });
 
-// 9. Monthly Audit Report
 document.getElementById('genReport').addEventListener('click', async () => {
   const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
   const params = targetWard ? '?ward=' + targetWard : '';
@@ -1179,7 +1139,6 @@ document.getElementById('genReport').addEventListener('click', async () => {
   `;
 });
 
-// ---------------------------------------------------- DOWNLOADABLE PDF GENERATION FOR ADMINS & SUPER ADMINS
 let currentModalFilename = 'SUNWAI-Municipal-Report.pdf';
 
 function openReportModal(title, subtitle, htmlContent, filename) {
@@ -1187,12 +1146,11 @@ function openReportModal(title, subtitle, htmlContent, filename) {
   document.getElementById('modalDocTitle').innerText = title;
   document.getElementById('modalDocSubtitle').innerText = subtitle;
   document.getElementById('modalPrintableContent').innerHTML = htmlContent;
-  
+
   const modal = document.getElementById('reportPreviewModal');
   modal.style.display = 'flex';
   modal.classList.add('active');
 
-  // Trigger PDF download after brief rendering delay so all DOM styles & charts settle
   setTimeout(() => {
     triggerModalPdfDownload();
   }, 400);
@@ -1217,7 +1175,6 @@ async function triggerModalPdfDownload() {
     btn.innerHTML = '<span>⏳</span> Generating PDF...';
   }
 
-  // Ensure any attached photo is fully decoded before html2canvas capture
   const img = element.querySelector('img');
   if (img && img.src && !img.complete) {
     await new Promise((resolve) => {
@@ -1237,7 +1194,7 @@ async function triggerModalPdfDownload() {
       logging: false,
       scrollY: 0,
       scrollX: 0,
-      windowWidth: 794 // Exact standard A4 width in px at 96 DPI
+      windowWidth: 794 
     },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: { mode: 'legacy' }
@@ -1272,7 +1229,6 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
   const totalDispatchTeams = clusters.length;
   const avgTimeSaved = clusters.length ? Math.round(clusters.reduce((acc, c) => acc + (c.estimatedTravelTimeSavedPct || 0), 0) / clusters.length) : 0;
 
-  // Active wards: Identify wards with reports, employees, or active clusters
   const activeWards = wards.filter(w => {
     const hasReports = allReports.some(r => r.wardId === w.wardId);
     const hasEmployee = employees.some(e => e.assignedWard === w.wardId);
@@ -1280,14 +1236,12 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
     return hasReports || hasEmployee || hasCluster;
   });
 
-  // Sort by total reports descending so the highest impact wards are at the top
   activeWards.sort((a, b) => {
     const aTotal = allReports.filter(r => r.wardId === a.wardId).length;
     const bTotal = allReports.filter(r => r.wardId === b.wardId).length;
     return bTotal - aTotal;
   });
 
-  // Display top 8-10 active wards
   const displayedWards = activeWards.slice(0, 9);
   if (displayedWards.length < 8) {
     for (const w of wards) {
@@ -1326,7 +1280,7 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
   });
 
   return `
-    <!-- Header -->
+
     <div style="border-bottom: 1.5px solid #0b2546; padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
       <div style="display:flex; align-items:center; gap: 10px;">
         <div style="font-size: 30px;">🏛️</div>
@@ -1349,7 +1303,6 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
       </div>
     </div>
 
-    <!-- Executive KPI Band -->
     <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px; text-align: center;">
       <div>
         <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Total Complaints</div>
@@ -1373,7 +1326,6 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
       </div>
     </div>
 
-    <!-- GRAPH 1: Solved vs Unsolved Problems Overview -->
     <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
         <b style="color: #0b2546; font-size: 10.5px;">📊 CITY-WIDE PROBLEM RESOLUTION BREAKDOWN (SOLVED VS UNSOLVED)</b>
@@ -1394,7 +1346,6 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
       </div>
     </div>
 
-    <!-- GRAPH 2: Ward-Wise Total Problems & Solved vs Unsolved Comparison Bar Chart -->
     <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
       <b style="color: #0b2546; font-size: 10.5px; display: block; margin-bottom: 4px;">
         📈 WARD-WISE TOTAL PROBLEMS & SOLVED VS UNSOLVED COMPARATIVE BREAKDOWN
@@ -1446,7 +1397,6 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
       </table>
     </div>
 
-    <!-- SECTION 3: Dispatch Teams Sent & Deployment Details -->
     <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
         <b style="color: #0b2546; font-size: 10.5px;">
@@ -1497,7 +1447,6 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
       </table>
     </div>
 
-    <!-- SECTION 4: Ward Admin & Officers Directory -->
     <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 8px; margin-bottom: 8px;">
       <b style="color: #0b2546; font-size: 10.5px; display: block; margin-bottom: 4px;">
         👥 MUNICIPAL WARD ADMINISTRATORS & OFFICERS DIRECTORY
@@ -1528,7 +1477,6 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
       </table>
     </div>
 
-    <!-- Official Certification Footer -->
     <div style="padding-top: 6px; border-top: 1.5px solid #0b2546; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9px;">
       <div>
         <div><b>Certified by:</b> Municipal Commissioner · Central Command Center</div>
@@ -1546,7 +1494,7 @@ function buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins
 function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees, admins) {
   const currentWard = wards.find(w => w.wardId === wardId) || wards[0] || { wardId: 'W12', wardName: 'Ward 12', civicHealthScore: 78 };
   const wardReports = allReports.filter(r => r.wardId === currentWard.wardId);
-  
+
   const totalReports = wardReports.length;
   const solvedReports = wardReports.filter(r => ['resolved', 'closed'].includes(r.status)).length;
   const unsolvedReports = totalReports - solvedReports;
@@ -1586,7 +1534,7 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
   };
 
   return `
-    <!-- Ward Admin Header -->
+
     <div style="border-bottom: 2.5px solid #0b2546; padding-bottom: 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
       <div style="display:flex; align-items:center; gap: 12px;">
         <div style="font-size: 38px;">🏛️</div>
@@ -1609,7 +1557,6 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
       </div>
     </div>
 
-    <!-- Ward KPI Band -->
     <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin-bottom: 14px; text-align: center;">
       <div>
         <div style="font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 700;">Ward Grievances</div>
@@ -1633,7 +1580,6 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
       </div>
     </div>
 
-    <!-- GRAPH 1: Solved vs Unsolved Problems in this Ward -->
     <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 14px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
         <b style="color: #0b2546; font-size: 12px;">📊 WARD PROBLEM RESOLUTION STATUS (SOLVED VS UNSOLVED)</b>
@@ -1654,7 +1600,6 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
       </div>
     </div>
 
-    <!-- GRAPH 2: Category-Wise Problem Breakdown in this Ward -->
     <div class="chart-box" style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 8px;">
       <b style="color: #0b2546; font-size: 11px; display: block; margin-bottom: 4px;">
         📈 CIVIC PROBLEM CATEGORY BREAKDOWN IN ${currentWard.wardName.toUpperCase()}
@@ -1691,7 +1636,6 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
       </table>
     </div>
 
-    <!-- SECTION 3: Dispatch Teams Sent to this Ward -->
     <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 8px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
         <b style="color: #0b2546; font-size: 11px;">
@@ -1735,7 +1679,6 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
       `}
     </div>
 
-    <!-- SECTION 4: Ward Administration Profile -->
     <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 8px;">
       <b style="color: #0b2546; font-size: 11px; display: block; margin-bottom: 4px;">
         👤 WARD ADMINISTRATIVE PROFILE & FIELD JURISDICTION
@@ -1748,7 +1691,6 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
       </div>
     </div>
 
-    <!-- Official Signoff Footer -->
     <div class="seal-footer" style="padding-top: 6px; border-top: 1.5px solid #0b2546; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9.5px;">
       <div>
         <div><b>Authorized Officer:</b> ${officer.name} (${officer.department || 'Ward Officer'})</div>
@@ -1765,7 +1707,7 @@ function buildWardAdminAuditHtml(wardId, allReports, wards, clusters, employees,
 
 function buildTicketDossierHtml(r, citizen, subs, count) {
   return `
-    <!-- Header -->
+
     <div style="border-bottom: 2px solid #0b2546; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
       <div style="display:flex; align-items:center; gap: 10px;">
         <div style="font-size: 32px;">🏛️</div>
@@ -1788,7 +1730,6 @@ function buildTicketDossierHtml(r, citizen, subs, count) {
       </div>
     </div>
 
-    <!-- Quick Metrics Strip -->
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px; margin-bottom: 10px; text-align: center;">
       <div>
         <div style="font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700;">Processing Status</div>
@@ -1810,7 +1751,6 @@ function buildTicketDossierHtml(r, citizen, subs, count) {
       </div>
     </div>
 
-    <!-- Complainant Identity Section -->
     <div style="border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px 10px; margin-bottom: 10px; background: #f8fafc;">
       <div style="font-size: 10.5px; font-weight: 700; color: #0b2546; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px; margin-bottom: 5px; display: flex; justify-content: space-between;">
         <span>👤 PRIMARY COMPLAINANT IDENTIFICATION (VERIFIED RESIDENT)</span>
@@ -1823,7 +1763,6 @@ function buildTicketDossierHtml(r, citizen, subs, count) {
       </div>
     </div>
 
-    <!-- Grievance Core Particulars -->
     <table class="a4-table" style="width: 100%; table-layout: fixed; border-collapse: collapse; margin-bottom: 10px; font-size: 10px; border: 1px solid #cbd5e1;">
       <tbody>
         <tr style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1;">
@@ -1846,6 +1785,24 @@ function buildTicketDossierHtml(r, citizen, subs, count) {
               <b>Confidence:</b> ${Math.round((r.aiClassification.confidence || 0) * 100)}% ·
               <b>Detection:</b> ${categoryLabel(r.aiClassification.category)}
               ${r.aiClassification.isLowConfidence ? ' <span style="color:#b45309;font-weight:600;">[Low Confidence Flagged]</span>' : ' <span style="color:#15803d;font-weight:600;">[High Confidence Verified Match]</span>'}
+              ${(r.aiClassification.allCategories || r.aiClassification.categoryBreakdown) ? `
+                <div style="margin-top:6px;display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:6px;">
+                  ${((r.aiClassification.allCategories && r.aiClassification.allCategories.length)
+                    ? r.aiClassification.allCategories
+                    : Object.entries(r.aiClassification.categoryBreakdown || {}).map(([c, v]) => ({ category: c, percentage: Math.round(v * 100) }))
+                  ).filter(c => (c.category === r.aiClassification.category && c.percentage > 0) || c.percentage >= 25).map(c => `
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:3px 6px;">
+                      <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px;">
+                        <span>${categoryLabel(c.category)}</span>
+                        <b style="color:#0f172a;">${c.percentage}%</b>
+                      </div>
+                      <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;">
+                        <div class="ai-stat-bar-fill bar-${c.category}" style="height:100%;width:${c.percentage}%;"></div>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
             ` : 'Manual Categorization (No AI Inference)'}
           </td>
         </tr>
@@ -1862,7 +1819,6 @@ function buildTicketDossierHtml(r, citizen, subs, count) {
       </tbody>
     </table>
 
-    <!-- Evidentiary Photograph -->
     ${r.photoUrl ? `
       <div style="margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px; background: #ffffff;">
         <div style="font-size: 10.5px; font-weight: 700; color: #0b2546; margin-bottom: 4px;">
@@ -1872,7 +1828,6 @@ function buildTicketDossierHtml(r, citizen, subs, count) {
       </div>
     ` : ''}
 
-    <!-- Multi-Citizen Duplicate Merges Log -->
     ${subs.length > 1 ? `
       <div style="margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 5px; padding: 8px; background: #ffffff;">
         <div style="font-size: 10.5px; font-weight: 700; color: #0b2546; margin-bottom: 4px; display: flex; justify-content: space-between;">
@@ -1909,7 +1864,6 @@ function buildTicketDossierHtml(r, citizen, subs, count) {
       </div>
     ` : ''}
 
-    <!-- Municipal Officer Authentication Footer -->
     <div class="seal-footer" style="margin-top: 10px; padding-top: 6px; border-top: 1.5px solid #0b2546; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9.5px;">
       <div>
         <div><b>Certified By:</b> ${currentUser.name} (${currentUser.designation || currentUser.role})</div>
@@ -1976,8 +1930,7 @@ async function downloadAuditPdf() {
 
   try {
     const targetWard = (isSuperAdmin || isAdmin) ? document.getElementById('wardFilter').value : assignedWard;
-    
-    // Fetch live data
+
     const [allReports, wards, clusters, employees, admins] = await Promise.all([
       getJSON('/api/reports'),
       getJSON('/api/wards'),
@@ -1992,13 +1945,13 @@ async function downloadAuditPdf() {
     let docSub = '';
 
     if (isSuperAdmin && !targetWard) {
-      // Super Admin Master City-Wide Audit Report
+
       docHtml = buildSuperAdminAuditHtml(allReports, wards, clusters, employees, admins);
       filename = `SUNWAI-SuperAdmin-CityWide-Audit-${new Date().toISOString().slice(0, 10)}.pdf`;
       docTitle = 'Super Admin Master Municipal Performance Audit';
       docSub = 'City-Wide Solved vs Unsolved Analytics, Ward Comparison & Dispatch Deployment';
     } else {
-      // Municipal Ward Admin Audit Report
+
       const effectiveWard = targetWard || assignedWard || 'W12';
       docHtml = buildWardAdminAuditHtml(effectiveWard, allReports, wards, clusters, employees, admins);
       filename = `SUNWAI-WardAdmin-${effectiveWard}-Audit-${new Date().toISOString().slice(0, 10)}.pdf`;
@@ -2018,7 +1971,6 @@ async function downloadAuditPdf() {
   }
 }
 
-// ---------------------------------------------------- SUPER ADMIN AUTHORITY: ADMIN CREDENTIAL MANAGEMENT
 function generateAdminPassword() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$%';
   let pw = '';
@@ -2063,7 +2015,6 @@ async function loadAdmins() {
   }
 }
 
-// Assign New Admin Form
 document.getElementById('assignAdminForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const resEl = document.getElementById('assignAdminResult');
@@ -2149,7 +2100,6 @@ async function deleteAdmin(id, name) {
   }
 }
 
-// ---------------------------------------------------- WARD EMPLOYEES & SUPABASE
 let supaSchemaSql = '';
 
 async function loadSupabaseStatus() {
@@ -2202,7 +2152,6 @@ async function loadEmployees() {
   }
 }
 
-// Assign New Ward Employee
 document.getElementById('assignEmpForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const resEl = document.getElementById('assignResult');
@@ -2258,7 +2207,6 @@ async function deleteEmployee(id, name) {
   }
 }
 
-// Modals
 function openSupaModal() { document.getElementById('supaModal').classList.add('active'); }
 function closeSupaModal() { document.getElementById('supaModal').classList.remove('active'); }
 function openSchemaModal() { document.getElementById('schemaModal').classList.add('active'); }
@@ -2290,7 +2238,6 @@ function copySchemaSql() {
   alert('SQL Schema copied to clipboard!');
 }
 
-// Filter Listeners
 document.getElementById('wardFilter').addEventListener('change', () => { loadStats(); loadTickets(); });
 document.getElementById('statusFilter').addEventListener('change', loadTickets);
 document.getElementById('escalatedOnly').addEventListener('change', loadTickets);

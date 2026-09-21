@@ -8,8 +8,7 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<style>
-  body { font-size: 16px; }
+<style>body { font-size: 16px; }
   .job-card {
     background: #ffffff;
     border: 1px solid var(--gov-border);
@@ -51,10 +50,9 @@
 <footer></footer>
 
 <script src="app.js"></script>
-<script>
-const currentUser = requireAuth(['ward_employee', 'admin', 'municipal_head']);
+<script>const currentUser = requireAuth(['ward_employee', 'admin', 'municipal_head']);
 if (!currentUser) {
-  // Handled by requireAuth
+
 }
 
 renderHeader('field.html');

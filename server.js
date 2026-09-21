@@ -1,13 +1,4 @@
 'use strict';
-/**
- * SUNWAI backend — plain Node.js, zero external npm packages.
- * Runs anywhere `node` runs. Storage is a JSON file (data/db.json) so the
- * whole app works with no database server to install — swap in Postgres/
- * Mongo later by rewriting only the functions in this file marked "DB:".
- *
- * Start:  node server.js
- * Then open http://localhost:3000
- */
 
 const http = require('http');
 const fs = require('fs');
@@ -27,10 +18,9 @@ const UPLOADS_DIR = path.join(ROOT, 'uploads');
 
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
-// ---- category -> SLA benchmark (hours) — from the pitch deck's numbers ----
 const CATEGORY_SLA_HOURS = {
-  pothole: 168, // 7 days
-  streetlight: 72, // 3 days
+  pothole: 168, 
+  streetlight: 72, 
   garbage: 48,
   water_leakage: 72,
   broken_infrastructure: 120,
@@ -65,6 +55,8 @@ function sanitizeAiClassification(aiMeta) {
     available: Boolean(aiMeta.available),
   };
   if (aiMeta.reason) clean.reason = aiMeta.reason;
+  if (aiMeta.categoryBreakdown) clean.categoryBreakdown = aiMeta.categoryBreakdown;
+  if (Array.isArray(aiMeta.allCategories)) clean.allCategories = aiMeta.allCategories;
   if (aiMeta.annotatedImage && typeof aiMeta.annotatedImage === 'string' && aiMeta.annotatedImage.startsWith('data:image')) {
     const saved = saveBase64Image(aiMeta.annotatedImage, 'ai-box');
     if (saved) clean.annotatedImageUrl = saved.url;
@@ -74,7 +66,6 @@ function sanitizeAiClassification(aiMeta) {
   return clean;
 }
 
-// ---------------------------------------------------------------- DB: load/save
 function loadDB() {
   const db = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
   for (const r of db.reports || []) {
@@ -123,7 +114,6 @@ function getSupabase() {
   });
 }
 
-// ---------------------------------------------------------------- small utils
 function send(res, status, body, headers = {}) {
   const payload = typeof body === 'string' ? body : JSON.stringify(body);
   res.writeHead(status, {
@@ -171,8 +161,6 @@ function saveBase64Image(base64DataUrl, prefix) {
   return { url: `/uploads/${filename}`, buffer };
 }
 
-// ---------------------------------------------------------------- Civic Health Score
-// Score is built ONLY from citizen-verified data (never self-reported "resolved").
 function computeWardScore(wardId, reports) {
   const wardReports = reports.filter((r) => r.wardId === wardId);
   const closedVerified = wardReports.filter(
@@ -191,10 +179,6 @@ function computeWardScore(wardId, reports) {
 
   const disputeRate = totalVerifiedEvents === 0 ? 0 : disputed.length / totalVerifiedEvents;
 
-  // Simple, explainable 0-100 formula:
-  //  +up to 60 pts for verified resolution volume (caps out at 10 verified/period)
-  //  +up to 25 pts for speed (faster than SLA average = more points)
-  //  -up to 25 pts for dispute rate
   const volumeScore = Math.min(60, closedVerified.length * 6);
   const speedScore =
     avgResolutionHours === null ? 0 : Math.max(0, 25 - avgResolutionHours / 12);
@@ -211,7 +195,6 @@ function computeWardScore(wardId, reports) {
   };
 }
 
-// ---------------------------------------------------------------- SLA sweep
 function runSlaSweep() {
   const db = loadDB();
   let changed = false;
@@ -227,10 +210,9 @@ function runSlaSweep() {
   }
   if (changed) saveDB(db);
 }
-setInterval(runSlaSweep, 60 * 1000); // sweep every minute
+setInterval(runSlaSweep, 60 * 1000); 
 runSlaSweep();
 
-// ---------------------------------------------------------------- route handlers
 const routes = [];
 function route(method, regex, handler) {
   routes.push({ method, regex, handler });
@@ -277,7 +259,6 @@ route('GET', /^\/api\/wards\/([\w-]+)$/, async (req, res, m) => {
   });
 });
 
-// ---------------------------------------------------------------- Auth routes
 route('POST', /^\/api\/auth\/login$/, async (req, res) => {
   const body = await readBody(req);
   const email = (body.email || '').toLowerCase().trim();
@@ -287,7 +268,6 @@ route('POST', /^\/api\/auth\/login$/, async (req, res) => {
     return send(res, 400, { error: 'Email and password are required' });
   }
 
-  // 1. Municipal Head (Super Admin)
   if (email === 'admin@gmail.com' && password === 'admin123') {
     const token = 'head-' + crypto.randomBytes(16).toString('hex');
     return send(res, 200, {
@@ -306,7 +286,6 @@ route('POST', /^\/api\/auth\/login$/, async (req, res) => {
     });
   }
 
-  // 2. Registered Admins (created by Super Admin)
   const db = loadDB();
   const admins = db.admins || [];
   const matchedAdmin = admins.find((a) => a.email.toLowerCase() === email && a.password === password);
@@ -330,7 +309,6 @@ route('POST', /^\/api\/auth\/login$/, async (req, res) => {
     });
   }
 
-  // 3. Ward Employee login
   const supabase = getSupabase();
   let employee = null;
   if (supabase.isConfigured()) {
@@ -423,7 +401,6 @@ route('GET', /^\/api\/auth\/me$/, async (req, res, m, query) => {
   send(res, 401, { error: 'Session expired' });
 });
 
-// ---------------------------------------------------------------- Admin Management routes (Super Admin authority)
 route('GET', /^\/api\/admin\/admins$/, async (req, res) => {
   const db = loadDB();
   const list = db.admins || [];
@@ -491,7 +468,6 @@ route('DELETE', /^\/api\/admin\/admins\/([\w-]+)$/, async (req, res, m) => {
   send(res, 200, { ok: true, deleted: adminId });
 });
 
-// ---------------------------------------------------------------- Employee Management routes
 route('GET', /^\/api\/admin\/employees$/, async (req, res) => {
   const db = loadDB();
   let list = db.employees || [];
@@ -586,7 +562,6 @@ route('DELETE', /^\/api\/admin\/employees\/([\w-]+)$/, async (req, res, m) => {
   send(res, 200, { ok: true, deleted: empId });
 });
 
-// ---------------------------------------------------------------- Supabase settings
 route('GET', /^\/api\/admin\/supabase-status$/, async (req, res) => {
   const supabase = getSupabase();
   const db = loadDB();
@@ -660,7 +635,6 @@ route('GET', /^\/api\/reports$/, async (req, res, m, query) => {
     }
   }
 
-  // Sorting
   if (query.sortBy === 'reportCount') {
     list = [...list].sort((a, b) => (b.reportCount || 0) - (a.reportCount || 0));
   } else if (query.sortBy === 'priority') {
@@ -685,7 +659,6 @@ route('GET', /^\/api\/reports\/([\w-]+)$/, async (req, res, m) => {
   send(res, 200, r);
 });
 
-// Pre-submit duplicate check (map calls this live as the user drops a pin)
 route('GET', /^\/api\/nearby$/, async (req, res, m, query) => {
   const lat = parseFloat(query.lat);
   const lng = parseFloat(query.lng);
@@ -697,7 +670,7 @@ route('GET', /^\/api\/nearby$/, async (req, res, m, query) => {
     if (category && r.category !== category) return false;
     return distanceMeters(lat, lng, r.lat, r.lng) <= DUPLICATE_RADIUS_M;
   });
-  // Sort closest first
+
   nearby.sort((a, b) => distanceMeters(lat, lng, a.lat, a.lng) - distanceMeters(lat, lng, b.lat, b.lng));
   send(res, 200, nearby);
 });
@@ -749,7 +722,6 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
     }
   }
 
-  // 7. AI auto-triage: run real YOLO visual object detection if photo is attached
   let category = providedCategory;
   let aiMeta = null;
   if (photoBuffer) {
@@ -765,7 +737,6 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
     category = 'other';
   }
 
-  // 9. Ward auto-detection via DataMeet polygons & Bharatlas reverse geocoding
   const wards = loadWards();
   const detectedWard = await detectWard(lat, lng, wards);
 
@@ -782,7 +753,6 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
 
   const db = loadDB();
 
-  // 8. Duplicate / cluster detection within DUPLICATE_RADIUS_M (50m), same category
   const nearbyDuplicates = db.reports.filter(
     (r) =>
       r.category === category &&
@@ -792,13 +762,11 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
 
   const now = new Date().toISOString();
 
-  // If a matching active report exists and citizen did not force an isolated duplicate:
   const cleanAi = sanitizeAiClassification(aiMeta);
 
   if (nearbyDuplicates.length > 0 && !forceNewReport) {
     const canonical = nearbyDuplicates[0];
 
-    // Ensure structures exist
     if (!Array.isArray(canonical.reporters)) {
       canonical.reporters = Array.isArray(canonical.upvotes) && canonical.upvotes.length
         ? [...canonical.upvotes]
@@ -817,18 +785,15 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
     }
     if (!Array.isArray(canonical.upvotes)) canonical.upvotes = [];
 
-    // Track unique citizen
     if (!canonical.reporters.includes(userId)) {
       canonical.reporters.push(userId);
     }
     canonical.reportCount = canonical.reporters.length;
 
-    // Add upvote from this citizen
     if (!canonical.upvotes.includes(userId)) {
       canonical.upvotes.push(userId);
     }
 
-    // Record submission
     canonical.citizenSubmissions.push({
       photoUrl,
       description,
@@ -844,8 +809,6 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
       }
     }
 
-    // If ticket was marked resolved by field worker but more citizens are reporting the same issue,
-    // re-open it to in_progress so it is not prematurely closed!
     if (canonical.status === 'resolved') {
       canonical.status = 'in_progress';
       canonical.verification = { status: 'pending', confirmedBy: [], disputedBy: [] };
@@ -854,7 +817,6 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
     canonical.updatedAt = now;
     canonical.priority = computePriority(canonical);
 
-    // If canonical had no photo, set first available
     if (!canonical.photoUrl && photoUrl) {
       canonical.photoUrl = photoUrl;
     }
@@ -944,7 +906,6 @@ route('POST', /^\/api\/reports\/([\w-]+)\/upvote$/, async (req, res, m) => {
   send(res, 200, r);
 });
 
-// Staff/admin: move a ticket through the status pipeline.
 route('PATCH', /^\/api\/reports\/([\w-]+)\/status$/, async (req, res, m) => {
   const body = await readBody(req);
   const { status, resolutionPhotoBase64 } = body;
@@ -963,7 +924,7 @@ route('PATCH', /^\/api\/reports\/([\w-]+)\/status$/, async (req, res, m) => {
       const saved = saveBase64Image(resolutionPhotoBase64, 'resolution');
       if (saved) r.resolutionPhotoUrl = saved.url;
     }
-    // 4. Trust Loop kicks off: verification goes back to pending for citizen confirm/reopen
+
     r.verification = { status: 'pending', confirmedBy: [], disputedBy: [] };
   }
 
@@ -971,10 +932,9 @@ route('PATCH', /^\/api\/reports\/([\w-]+)\/status$/, async (req, res, m) => {
   send(res, 200, r);
 });
 
-// 4. Trust Loop — citizen confirms the fix or reopens it.
 route('POST', /^\/api\/reports\/([\w-]+)\/verify$/, async (req, res, m) => {
   const body = await readBody(req);
-  const { result, userId } = body; // result: 'confirm' | 'dispute'
+  const { result, userId } = body; 
   if (!['confirm', 'dispute'].includes(result)) {
     return send(res, 400, { error: "result must be 'confirm' or 'dispute'" });
   }
@@ -989,19 +949,18 @@ route('POST', /^\/api\/reports\/([\w-]+)\/verify$/, async (req, res, m) => {
   if (result === 'confirm') {
     if (!r.verification.confirmedBy.includes(uid)) r.verification.confirmedBy.push(uid);
     r.verification.status = 'confirmed';
-    r.status = 'closed'; // case closes publicly, certified by the citizen
+    r.status = 'closed'; 
   } else {
     if (!r.verification.disputedBy.includes(uid)) r.verification.disputedBy.push(uid);
     r.verification.status = 'disputed';
-    r.status = 'reported'; // auto-reopens
-    r.escalated = true; // and escalates
+    r.status = 'reported'; 
+    r.escalated = true; 
   }
   r.updatedAt = new Date().toISOString();
   saveDB(db);
   send(res, 200, r);
 });
 
-// 11. Geo-clustered batch dispatch — group open tickets for one repair crew route.
 route('GET', /^\/api\/clusters$/, async (req, res, m, query) => {
   const db = loadDB();
   let list = db.reports.filter((r) => ['acknowledged', 'in_progress'].includes(r.status));
@@ -1017,7 +976,6 @@ route('GET', /^\/api\/clusters$/, async (req, res, m, query) => {
   send(res, 200, clusters);
 });
 
-// 10. Automated monthly-style ward report (generate on demand for the demo).
 route('GET', /^\/api\/monthly-report$/, async (req, res, m, query) => {
   const db = loadDB();
   const wards = loadWards();
@@ -1035,7 +993,6 @@ route('GET', /^\/api\/monthly-report$/, async (req, res, m, query) => {
   send(res, 200, report);
 });
 
-// ---------------------------------------------------------------- static files
 const MIME = {
   '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css',
   '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg',
@@ -1055,7 +1012,6 @@ function serveStatic(req, res, urlPath, baseDir) {
   });
 }
 
-// ---------------------------------------------------------------- server
 const server = http.createServer(async (req, res) => {
   const urlObj = new URL(req.url, `http://${req.headers.host}`);
   const pathname = urlObj.pathname;
