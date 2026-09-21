@@ -165,7 +165,7 @@ def create_realistic_training_data(force=False):
 
 def train_civic_model(epochs=5, imgsz=640, base_model="yolov8n.pt"):
     ensure_dataset_structure()
-    create_realistic_training_data(force=True)
+    create_realistic_training_data(force=False)
 
     print(f"\n[SUNWAI] Loading base model: {base_model}")
     model = YOLO(base_model)
