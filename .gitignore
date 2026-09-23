@@ -33,6 +33,9 @@ wheels/
 
 ai_service/runs/
 runs/
+ai_service/civic_dataset/
+ai_service/tmp_stream_cache/
+ai_service/active_dataset/
 
 uploads/*
 !uploads/.gitkeep

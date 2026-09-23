@@ -4,8 +4,16 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { findWard, distanceMeters, greedyCluster } = require('./lib/geo');
-const { classify, classifyImage, checkAiHealth, AI_CONFIDENCE_THRESHOLD } = require('./lib/classifier');
+const {
+  classify,
+  classifyImage,
+  checkAiHealth,
+  submitFeedbackToAi,
+  triggerAutoTraining,
+  getAiTrainingStatus,
+  AI_CONFIDENCE_THRESHOLD,
+} = require('./lib/classifier');
+const { syncFromExternalApi } = require('./lib/api-sync');
 const { detectWard } = require('./lib/ward-extractor');
 const { SupabaseService, SUPABASE_SCHEMA_SQL } = require('./lib/supabase');
 
@@ -621,6 +629,38 @@ route('POST', /^\/api\/ai\/analyze$/, async (req, res) => {
   });
 });
 
+route('POST', /^\/api\/external\/sync$/, async (req, res) => {
+  const body = await readBody(req);
+  const { apiUrl, apiKey, limit = 5 } = body;
+  const db = loadDB();
+  const wards = loadWards();
+
+  try {
+    const result = await syncFromExternalApi({
+      apiUrl,
+      apiKey,
+      db,
+      wards,
+      limit: Math.min(25, parseInt(limit, 10) || 5),
+    });
+    saveDB(db);
+    send(res, 200, result);
+  } catch (err) {
+    send(res, 500, { error: `Sync failed: ${err.message}` });
+  }
+});
+
+route('POST', /^\/api\/ai\/train-remote$/, async (req, res) => {
+  const body = await readBody(req);
+  const trainRes = await triggerAutoTraining(body);
+  send(res, 200, trainRes);
+});
+
+route('GET', /^\/api\/ai\/training-status$/, async (req, res) => {
+  const status = await getAiTrainingStatus();
+  send(res, 200, status);
+});
+
 route('GET', /^\/api\/reports$/, async (req, res, m, query) => {
   const db = loadDB();
   let list = db.reports;
@@ -926,6 +966,11 @@ route('PATCH', /^\/api\/reports\/([\w-]+)\/status$/, async (req, res, m) => {
     }
 
     r.verification = { status: 'pending', confirmedBy: [], disputedBy: [] };
+
+    // Push verified ground-truth label to AI continuous learning engine
+    if (r.photoUrl) {
+      submitFeedbackToAi(r.photoUrl, r.category, r.id);
+    }
   }
 
   saveDB(db);
@@ -950,6 +995,11 @@ route('POST', /^\/api\/reports\/([\w-]+)\/verify$/, async (req, res, m) => {
     if (!r.verification.confirmedBy.includes(uid)) r.verification.confirmedBy.push(uid);
     r.verification.status = 'confirmed';
     r.status = 'closed'; 
+
+    // Confirmed resolution ground truth pushed to AI continuous learner
+    if (r.photoUrl) {
+      submitFeedbackToAi(r.photoUrl, r.category, r.id);
+    }
   } else {
     if (!r.verification.disputedBy.includes(uid)) r.verification.disputedBy.push(uid);
     r.verification.status = 'disputed';

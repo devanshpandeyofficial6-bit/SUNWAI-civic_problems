@@ -70,6 +70,15 @@ class CivicDetector:
         except Exception:
             self.base_model = None
 
+    def reload_model(self, new_weights_path=None):
+        """Hot-reloads the YOLO model in memory with new weights without downtime."""
+        if new_weights_path and os.path.exists(new_weights_path):
+            self.model_path = str(new_weights_path)
+        self._load_models()
+        self.model_name = "SUNWAI-MultiDefect-Engine-v2-AutoTrained"
+        print(f"[CivicDetector] Model hot-reloaded successfully from: {self.model_path}")
+        return True
+
     def extract_sky_mask(self, img_bgr):
         h, w = img_bgr.shape[:2]
         hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)

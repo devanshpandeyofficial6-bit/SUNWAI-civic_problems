@@ -7,11 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from civic_detector import CivicDetector, CIVIC_CATEGORIES
+from auto_trainer import CivicAutoTrainer
 
 app = FastAPI(
     title="SUNWAI Civic Issue AI Detection API",
-    description="Real YOLO Object Detection Service for Civic Grievance Triage",
-    version="2.0.0"
+    description="Real YOLO Object Detection Service for Civic Grievance Triage with Autonomous Learning",
+    version="2.1.0"
 )
 
 app.add_middleware(
@@ -23,13 +24,15 @@ app.add_middleware(
 )
 
 detector = None
+auto_trainer = None
 
 @app.on_event("startup")
 def startup_event():
-    global detector
+    global detector, auto_trainer
     print("[SUNWAI-AI] Initializing Civic YOLO Detector...")
     detector = CivicDetector()
-    print(f"[SUNWAI-AI] Ready on {detector.model_name}!")
+    auto_trainer = CivicAutoTrainer(detector_instance=detector, retrain_threshold=5)
+    print(f"[SUNWAI-AI] Ready on {detector.model_name}! Autonomous Trainer active.")
 
 class PredictRequest(BaseModel):
     image_base64: str
@@ -95,6 +98,78 @@ async def predict_upload(file: UploadFile = File(...), threshold: float = Form(0
     except Exception as e:
         print(f"[SUNWAI-AI] File inference error: {e}")
         raise HTTPException(status_code=400, detail=f"Inference error: {str(e)}")
+
+class FeedbackRequest(BaseModel):
+    image_data: str  # URL or base64 data
+    category: str
+    report_id: Optional[str] = None
+    bbox: Optional[List[float]] = None
+
+class TrainRequest(BaseModel):
+    source: Optional[str] = "simulated"  # "rest_api", "roboflow", "simulated"
+    endpoint_url: Optional[str] = None
+    api_key: Optional[str] = None
+    workspace: Optional[str] = None
+    project: Optional[str] = None
+    epochs: Optional[int] = 3
+    max_samples: Optional[int] = 30
+
+@app.post("/feedback")
+async def receive_feedback(request: FeedbackRequest):
+    """
+    Ingests confirmed/verified grievance images & categories from civic officers or citizens.
+    Automatically triggers model retraining when threshold is reached.
+    """
+    if not auto_trainer:
+        raise HTTPException(status_code=503, detail="AutoTrainer not initialized")
+    
+    result = auto_trainer.add_verified_feedback(
+        image_data=request.image_data,
+        category=request.category,
+        report_id=request.report_id,
+        bbox=request.bbox
+    )
+    return result
+
+@app.post("/train/auto")
+async def trigger_auto_train(request: Optional[TrainRequest] = None):
+    """
+    Triggers autonomous background fine-tuning using streaming datasets from API.
+    Zero heavy images are retained on disk after training.
+    """
+    if not auto_trainer:
+        raise HTTPException(status_code=503, detail="AutoTrainer not initialized")
+
+    params = request.dict() if request else {}
+    source = params.get("source", "simulated")
+    
+    success = auto_trainer.trigger_async_retraining(
+        reason="api_request",
+        stream_source=source,
+        api_params=params
+    )
+    return {
+        "ok": success,
+        "message": "Autonomous training initiated in background" if success else "Training already in progress",
+        "stream_source": source
+    }
+
+@app.get("/train/status")
+async def get_train_status():
+    """
+    Returns live training telemetry, current generation, and dataset buffer metrics.
+    """
+    if not auto_trainer:
+        return {"status": "initializing"}
+    return auto_trainer.get_status()
+
+@app.post("/train/cleanup")
+async def cleanup_cache():
+    """Manually purges temporary streaming cache."""
+    if auto_trainer:
+        auto_trainer.api_client.cleanup_cache()
+    return {"ok": True, "message": "Ephemeral cache cleaned"}
+
 
 if __name__ == "__main__":
     import uvicorn

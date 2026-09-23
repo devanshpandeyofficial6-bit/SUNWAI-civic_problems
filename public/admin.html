@@ -118,6 +118,9 @@
     <button class="tab-btn" id="employeeTabBtn" style="display:none;" onclick="switchTab('tab-employees')">
       Ward Officers Directory
     </button>
+    <button class="tab-btn" id="aiLearningTabBtn" onclick="switchTab('tab-ai-learning')">
+      ⚡ AI Learning & API Stream
+    </button>
   </div>
 
   <div class="stat-band" id="statBand"></div>
@@ -447,6 +450,119 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <div id="tab-ai-learning" class="tab-content" style="display:none;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+      
+      <!-- Card 1: Dynamic Civic API Ingestion -->
+      <div class="card card-header-band saffron">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;color:var(--gov-navy);font-size:17px;">🌐 Dynamic Civic API Ingestion</h3>
+            <p class="section-lead" style="margin:2px 0 0;font-size:12px;">Stream live complaints from external municipal endpoints</p>
+          </div>
+          <span class="supa-pill cloud" style="background:#e0f2fe;color:#0369a1;font-weight:700;"><span class="dot-pulse" style="background:#0284c7;"></span> Live API Stream</span>
+        </div>
+        <p style="font-size:13px;color:var(--gov-muted);margin:0 0 14px;line-height:1.5;">
+          Connect live municipal complaints via REST API or streaming webhooks instead of keeping heavy static datasets inside local storage.
+        </p>
+
+        <div style="margin-bottom:12px;">
+          <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--gov-navy);">External Municipal API Endpoint:</label>
+          <input type="text" id="syncApiUrl" placeholder="https://api.civicdata.gov.in/v1/feed (leave empty for simulated live feed)" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;" />
+        </div>
+
+        <div style="display:flex;gap:10px;margin-bottom:14px;">
+          <div style="flex:1;">
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--gov-navy);">Batch Size:</label>
+            <input type="number" id="syncLimit" value="5" min="1" max="25" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;" />
+          </div>
+          <div style="flex:2;">
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--gov-navy);">API Key (Optional):</label>
+            <input type="password" id="syncApiKey" placeholder="Bearer token / apikey..." style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;" />
+          </div>
+        </div>
+
+        <button onclick="syncExternalApiComplaints()" id="btnSyncApi" class="gov-btn" style="background:var(--gov-navy);color:#fff;width:100%;padding:10px;font-size:13px;font-weight:700;cursor:pointer;border-radius:4px;border:none;">
+          📥 Ingest Live Complaints via API Now
+        </button>
+
+        <div id="syncResultStatus" style="margin-top:12px;font-size:12.5px;padding:8px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;display:none;"></div>
+      </div>
+
+      <!-- Card 2: Autonomous Continuous Learning Engine -->
+      <div class="card card-header-band green">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0;color:var(--gov-navy);font-size:17px;">🤖 Autonomous Continual Learning</h3>
+            <p class="section-lead" style="margin:2px 0 0;font-size:12px;">Self-improving AI loop with zero local file bloat</p>
+          </div>
+          <span class="supa-pill cloud" style="background:#ecfdf5;color:#047857;font-weight:700;"><span class="dot-pulse" style="background:#10b981;"></span> Zero-Bloat Ephemeral</span>
+        </div>
+        <p style="font-size:13px;color:var(--gov-muted);margin:0 0 14px;line-height:1.5;">
+          The AI model streams training batches on-the-fly and improves continuously from confirmed officer resolutions and citizen feedback.
+        </p>
+
+        <div style="background:#f1f5f9;border-radius:6px;padding:12px;margin-bottom:14px;border:1px solid #e2e8f0;">
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+            <span><b>Model Generation:</b> <span id="telemetryGen" style="color:#0284c7;font-weight:700;">Loading...</span></span>
+            <span><b>Samples Learned:</b> <span id="telemetrySamples" style="font-weight:700;">-</span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+            <span><b>Active Engine:</b> <span id="telemetryModelName" style="color:var(--gov-navy);font-weight:600;">YOLOv8-Civic</span></span>
+            <span><b>Storage:</b> <span style="color:#059669;font-weight:700;">Auto-Purged Cache</span></span>
+          </div>
+          <div style="margin-top:8px;">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;">
+              <span>Verified Feedback Buffer (Ground Truth):</span>
+              <span id="telemetryBufferCount" style="font-weight:700;">0 / 5</span>
+            </div>
+            <div style="background:#cbd5e1;border-radius:4px;height:8px;overflow:hidden;">
+              <div id="telemetryBufferBar" style="background:#0284c7;height:100%;width:0%;transition:width 0.3s;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <select id="trainStreamSource" style="flex:1;padding:8px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">
+            <option value="simulated">On-Demand Cloud Stream</option>
+            <option value="rest_api">Custom REST API</option>
+            <option value="roboflow">Roboflow Universe</option>
+          </select>
+          <button onclick="triggerManualAiRetrain()" id="btnTriggerRetrain" class="gov-btn" style="flex:1;background:#059669;color:#fff;padding:8px 10px;font-size:13px;font-weight:700;cursor:pointer;border-radius:4px;border:none;">
+            ⚡ Retrain & Improve
+          </button>
+        </div>
+
+        <div id="trainProgressStatus" style="font-size:12.5px;padding:8px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;display:none;"></div>
+      </div>
+
+    </div>
+
+    <!-- History Table -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h4 style="margin:0;color:var(--gov-navy);font-size:15px;">📊 Continuous Learning & Training Audit Log</h4>
+        <button onclick="loadAiTrainingTelemetry()" style="background:transparent;border:1px solid #cbd5e1;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">🔄 Refresh Telemetry</button>
+      </div>
+      <table class="gov-table" id="aiHistoryTable">
+        <thead>
+          <tr>
+            <th>Generation</th>
+            <th>Trigger Reason</th>
+            <th>Dataset Source</th>
+            <th>Samples Learned</th>
+            <th>Verified Feedback</th>
+            <th>Duration</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="aiHistoryTableBody">
+          <tr><td colspan="7" style="text-align:center;color:#94a3b8;">No retraining sessions recorded yet.</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -2246,11 +2362,120 @@ if (sortEl) sortEl.addEventListener('change', loadTickets);
 const aiEl = document.getElementById('aiFilter');
 if (aiEl) aiEl.addEventListener('change', loadTickets);
 
+async function syncExternalApiComplaints() {
+  const apiUrl = document.getElementById('syncApiUrl').value.trim();
+  const apiKey = document.getElementById('syncApiKey').value.trim();
+  const limit = document.getElementById('syncLimit').value;
+  const statusEl = document.getElementById('syncResultStatus');
+  const btn = document.getElementById('btnSyncApi');
+
+  btn.disabled = true;
+  btn.innerText = 'Connecting & Ingesting Stream...';
+  statusEl.style.display = 'block';
+  statusEl.innerHTML = '<span style="color:#0284c7;">Streaming complaints from civic API...</span>';
+
+  try {
+    const res = await postJSON('/api/external/sync', { apiUrl, apiKey, limit });
+    if (res.ok) {
+      statusEl.innerHTML = `<span style="color:#059669;font-weight:700;">✓ Ingestion Complete!</span> Ingested <b>${res.imported}</b> new complaint(s), merged <b>${res.merged}</b> duplicate(s).`;
+      loadTickets();
+      loadStats();
+    } else {
+      statusEl.innerHTML = `<span style="color:#dc2626;">Error: ${res.error || 'Sync failed'}</span>`;
+    }
+  } catch (err) {
+    statusEl.innerHTML = `<span style="color:#dc2626;">Network error: ${err.message}</span>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerText = '📥 Ingest Live Complaints via API Now';
+  }
+}
+
+async function loadAiTrainingTelemetry() {
+  try {
+    const status = await getJSON('/api/ai/training-status');
+    if (!status || status.status === 'initializing') return;
+
+    const genEl = document.getElementById('telemetryGen');
+    if (genEl) genEl.innerText = `Gen-${status.model_generation || 1}`;
+    const sampEl = document.getElementById('telemetrySamples');
+    if (sampEl) sampEl.innerText = `${status.total_samples_trained || 40} samples`;
+    const bufEl = document.getElementById('telemetryBufferCount');
+    if (bufEl) bufEl.innerText = `${status.verified_buffer_count || 0} / ${status.retrain_threshold || 5}`;
+
+    const pct = Math.min(100, Math.round(((status.verified_buffer_count || 0) / (status.retrain_threshold || 5)) * 100));
+    const barEl = document.getElementById('telemetryBufferBar');
+    if (barEl) barEl.style.width = `${pct}%`;
+
+    const progEl = document.getElementById('trainProgressStatus');
+    const retrainBtn = document.getElementById('btnTriggerRetrain');
+    if (progEl) {
+      if (status.is_training) {
+        progEl.style.display = 'block';
+        progEl.innerHTML = `<span style="color:#0284c7;font-weight:600;"><span class="dot-pulse"></span> ${status.current_status || 'Retraining in progress...'}</span>`;
+        if (retrainBtn) retrainBtn.disabled = true;
+      } else {
+        if (retrainBtn) retrainBtn.disabled = false;
+        if (status.current_status && status.current_status.startsWith('Completed')) {
+          progEl.style.display = 'block';
+          progEl.innerHTML = `<span style="color:#059669;font-weight:600;">✓ ${status.current_status}</span>`;
+        }
+      }
+    }
+
+    const tbody = document.getElementById('aiHistoryTableBody');
+    if (tbody && status.recent_sessions && status.recent_sessions.length > 0) {
+      tbody.innerHTML = status.recent_sessions.map(s => `
+        <tr>
+          <td><b style="color:#0284c7;">Gen-${s.generation}</b></td>
+          <td>${s.reason}</td>
+          <td><code>${s.stream_source}</code></td>
+          <td>${s.samples_trained}</td>
+          <td>${s.verified_feedback_count}</td>
+          <td>${s.duration_seconds}s</td>
+          <td>${new Date(s.timestamp).toLocaleTimeString()}</td>
+        </tr>
+      `).reverse().join('');
+    }
+  } catch (e) {
+    console.warn('AI telemetry fetch error:', e.message);
+  }
+}
+
+async function triggerManualAiRetrain() {
+  const source = document.getElementById('trainStreamSource').value;
+  const progEl = document.getElementById('trainProgressStatus');
+  const btn = document.getElementById('btnTriggerRetrain');
+
+  btn.disabled = true;
+  progEl.style.display = 'block';
+  progEl.innerHTML = '<span style="color:#0284c7;"><span class="dot-pulse"></span> Streaming dataset batch from API & initiating background fine-tuning...</span>';
+
+  try {
+    const res = await postJSON('/api/ai/train-remote', { source, epochs: 2 });
+    if (res.ok) {
+      setTimeout(loadAiTrainingTelemetry, 1500);
+      const poll = setInterval(async () => {
+        await loadAiTrainingTelemetry();
+        const stat = await getJSON('/api/ai/training-status');
+        if (!stat || !stat.is_training) clearInterval(poll);
+      }, 3000);
+    } else {
+      progEl.innerHTML = `<span style="color:#dc2626;">Notice: ${res.message}</span>`;
+      btn.disabled = false;
+    }
+  } catch (err) {
+    progEl.innerHTML = `<span style="color:#dc2626;">Error: ${err.message}</span>`;
+    btn.disabled = false;
+  }
+}
+
 async function refreshAll() {
   applyAdminLanguage();
   await loadWardsIntoFilter();
   await loadStats();
   await loadTickets();
+  await loadAiTrainingTelemetry();
   if (isSuperAdmin) {
     await loadAdmins();
     await loadSupabaseStatus();
