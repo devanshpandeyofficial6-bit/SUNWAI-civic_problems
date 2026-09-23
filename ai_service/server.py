@@ -8,11 +8,12 @@ from pydantic import BaseModel
 
 from civic_detector import CivicDetector, CIVIC_CATEGORIES
 from auto_trainer import CivicAutoTrainer
+from resolution_verifier import ResolutionVerifier
 
 app = FastAPI(
     title="SUNWAI Civic Issue AI Detection API",
-    description="Real YOLO Object Detection Service for Civic Grievance Triage with Autonomous Learning",
-    version="2.1.0"
+    description="Real YOLO Object Detection Service for Civic Grievance Triage with Autonomous Learning & Privacy Shield",
+    version="2.2.0"
 )
 
 app.add_middleware(
@@ -25,14 +26,16 @@ app.add_middleware(
 
 detector = None
 auto_trainer = None
+resolution_verifier = None
 
 @app.on_event("startup")
 def startup_event():
-    global detector, auto_trainer
+    global detector, auto_trainer, resolution_verifier
     print("[SUNWAI-AI] Initializing Civic YOLO Detector...")
     detector = CivicDetector()
     auto_trainer = CivicAutoTrainer(detector_instance=detector, retrain_threshold=5)
-    print(f"[SUNWAI-AI] Ready on {detector.model_name}! Autonomous Trainer active.")
+    resolution_verifier = ResolutionVerifier(detector=detector)
+    print(f"[SUNWAI-AI] Ready on {detector.model_name}! Autonomous Trainer & Resolution Verifier active.")
 
 class PredictRequest(BaseModel):
     image_base64: str
@@ -58,6 +61,9 @@ class PredictResponse(BaseModel):
     model: str
     source: str
     annotated_image: Optional[str] = None
+    severity_assessment: Optional[Dict[str, Any]] = None
+    cost_estimate: Optional[Dict[str, Any]] = None
+    privacy_compliance: Optional[Dict[str, Any]] = None
 
 @app.get("/health")
 def health():
@@ -169,6 +175,49 @@ async def cleanup_cache():
     if auto_trainer:
         auto_trainer.api_client.cleanup_cache()
     return {"ok": True, "message": "Ephemeral cache cleaned"}
+
+class VerifyResolutionRequest(BaseModel):
+    reported_image_base64: str
+    resolution_image_base64: str
+    category: str
+
+class AnonymizeRequest(BaseModel):
+    image_base64: str
+
+@app.post("/verify-resolution")
+async def verify_contractor_resolution(request: VerifyResolutionRequest):
+    """
+    Anti-Fraud "Before vs After" AI Proof-of-Work Verification.
+    Validates that:
+    1. Scene matches reported issue (visual keypoints & scene correlation).
+    2. Defect is cleared (0% detection of original defect).
+    """
+    if not resolution_verifier:
+        raise HTTPException(status_code=503, detail="ResolutionVerifier not initialized")
+
+    result = resolution_verifier.verify_resolution(
+        reported_img_data=request.reported_image_base64,
+        resolution_img_data=request.resolution_image_base64,
+        expected_category=request.category
+    )
+    return result
+
+@app.post("/anonymize")
+async def anonymize_image(request: AnonymizeRequest):
+    """
+    Automated DPDP Privacy Shield endpoint.
+    Applies Gaussian redaction to faces and vehicle license plates.
+    """
+    if not detector or not hasattr(detector, "privacy_shield"):
+        raise HTTPException(status_code=503, detail="PrivacyShield not initialized")
+
+    anonymized_b64, meta = detector.privacy_shield.anonymize_base64(request.image_base64)
+    return {
+        "ok": True,
+        "anonymized_image": anonymized_b64,
+        "privacy_compliance": meta
+    }
+
 
 
 if __name__ == "__main__":

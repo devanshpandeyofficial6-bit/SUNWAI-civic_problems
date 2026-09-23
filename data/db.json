@@ -1,6 +1,590 @@
 {
   "reports": [
     {
+      "id": "SNW-1051",
+      "category": "other",
+      "description": "Broken streetlight outside apartment block",
+      "photoUrl": null,
+      "lat": 26.452,
+      "lng": 80.335,
+      "wardId": "W07",
+      "wardName": "Ward 07 - Kidwai Nagar",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "resolved",
+      "createdAt": "2026-09-23T18:17:13.243Z",
+      "updatedAt": "2026-09-23T18:17:13.268Z",
+      "upvotes": [
+        "+919988776655"
+      ],
+      "reporters": [
+        "+919988776655"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (6655)",
+        "email": "919988776655@whatsapp.sunwai.gov.in",
+        "phone": "+919988776655",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight outside apartment block",
+          "timestamp": "2026-09-23T18:17:13.243Z",
+          "userId": "+919988776655",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1050",
+      "category": "other",
+      "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+      "photoUrl": null,
+      "lat": 26.4499,
+      "lng": 80.3319,
+      "wardId": "W33",
+      "wardName": "Ward 33 - Panki",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:17:13.221Z",
+      "updatedAt": "2026-09-23T18:17:13.221Z",
+      "upvotes": [
+        "+919876543210"
+      ],
+      "reporters": [
+        "+919876543210"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (3210)",
+        "email": "919876543210@whatsapp.sunwai.gov.in",
+        "phone": "+919876543210",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+          "timestamp": "2026-09-23T18:17:13.221Z",
+          "userId": "+919876543210",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1049",
+      "category": "other",
+      "description": "Broken streetlight outside apartment block",
+      "photoUrl": null,
+      "lat": 26.452,
+      "lng": 80.335,
+      "wardId": "W07",
+      "wardName": "Ward 07 - Kidwai Nagar",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:16:57.493Z",
+      "updatedAt": "2026-09-23T18:16:57.493Z",
+      "upvotes": [
+        "+919988776655"
+      ],
+      "reporters": [
+        "+919988776655"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (6655)",
+        "email": "919988776655@whatsapp.sunwai.gov.in",
+        "phone": "+919988776655",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight outside apartment block",
+          "timestamp": "2026-09-23T18:16:57.493Z",
+          "userId": "+919988776655",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1048",
+      "category": "other",
+      "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+      "photoUrl": null,
+      "lat": 26.4499,
+      "lng": 80.3319,
+      "wardId": "W33",
+      "wardName": "Ward 33 - Panki",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:16:57.480Z",
+      "updatedAt": "2026-09-23T18:16:57.480Z",
+      "upvotes": [
+        "+919876543210"
+      ],
+      "reporters": [
+        "+919876543210"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (3210)",
+        "email": "919876543210@whatsapp.sunwai.gov.in",
+        "phone": "+919876543210",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+          "timestamp": "2026-09-23T18:16:57.480Z",
+          "userId": "+919876543210",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1047",
+      "category": "other",
+      "description": "Broken streetlight outside apartment block",
+      "photoUrl": null,
+      "lat": 26.452,
+      "lng": 80.335,
+      "wardId": "W07",
+      "wardName": "Ward 07 - Kidwai Nagar",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:16:25.975Z",
+      "updatedAt": "2026-09-23T18:16:25.975Z",
+      "upvotes": [
+        "+919988776655"
+      ],
+      "reporters": [
+        "+919988776655"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (6655)",
+        "email": "919988776655@whatsapp.sunwai.gov.in",
+        "phone": "+919988776655",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight outside apartment block",
+          "timestamp": "2026-09-23T18:16:25.975Z",
+          "userId": "+919988776655",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1046",
+      "category": "other",
+      "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+      "photoUrl": null,
+      "lat": 26.4499,
+      "lng": 80.3319,
+      "wardId": "W33",
+      "wardName": "Ward 33 - Panki",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:16:25.959Z",
+      "updatedAt": "2026-09-23T18:16:25.959Z",
+      "upvotes": [
+        "+919876543210"
+      ],
+      "reporters": [
+        "+919876543210"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (3210)",
+        "email": "919876543210@whatsapp.sunwai.gov.in",
+        "phone": "+919876543210",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+          "timestamp": "2026-09-23T18:16:25.959Z",
+          "userId": "+919876543210",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1045",
+      "category": "other",
+      "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+      "photoUrl": null,
+      "lat": 26.4499,
+      "lng": 80.3319,
+      "wardId": "W33",
+      "wardName": "Ward 33 - Panki",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:16:02.367Z",
+      "updatedAt": "2026-09-23T18:16:02.367Z",
+      "upvotes": [
+        "+919876543210"
+      ],
+      "reporters": [
+        "+919876543210"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (3210)",
+        "email": "919876543210@whatsapp.sunwai.gov.in",
+        "phone": "+919876543210",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+          "timestamp": "2026-09-23T18:16:02.367Z",
+          "userId": "+919876543210",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1044",
+      "category": "other",
+      "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+      "photoUrl": null,
+      "lat": 26.4499,
+      "lng": 80.3319,
+      "wardId": "W33",
+      "wardName": "Ward 33 - Panki",
+      "wardSource": "WhatsApp Location Pin",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:15:48.500Z",
+      "updatedAt": "2026-09-23T18:15:48.500Z",
+      "upvotes": [
+        "+919876543210"
+      ],
+      "reporters": [
+        "+919876543210"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "WhatsApp Citizen (3210)",
+        "email": "919876543210@whatsapp.sunwai.gov.in",
+        "phone": "+919876543210",
+        "aadhaar": "XXXX-XXXX-9112"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "सड़क पर बड़ा गड्ढा है जिसे तुरंत ठीक करें",
+          "timestamp": "2026-09-23T18:15:48.500Z",
+          "userId": "+919876543210",
+          "source": "whatsapp"
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 48,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "other",
+        "confidence": 0.88,
+        "model": "WhatsApp-AutoTriage-v2",
+        "available": true,
+        "source": "whatsapp"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
       "id": "SNW-1040",
       "category": "streetlight",
       "description": "Street pole lights flickering and completely off since yesterday evening.",
@@ -51,7 +635,27 @@
         "source": "api",
         "available": true
       },
-      "priority": "NORMAL"
+      "priority": "NORMAL",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1039",
@@ -104,7 +708,28 @@
         "source": "api",
         "available": true
       },
-      "priority": "MEDIUM"
+      "priority": "MEDIUM",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1038",
@@ -157,7 +782,27 @@
         "source": "api",
         "available": true
       },
-      "priority": "NORMAL"
+      "priority": "NORMAL",
+      "costEstimate": {
+        "estimatedCostInr": 530,
+        "formattedCost": "₹530",
+        "scheduleName": "Municipal Solid Waste Management SoR (SBM 2.0)",
+        "materialRequirement": "~0.15 Tonnes Removal & Lime Disinfection",
+        "surfaceAreaM2": 0.25,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Sanitation Team Collection"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1001",
@@ -237,6 +882,27 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -282,6 +948,26 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -325,6 +1011,26 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 530,
+        "formattedCost": "₹530",
+        "scheduleName": "Municipal Solid Waste Management SoR (SBM 2.0)",
+        "materialRequirement": "~0.15 Tonnes Removal & Lime Disinfection",
+        "surfaceAreaM2": 0.25,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Sanitation Team Collection"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -389,6 +1095,27 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -432,6 +1159,26 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 2800,
+        "formattedCost": "₹2,800",
+        "scheduleName": "Jal Sansthan Urban Water Supply Maintenance SoR",
+        "materialRequirement": "External Split-Sleeve Pipe Clamp",
+        "surfaceAreaM2": 0.25,
+        "urgencySlaHours": 24,
+        "recommendedAction": "Emergency Water Valve Shutdown & Pipeline Crew"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -477,6 +1224,27 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -522,6 +1290,26 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 2800,
+        "formattedCost": "₹2,800",
+        "scheduleName": "Jal Sansthan Urban Water Supply Maintenance SoR",
+        "materialRequirement": "External Split-Sleeve Pipe Clamp",
+        "surfaceAreaM2": 0.25,
+        "urgencySlaHours": 24,
+        "recommendedAction": "Emergency Water Valve Shutdown & Pipeline Crew"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -662,6 +1450,27 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -709,6 +1518,26 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -756,6 +1585,27 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -896,6 +1746,27 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -943,6 +1814,26 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -990,6 +1881,27 @@
         "email": "citizen@sunwai.gov.in",
         "phone": "+91 98765 43210",
         "aadhaar": "XXXX-XXXX-9112"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -1147,6 +2059,27 @@
         "phone": "9794130719",
         "aadhaar": "XXXX-XXXX-9089",
         "rawAadhaar": "123456789089"
+      },
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
       }
     },
     {
@@ -1316,7 +2249,28 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-6b15edf6149f.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1016",
@@ -1371,7 +2325,27 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1017",
@@ -1426,7 +2400,28 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1018",
@@ -1595,7 +2590,28 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-1b54a01120e8.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1019",
@@ -1650,7 +2666,27 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1020",
@@ -1705,7 +2741,28 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1021",
@@ -1826,7 +2883,27 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-streetlight-8542.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1022",
@@ -1995,7 +3072,28 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-1077e2dd057e.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1023",
@@ -2050,7 +3148,27 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1024",
@@ -2105,7 +3223,28 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1025",
@@ -2274,7 +3413,28 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-74c8afb64214.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1026",
@@ -2329,7 +3489,27 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1027",
@@ -2384,7 +3564,28 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1028",
@@ -2553,7 +3754,28 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-c593a13dd496.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1029",
@@ -2608,7 +3830,27 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1030",
@@ -2663,7 +3905,28 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1031",
@@ -2828,7 +4091,27 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-8b7c3b7e3049.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 2800,
+        "formattedCost": "₹2,800",
+        "scheduleName": "Jal Sansthan Urban Water Supply Maintenance SoR",
+        "materialRequirement": "External Split-Sleeve Pipe Clamp",
+        "surfaceAreaM2": 0.25,
+        "urgencySlaHours": 24,
+        "recommendedAction": "Emergency Water Valve Shutdown & Pipeline Crew"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1032",
@@ -2993,7 +4276,27 @@
         "available": true,
         "annotatedImageUrl": "/uploads/ai-box-595056f7fe57.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 2800,
+        "formattedCost": "₹2,800",
+        "scheduleName": "Jal Sansthan Urban Water Supply Maintenance SoR",
+        "materialRequirement": "External Split-Sleeve Pipe Clamp",
+        "surfaceAreaM2": 0.25,
+        "urgencySlaHours": 24,
+        "recommendedAction": "Emergency Water Valve Shutdown & Pipeline Crew"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1033",
@@ -3068,7 +4371,28 @@
         "available": false,
         "reason": "AI service unavailable"
       },
-      "priority": "MEDIUM"
+      "priority": "MEDIUM",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1034",
@@ -3143,7 +4467,27 @@
         "available": false,
         "reason": "AI service unavailable"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 600,
+        "formattedCost": "₹600",
+        "scheduleName": "General Municipal Maintenance Schedule",
+        "materialRequirement": "On-site Inspection & Manual Triage",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 120,
+        "recommendedAction": "Ward Field Inspector Verification"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1035",
@@ -3276,7 +4620,28 @@
         "available": false,
         "reason": "AI service unavailable"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1036",
@@ -3331,7 +4696,27 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1037",
@@ -3386,7 +4771,28 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "MEDIUM"
+      "priority": "MEDIUM",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1041",
@@ -3600,7 +5006,28 @@
         ],
         "annotatedImageUrl": "/uploads/ai-box-cdf4731b3a26.jpg"
       },
-      "priority": "HIGH"
+      "priority": "HIGH",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1042",
@@ -3655,7 +5082,27 @@
         "disputedBy": []
       },
       "aiClassification": null,
-      "priority": "NORMAL"
+      "priority": "NORMAL",
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
     },
     {
       "id": "SNW-1043",
@@ -3710,6 +5157,480 @@
         "disputedBy": []
       },
       "aiClassification": null,
+      "priority": "MEDIUM",
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 3,
+        "label": "MODERATE",
+        "badge": "Level 3 - Medium",
+        "color": "#d97706"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      }
+    },
+    {
+      "id": "SNW-1052",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-747e697eaabe.jpg",
+      "lat": 26.760768582985243,
+      "lng": 80.61076858298524,
+      "wardId": "EXT-2676",
+      "wardName": "Hasanganj (Hasanganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "closed",
+      "createdAt": "2026-09-23T18:17:20.430Z",
+      "updatedAt": "2026-09-23T18:17:22.327Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-747e697eaabe.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-23T18:17:20.430Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.88,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "bbox": [
+                  173,
+                  264,
+                  474,
+                  508
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "SUNWAI-MultiDefect-Engine-v2",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "categoryBreakdown": {
+              "pothole": 0.88,
+              "streetlight": 0,
+              "garbage": 0,
+              "water_leakage": 0,
+              "broken_infrastructure": 0,
+              "other": 0
+            },
+            "allCategories": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "percentage": 88
+              }
+            ],
+            "severityAssessment": {
+              "level": 5,
+              "label": "CRITICAL HAZARD",
+              "color": "#dc2626",
+              "badge": "Level 5 - Critical"
+            },
+            "costEstimate": {
+              "estimated_cost_inr": 26190,
+              "formatted_cost": "₹26,190",
+              "schedule_of_rates": "PWD Civil Works SoR 2025-26",
+              "material_requirement": "343.2 kg Cold-Mix Asphalt + Tack Coat",
+              "surface_area_m2": 2.2,
+              "depth_estimate_mm": 65,
+              "urgency_sla_hours": 24
+            },
+            "privacyCompliance": {
+              "faces_redacted": 0,
+              "plates_redacted": 1,
+              "total_redactions": 1,
+              "dpdp_compliant": true,
+              "privacy_notice": "Personal Identifiers (Faces & License Plates) Redacted under DPDP Act 2023"
+            },
+            "annotatedImageUrl": "/uploads/ai-box-fccfaf374492.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-1013ab9c1e80.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-23T18:17:21.598Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.88,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "bbox": [
+                  173,
+                  264,
+                  474,
+                  508
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "SUNWAI-MultiDefect-Engine-v2",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "categoryBreakdown": {
+              "pothole": 0.88,
+              "streetlight": 0,
+              "garbage": 0,
+              "water_leakage": 0,
+              "broken_infrastructure": 0,
+              "other": 0
+            },
+            "allCategories": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "percentage": 88
+              }
+            ],
+            "severityAssessment": {
+              "level": 5,
+              "label": "CRITICAL HAZARD",
+              "color": "#dc2626",
+              "badge": "Level 5 - Critical"
+            },
+            "costEstimate": {
+              "estimated_cost_inr": 26190,
+              "formatted_cost": "₹26,190",
+              "schedule_of_rates": "PWD Civil Works SoR 2025-26",
+              "material_requirement": "343.2 kg Cold-Mix Asphalt + Tack Coat",
+              "surface_area_m2": 2.2,
+              "depth_estimate_mm": 65,
+              "urgency_sla_hours": 24
+            },
+            "privacyCompliance": {
+              "faces_redacted": 0,
+              "plates_redacted": 1,
+              "total_redactions": 1,
+              "dpdp_compliant": true,
+              "privacy_notice": "Personal Identifiers (Faces & License Plates) Redacted under DPDP Act 2023"
+            },
+            "annotatedImageUrl": "/uploads/ai-box-604548058bb9.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-23T18:17:21.636Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-23T18:17:22.010Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.88,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.88,
+            "bbox": [
+              173,
+              264,
+              474,
+              508
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "SUNWAI-MultiDefect-Engine-v2",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "categoryBreakdown": {
+          "pothole": 0.88,
+          "streetlight": 0,
+          "garbage": 0,
+          "water_leakage": 0,
+          "broken_infrastructure": 0,
+          "other": 0
+        },
+        "allCategories": [
+          {
+            "category": "pothole",
+            "confidence": 0.88,
+            "percentage": 88
+          }
+        ],
+        "severityAssessment": {
+          "level": 5,
+          "label": "CRITICAL HAZARD",
+          "color": "#dc2626",
+          "badge": "Level 5 - Critical"
+        },
+        "costEstimate": {
+          "estimated_cost_inr": 26190,
+          "formatted_cost": "₹26,190",
+          "schedule_of_rates": "PWD Civil Works SoR 2025-26",
+          "material_requirement": "343.2 kg Cold-Mix Asphalt + Tack Coat",
+          "surface_area_m2": 2.2,
+          "depth_estimate_mm": 65,
+          "urgency_sla_hours": 24
+        },
+        "privacyCompliance": {
+          "faces_redacted": 0,
+          "plates_redacted": 1,
+          "total_redactions": 1,
+          "dpdp_compliant": true,
+          "privacy_notice": "Personal Identifiers (Faces & License Plates) Redacted under DPDP Act 2023"
+        },
+        "annotatedImageUrl": "/uploads/ai-box-fccfaf374492.jpg"
+      },
+      "costEstimate": {
+        "estimated_cost_inr": 26190,
+        "formatted_cost": "₹26,190",
+        "schedule_of_rates": "PWD Civil Works SoR 2025-26",
+        "material_requirement": "343.2 kg Cold-Mix Asphalt + Tack Coat",
+        "surface_area_m2": 2.2,
+        "depth_estimate_mm": 65,
+        "urgency_sla_hours": 24
+      },
+      "severityAssessment": {
+        "level": 5,
+        "label": "CRITICAL HAZARD",
+        "color": "#dc2626",
+        "badge": "Level 5 - Critical"
+      },
+      "privacyCompliance": {
+        "faces_redacted": 0,
+        "plates_redacted": 1,
+        "total_redactions": 1,
+        "dpdp_compliant": true,
+        "privacy_notice": "Personal Identifiers (Faces & License Plates) Redacted under DPDP Act 2023"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1053",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.760768582985243,
+      "lng": 80.61076858298524,
+      "wardId": "EXT-2676",
+      "wardName": "Hasanganj (Hasanganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:17:22.053Z",
+      "updatedAt": "2026-09-23T18:17:22.053Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-23T18:17:22.053Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "costEstimate": {
+        "estimatedCostInr": 1450,
+        "formattedCost": "₹1,450",
+        "scheduleName": "Municipal Electrical Infrastructure SoR",
+        "materialRequirement": "45W LED Driver / Ignitor Replacement",
+        "surfaceAreaM2": 0,
+        "urgencySlaHours": 48,
+        "recommendedAction": "Electrical Lineman Dispatch with Cherry Picker"
+      },
+      "severityAssessment": {
+        "level": 2,
+        "label": "MINOR DEFECT",
+        "badge": "Level 2 - Minor",
+        "color": "#059669"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1054",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.780768582985242,
+      "lng": 80.61076858298524,
+      "wardId": "EXT-2678",
+      "wardName": "Hasanganj (Hasanganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-23T18:17:22.288Z",
+      "updatedAt": "2026-09-23T18:17:22.288Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-23T18:17:22.288Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "costEstimate": {
+        "estimatedCostInr": 3094,
+        "formattedCost": "₹3,094",
+        "scheduleName": "PWD Road Patchwork SoR (Bituminous Macadam)",
+        "materialRequirement": "27 kg Cold-Mix Bitumen + Tack Coat",
+        "surfaceAreaM2": 0.25,
+        "depthMm": 45,
+        "urgencySlaHours": 72,
+        "recommendedAction": "Routine Patch Maintenance"
+      },
+      "severityAssessment": {
+        "level": 2,
+        "label": "MINOR DEFECT",
+        "badge": "Level 2 - Minor",
+        "color": "#059669"
+      },
+      "privacyCompliance": {
+        "dpdp_compliant": true,
+        "faces_redacted": 0,
+        "plates_redacted": 0
+      },
       "priority": "MEDIUM"
     }
   ],
@@ -3811,5 +5732,5 @@
     "url": "",
     "key": ""
   },
-  "nextId": 1044
+  "nextId": 1055
 }

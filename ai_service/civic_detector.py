@@ -6,6 +6,7 @@ import pickle
 import numpy as np
 from pathlib import Path
 from ultralytics import YOLO
+from privacy_shield import PrivacyShield
 
 ROOT_DIR = Path(__file__).resolve().parent
 
@@ -39,6 +40,7 @@ class CivicDetector:
         self.model = None
         self.base_model = None
         self.model_name = "SUNWAI-MultiDefect-Engine-v2"
+        self.privacy_shield = PrivacyShield()
         self._load_models()
 
     def _resolve_model_path(self):
@@ -379,7 +381,13 @@ class CivicDetector:
             cv2.putText(annotated_bgr, label_text, (bx1 + 5, by1 + th + 4),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255, 255, 255), 2, cv2.LINE_AA)
 
-        _, buffer = cv2.imencode('.jpg', annotated_bgr, [cv2.IMWRITE_JPEG_QUALITY, 85])
+        # 1. Apply automated DPDP Privacy Shield (redact faces and vehicle license plates)
+        anonymized_bgr, privacy_meta = self.privacy_shield.anonymize_bgr(annotated_bgr)
+
+        # 2. Compute Defect Severity Index & PWD Repair Budget Estimator
+        severity, cost_estimate = self.compute_severity_and_cost(primary_cat, detections, w, h)
+
+        _, buffer = cv2.imencode('.jpg', anonymized_bgr, [cv2.IMWRITE_JPEG_QUALITY, 85])
         annotated_b64 = "data:image/jpeg;base64," + base64.b64encode(buffer).decode('utf-8')
 
         return {
@@ -390,8 +398,121 @@ class CivicDetector:
             "detections": detections,
             "model": self.model_name,
             "source": "ai",
-            "annotated_image": annotated_b64
+            "annotated_image": annotated_b64,
+            "severity_assessment": severity,
+            "cost_estimate": cost_estimate,
+            "privacy_compliance": privacy_meta
         }
+
+    def compute_severity_and_cost(self, primary_cat: str, detections: list, img_w: int, img_h: int):
+        """
+        Maps bounding box geometric scale into physical metric approximations (m^2),
+        assigns Hazard Severity (Level 1-5), and computes repair budget based on PWD Schedule of Rates.
+        """
+        max_area_ratio = 0.0
+        for d in detections:
+            bbox = d.get("bbox", [])
+            if len(bbox) == 4:
+                bw = max(0, bbox[2] - bbox[0])
+                bh = max(0, bbox[3] - bbox[1])
+                ratio = (bw * bh) / max(1.0, float(img_w * img_h))
+                if ratio > max_area_ratio:
+                    max_area_ratio = ratio
+
+        # Standard street-level viewport approx 3.5m x 3.5m = 12.25 m^2
+        viewport_m2 = 12.25
+        est_area_m2 = round(max(0.08, max_area_ratio * viewport_m2), 2)
+
+        if primary_cat == "pothole":
+            depth_mm = 65 if est_area_m2 > 0.4 else (45 if est_area_m2 > 0.2 else 30)
+            asphalt_kg = round(est_area_m2 * (depth_mm / 1000.0) * 2400.0, 1)
+            # PWD Schedule of Rates: Cold-mix asphalt ~Rs 75/kg + tack coat & compaction Rs 450
+            cost_inr = int(asphalt_kg * 75 + 450)
+            if est_area_m2 > 0.5:
+                severity = {"level": 5, "label": "CRITICAL HAZARD", "color": "#dc2626", "badge": "Level 5 - Critical"}
+            elif est_area_m2 > 0.25:
+                severity = {"level": 4, "label": "HIGH SEVERITY", "color": "#ea580c", "badge": "Level 4 - High"}
+            elif est_area_m2 > 0.12:
+                severity = {"level": 3, "label": "MODERATE", "color": "#d97706", "badge": "Level 3 - Medium"}
+            else:
+                severity = {"level": 2, "label": "MINOR DEFECT", "color": "#059669", "badge": "Level 2 - Minor"}
+
+            cost_estimate = {
+                "estimated_cost_inr": cost_inr,
+                "formatted_cost": f"₹{cost_inr:,}",
+                "schedule_of_rates": "PWD Civil Works SoR 2025-26",
+                "material_requirement": f"{asphalt_kg} kg Cold-Mix Asphalt + Tack Coat",
+                "surface_area_m2": est_area_m2,
+                "depth_estimate_mm": depth_mm,
+                "urgency_sla_hours": 24 if severity["level"] >= 4 else 72
+            }
+
+        elif primary_cat == "garbage":
+            tonnes = round(est_area_m2 * 0.35 * 0.45, 2)
+            cost_inr = max(450, int(tonnes * 1200 + 350))
+            if est_area_m2 > 0.8:
+                severity = {"level": 4, "label": "HIGH ACCUMULATION", "color": "#ea580c", "badge": "Level 4 - High"}
+            elif est_area_m2 > 0.3:
+                severity = {"level": 3, "label": "MODERATE DUMP", "color": "#d97706", "badge": "Level 3 - Medium"}
+            else:
+                severity = {"level": 2, "label": "SCATTERED LITTER", "color": "#059669", "badge": "Level 2 - Minor"}
+
+            cost_estimate = {
+                "estimated_cost_inr": cost_inr,
+                "formatted_cost": f"₹{cost_inr:,}",
+                "schedule_of_rates": "Municipal SBM Solid Waste SoR 2025",
+                "material_requirement": f"~{tonnes} Tonnes Removal & Disinfection",
+                "surface_area_m2": est_area_m2,
+                "urgency_sla_hours": 24 if severity["level"] >= 4 else 48
+            }
+
+        elif primary_cat == "streetlight":
+            severity = {"level": 3, "label": "SAFETY HAZARD", "color": "#d97706", "badge": "Level 3 - Medium"}
+            cost_inr = 1450
+            cost_estimate = {
+                "estimated_cost_inr": cost_inr,
+                "formatted_cost": f"₹{cost_inr:,}",
+                "schedule_of_rates": "Municipal Electrical Services SoR",
+                "material_requirement": "45W LED Luminaire / Driver Repair",
+                "surface_area_m2": 0.0,
+                "urgency_sla_hours": 48
+            }
+
+        elif primary_cat == "water_leakage":
+            severity = {"level": 4, "label": "HIGH SEVERITY (WATER LOSS)", "color": "#ea580c", "badge": "Level 4 - High"}
+            cost_inr = 3200
+            cost_estimate = {
+                "estimated_cost_inr": cost_inr,
+                "formatted_cost": f"₹{cost_inr:,}",
+                "schedule_of_rates": "Jal Sansthan Pipeline Maintenance SoR",
+                "material_requirement": "Excavation, SS Pipe Collar & Gasket Clamp",
+                "surface_area_m2": est_area_m2,
+                "urgency_sla_hours": 24
+            }
+
+        elif primary_cat == "broken_infrastructure":
+            severity = {"level": 3, "label": "INFRASTRUCTURE DEFECT", "color": "#d97706", "badge": "Level 3 - Medium"}
+            cost_inr = 2800
+            cost_estimate = {
+                "estimated_cost_inr": cost_inr,
+                "formatted_cost": f"₹{cost_inr:,}",
+                "schedule_of_rates": "PWD Structural Maintenance SoR",
+                "material_requirement": "Concrete Masonry & Steel Guardrail Patch",
+                "surface_area_m2": est_area_m2,
+                "urgency_sla_hours": 72
+            }
+        else:
+            severity = {"level": 1, "label": "LOW PRIORITY", "color": "#64748b", "badge": "Level 1 - Low"}
+            cost_estimate = {
+                "estimated_cost_inr": 500,
+                "formatted_cost": "₹500",
+                "schedule_of_rates": "General Maintenance",
+                "material_requirement": "General Inspection & Triage",
+                "surface_area_m2": 0.0,
+                "urgency_sla_hours": 120
+            }
+
+        return severity, cost_estimate
 
     def _map_to_civic_category(self, name):
         name = name.lower()

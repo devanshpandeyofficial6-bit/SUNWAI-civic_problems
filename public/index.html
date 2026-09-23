@@ -136,6 +136,11 @@
       <div>
         <label id="lblPhoto">Upload Photo of Issue</label>
         <input type="file" id="photoInput" accept="image/*" capture="environment">
+        
+        <div style="font-size:11.5px;color:#047857;background:#ecfdf5;border:1px solid #a7f3d0;padding:6px 10px;border-radius:4px;margin-top:6px;display:flex;align-items:center;gap:6px;">
+          <span>🔒</span>
+          <span id="dpdpNotice"><b>DPDP Act 2023 Digital Privacy Shield:</b> Faces and vehicle license plates are automatically blurred and anonymized before storage.</span>
+        </div>
 
         <div id="aiAnalysisBox" style="display:none;margin-top:10px;padding:12px;border-radius:6px;border:1px solid #cbd5e1;background:#f8fafc;">
           <div id="aiStatusLine" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
@@ -262,6 +267,7 @@ const INDEX_I18N = {
     ward_source_datameet: 'DataMeet GIS',
     ward_source_knn: 'Kanpur Nagar Nigam GIS',
     lbl_photo: 'Upload Photo of Issue',
+    dpdp_notice: '<b>DPDP Act 2023 Digital Privacy Shield:</b> Faces and vehicle license plates are automatically blurred and anonymized before storage.',
     lbl_cat: 'Category of Grievance',
     opt_auto: 'AI Auto-Detect from Photo',
     opt_pothole: 'Pothole',
@@ -343,6 +349,7 @@ const INDEX_I18N = {
     ward_source_datameet: 'डेटा-मीट जीआईएस',
     ward_source_knn: 'कानपुर नगर निगम जीआईएस',
     lbl_photo: 'समस्या का वास्तविक फोटो',
+    dpdp_notice: '<b>डीपीडीपी अधिनियम २०२३ गोपनीयता शील्ड:</b> चेहरे और वाहन नंबर प्लेट सर्वर पर सुरक्षित होने से पहले स्वतः धुंधले (ब्लर) कर दिए जाते हैं।',
     lbl_cat: 'समस्या की श्रेणी',
     opt_auto: 'एआई द्वारा स्वतः पहचान',
     opt_pothole: 'सड़क का गड्ढा',
@@ -465,6 +472,8 @@ function applyIndexLanguage() {
   }
 
   document.getElementById('lblPhoto').innerText = dict.lbl_photo;
+  const dpdpNoticeEl = document.getElementById('dpdpNotice');
+  if (dpdpNoticeEl && dict.dpdp_notice) dpdpNoticeEl.innerHTML = dict.dpdp_notice;
   document.getElementById('lblCat').innerText = dict.lbl_cat;
   document.getElementById('optAutoCat').innerText = dict.opt_auto;
   document.getElementById('optPothole').innerText = dict.opt_pothole;
@@ -1090,16 +1099,38 @@ document.getElementById('trackBtn').addEventListener('click', async () => {
       <div class="receipt-card" style="margin-top:14px;">
         <div class="report-top">
           <b>${lang === 'hi' ? 'शिकायत संख्या:' : 'Grievance ID:'} ${r.id}</b>
-          ${r.escalated ? `<span class="chip escalated">${lang === 'hi' ? 'समयसीमा समाप्त (SLA)' : 'SLA Breached'}</span>` : ''}
+          <div style="display:flex;gap:6px;align-items:center;">
+            ${r.escalated ? `<span class="chip escalated">${lang === 'hi' ? 'समयसीमा समाप्त (SLA)' : 'SLA Breached'}</span>` : ''}
+            ${r.severityAssessment ? `<span class="chip" style="background:${r.severityAssessment.color || '#ea580c'};color:#fff;font-weight:700;">⚠️ ${r.severityAssessment.badge || 'Level ' + r.severityAssessment.level}</span>` : ''}
+          </div>
         </div>
-        <div class="report-meta" style="margin:8px 0;">
-          ${categoryLabel(r.category)} · <b>${r.wardName}</b> · ${timeAgo(r.createdAt)}
+        <div class="report-meta" style="margin:8px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+          <span>${categoryLabel(r.category)} · <b>${r.wardName}</b> · ${timeAgo(r.createdAt)}</span>
+          ${r.costEstimate ? `<span style="color:#15803d;font-weight:700;font-size:12px;">💰 Est. PWD Budget: ${r.costEstimate.formattedCost || ('₹' + r.costEstimate.estimatedCostInr)}</span>` : ''}
         </div>
         <p class="receipt-desc" style="font-size:14px;background:var(--gov-surface);padding:10px;border-radius:4px;border:1px solid var(--gov-border);color:var(--gov-text);">
           ${r.description || 'No description provided.'}
         </p>
-        ${r.photoUrl ? `<div style="margin:8px 0;"><label>${lang === 'hi' ? 'नागरिक द्वारा प्रस्तुत फोटो:' : 'Citizen Photo:'}</label><img class="thumb" src="${r.photoUrl}" style="max-height:160px;width:auto;"></div>` : ''}
-        ${r.resolutionPhotoUrl ? `<div style="margin:8px 0;"><label>${lang === 'hi' ? 'विभाग द्वारा निस्तारण प्रमाण फोटो:' : 'Resolution Proof Photo:'}</label><img class="thumb" src="${r.resolutionPhotoUrl}" style="max-height:160px;width:auto;"></div>` : ''}
+        ${r.photoUrl ? `
+          <div style="margin:8px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <label>${lang === 'hi' ? 'नागरिक द्वारा प्रस्तुत फोटो:' : 'Citizen Photo:'}</label>
+              <span style="font-size:11px;color:#047857;background:#ecfdf5;padding:1px 6px;border-radius:3px;font-weight:600;">🔒 DPDP Act 2023 Redacted</span>
+            </div>
+            <img class="thumb" src="${r.photoUrl}" style="max-height:160px;width:auto;border-radius:4px;">
+          </div>` : ''}
+        ${r.resolutionPhotoUrl ? `
+          <div style="margin:8px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <label>${lang === 'hi' ? 'विभाग द्वारा निस्तारण प्रमाण फोटो:' : 'Resolution Proof Photo:'}</label>
+              ${r.antiFraudFlag ? `
+                <span style="font-size:11px;color:#b91c1c;background:#fee2e2;padding:1px 6px;border-radius:3px;font-weight:700;">⚠️ Discrepancy Flagged</span>
+              ` : `
+                <span style="font-size:11px;color:#15803d;background:#dcfce7;padding:1px 6px;border-radius:3px;font-weight:700;">✓ AI Verified Proof-of-Work</span>
+              `}
+            </div>
+            <img class="thumb" src="${r.resolutionPhotoUrl}" style="max-height:160px;width:auto;border-radius:4px;">
+          </div>` : ''}
 
         <div style="margin-top:14px;">
           <label style="margin-bottom:6px;">${lang === 'hi' ? 'प्रगति चरण:' : 'Status Pipeline:'}</label>

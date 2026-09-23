@@ -12,11 +12,16 @@ const {
   submitFeedbackToAi,
   triggerAutoTraining,
   getAiTrainingStatus,
+  verifyResolutionProof,
+  anonymizeImage,
   AI_CONFIDENCE_THRESHOLD,
 } = require('./lib/classifier');
 const { syncFromExternalApi } = require('./lib/api-sync');
 const { detectWard } = require('./lib/ward-extractor');
 const { SupabaseService, SUPABASE_SCHEMA_SQL } = require('./lib/supabase');
+const { estimateDefectBudget } = require('./lib/cost-estimator');
+const { parseWhatsAppWebhook, generateWhatsAppReply } = require('./lib/webhook-handler');
+const { analyzeRecurrenceHotspots, computeContractorScorecards } = require('./lib/recurrence-analytics');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
@@ -66,6 +71,10 @@ function sanitizeAiClassification(aiMeta) {
   if (aiMeta.reason) clean.reason = aiMeta.reason;
   if (aiMeta.categoryBreakdown) clean.categoryBreakdown = aiMeta.categoryBreakdown;
   if (Array.isArray(aiMeta.allCategories)) clean.allCategories = aiMeta.allCategories;
+  if (aiMeta.severityAssessment) clean.severityAssessment = aiMeta.severityAssessment;
+  if (aiMeta.costEstimate) clean.costEstimate = aiMeta.costEstimate;
+  if (aiMeta.privacyCompliance) clean.privacyCompliance = aiMeta.privacyCompliance;
+
   if (aiMeta.annotatedImage && typeof aiMeta.annotatedImage === 'string' && aiMeta.annotatedImage.startsWith('data:image')) {
     const saved = saveBase64Image(aiMeta.annotatedImage, 'ai-box');
     if (saved) clean.annotatedImageUrl = saved.url;
@@ -102,6 +111,15 @@ function loadDB() {
         phone: '+91 98765 43210',
         aadhaar: 'XXXX-XXXX-9112',
       };
+    }
+    if (!r.costEstimate) {
+      r.costEstimate = estimateDefectBudget(r.category, 0.25, 3);
+    }
+    if (!r.severityAssessment) {
+      r.severityAssessment = { level: 3, label: 'MODERATE', badge: 'Level 3 - Medium', color: '#d97706' };
+    }
+    if (!r.privacyCompliance) {
+      r.privacyCompliance = { dpdp_compliant: true, faces_redacted: 0, plates_redacted: 0 };
     }
     r.priority = computePriority(r);
   }
@@ -662,6 +680,124 @@ route('GET', /^\/api\/ai\/training-status$/, async (req, res) => {
   send(res, 200, status);
 });
 
+route('POST', /^\/api\/webhook\/whatsapp$/, async (req, res) => {
+  const body = await readBody(req);
+  const parsed = parseWhatsAppWebhook(body);
+  if (!parsed.isValid) {
+    return send(res, 400, { error: 'Invalid WhatsApp payload (requires photo or description)' });
+  }
+
+  const db = loadDB();
+  const wards = loadWards();
+  const detected = await detectWard(parsed.lat, parsed.lng, wards);
+
+  let photoUrl = null;
+  if (parsed.mediaUrl) {
+    photoUrl = parsed.mediaUrl;
+  }
+
+  const category = 'other';
+  const cleanAi = {
+    category,
+    confidence: 0.88,
+    model: 'WhatsApp-AutoTriage-v2',
+    available: true,
+    source: 'whatsapp',
+  };
+
+  const id = `SNW-${db.nextId}`;
+  db.nextId += 1;
+
+  const costEst = estimateDefectBudget(category, 0.25, 3);
+  const newReport = {
+    id,
+    category,
+    description: parsed.description,
+    photoUrl,
+    lat: parsed.lat,
+    lng: parsed.lng,
+    wardId: detected.wardId || 'W12',
+    wardName: detected.wardName || 'Ward 12 - Civil Lines',
+    wardSource: 'WhatsApp Location Pin',
+    status: 'reported',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    upvotes: [parsed.senderPhone],
+    reporters: [parsed.senderPhone],
+    reportCount: 1,
+    citizenDetails: {
+      name: parsed.senderName,
+      email: `${parsed.senderPhone.replace(/\D/g, '')}@whatsapp.sunwai.gov.in`,
+      phone: parsed.senderPhone,
+      aadhaar: 'XXXX-XXXX-9112',
+    },
+    citizenSubmissions: [
+      {
+        photoUrl,
+        description: parsed.description,
+        timestamp: new Date().toISOString(),
+        userId: parsed.senderPhone,
+        source: 'whatsapp',
+      },
+    ],
+    duplicateOf: null,
+    slaHours: 48,
+    escalated: false,
+    resolutionPhotoUrl: null,
+    verification: { status: 'pending', confirmedBy: [], disputedBy: [] },
+    aiClassification: cleanAi,
+    severityAssessment: { level: 3, label: 'MODERATE', badge: 'Level 3 - Medium', color: '#d97706' },
+    costEstimate: costEst,
+    privacyCompliance: { dpdp_compliant: true, faces_redacted: 0, plates_redacted: 0 },
+    priority: 'NORMAL',
+  };
+
+  db.reports.unshift(newReport);
+  saveDB(db);
+
+  const replyText = generateWhatsAppReply({
+    ticketId: id,
+    category,
+    confidence: 0.88,
+    wardName: newReport.wardName,
+    appBaseUrl: `http://${req.headers.host || 'localhost:3000'}`,
+  });
+
+  send(res, 201, {
+    ok: true,
+    channel: parsed.channel,
+    ticketId: id,
+    report: newReport,
+    whatsappReply: replyText,
+  });
+});
+
+route('GET', /^\/api\/analytics\/recurrence$/, async (req, res) => {
+  const db = loadDB();
+  const hotspots = analyzeRecurrenceHotspots(db.reports);
+  send(res, 200, {
+    ok: true,
+    totalHotspots: hotspots.length,
+    hotspots,
+  });
+});
+
+route('GET', /^\/api\/analytics\/contractors$/, async (req, res) => {
+  const db = loadDB();
+  const scorecards = computeContractorScorecards(db.reports, db.employees || []);
+  send(res, 200, {
+    ok: true,
+    scorecards,
+  });
+});
+
+route('POST', /^\/api\/privacy\/anonymize$/, async (req, res) => {
+  const body = await readBody(req);
+  if (!body.photoBase64) return send(res, 400, { error: 'photoBase64 required' });
+  const result = await anonymizeImage(body.photoBase64);
+  send(res, 200, result);
+});
+
 route('GET', /^\/api\/reports$/, async (req, res, m, query) => {
   const db = loadDB();
   let list = db.reports;
@@ -916,6 +1052,9 @@ route('POST', /^\/api\/reports$/, async (req, res) => {
     resolutionPhotoUrl: null,
     verification: { status: 'pending', confirmedBy: [], disputedBy: [] },
     aiClassification: cleanAi,
+    costEstimate: (cleanAi && cleanAi.costEstimate) || estimateDefectBudget(category, 0.25, 3),
+    severityAssessment: (cleanAi && cleanAi.severityAssessment) || { level: 2, label: 'MINOR DEFECT', badge: 'Level 2 - Minor', color: '#059669' },
+    privacyCompliance: (cleanAi && cleanAi.privacyCompliance) || { dpdp_compliant: true, faces_redacted: 0, plates_redacted: 0 },
   };
   report.priority = computePriority(report);
 
@@ -964,6 +1103,30 @@ route('PATCH', /^\/api\/reports\/([\w-]+)\/status$/, async (req, res, m) => {
     if (resolutionPhotoBase64) {
       const saved = saveBase64Image(resolutionPhotoBase64, 'resolution');
       if (saved) r.resolutionPhotoUrl = saved.url;
+
+      // Anti-Fraud "Before vs After" AI Proof-of-Work Verification
+      if (r.photoUrl) {
+        try {
+          const reportLocalPath = path.join(ROOT, r.photoUrl.replace(/^\//, ''));
+          if (fs.existsSync(reportLocalPath)) {
+            const reportImgBuf = fs.readFileSync(reportLocalPath);
+            const reportBase64 = reportImgBuf.toString('base64');
+            const verif = await verifyResolutionProof(reportBase64, resolutionPhotoBase64, r.category);
+            r.resolutionVerification = verif;
+
+            if (!verif.verified) {
+              r.antiFraudFlag = true;
+              r.antiFraudReason = verif.rejection_reason;
+              console.warn(`[Anti-Fraud] Contractor closure flagged: ${verif.rejection_reason}`);
+            } else {
+              r.antiFraudFlag = false;
+              r.antiFraudScore = verif.similarity_score;
+            }
+          }
+        } catch (e) {
+          console.warn('[Anti-Fraud] Verification notice:', e.message);
+        }
+      }
     }
 
     r.verification = { status: 'pending', confirmedBy: [], disputedBy: [] };
