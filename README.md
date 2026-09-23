@@ -54,6 +54,8 @@
 |---|---|
 | **30-Second Reporting** | Instant grievance lodging with GPS auto-coordinates, category selection, and photo upload. |
 | **Real YOLOv8 AI Auto-Triage** | Dedicated FastAPI microservice recognizes `pothole`, `streetlight`, `garbage`, `water_leakage`, and `broken_infrastructure` with localized visual bounding boxes. |
+| **Dynamic API Dataset Streaming** | Zero local repository bloat. Streams training datasets on-the-fly via REST, Roboflow Universe, or cloud APIs with auto-purging ephemeral cache. |
+| **Autonomous Continuous Learning** | Closed-loop feedback from resolved tickets and citizen verifications triggers automated background fine-tuning and zero-downtime hot-reloads. |
 | **Smart Duplicate Engine** | Merges duplicate grievances within **50 meters** into a single canonical issue, preventing department spam while accumulating unique citizen votes and escalating priority. |
 | **Geo-Clustered Dispatch** | Groups open issues within **200 meters** using a greedy spatial clustering algorithm (`/api/clusters`) for optimal municipal crew dispatch. |
 | **Citizen Trust Loop** | When field workers mark an issue resolved with proof photos, the issue remains in `pending verification` until the citizen confirms resolution. |
@@ -71,24 +73,26 @@
 │   └── workflows/
 │       └── ci.yml              # Automated GitHub Actions CI pipeline
 ├── ai_service/                 # FastAPI + YOLOv8 AI Microservice
-│   ├── civic_dataset/          # Training & validation dataset annotations
-│   ├── civic_detector.py       # Multi-tier visual detection & bounding box engine
+│   ├── auto_trainer.py         # Autonomous continual learning & hot-reloading loop
+│   ├── civic_detector.py       # Multi-tier visual detection & zero-downtime hot-reloading
 │   ├── civic_yolo.pt           # Fine-tuned civic model weights (6.2 MB)
+│   ├── dataset_api_client.py   # Remote API dataset streaming client (Roboflow / REST)
 │   ├── Dockerfile              # Container definition for AI microservice
+│   ├── models/                 # Model checkpoints & training history telemetry
 │   ├── requirements.txt        # Python dependencies
-│   ├── server.py               # FastAPI inference endpoints
-│   ├── train_civic.py          # YOLOv8 fine-tuning script
+│   ├── server.py               # FastAPI inference, feedback & auto-train endpoints
 │   └── yolov8n.pt              # Base YOLOv8 weights (6.5 MB)
 ├── data/
 │   ├── db.json                 # Default local seed database
 │   └── wards.geojson           # Municipal ward boundary geometries
 ├── lib/
-│   ├── classifier.js           # Resilient AI microservice client with fallback
+│   ├── api-sync.js             # Dynamic external API complaint ingestion & stream handler
+│   ├── classifier.js           # Resilient AI microservice client with fallback & feedback
 │   ├── geo.js                  # Haversine distance, Ray-casting Ward GIS, Greedy Clustering
 │   ├── supabase.js             # Native Node.js Supabase REST client
 │   └── ward-extractor.js       # Ward boundary detection helper
 ├── public/                     # Frontend Client Portals
-│   ├── admin.html              # Municipal Command Dashboard
+│   ├── admin.html              # Municipal Command Dashboard with AI Learning Hub
 │   ├── app.js                  # Shared client logic & map controllers
 │   ├── field.html              # Mobile Field Worker Resolution Portal
 │   ├── index.html              # Citizen Grievance Portal & Live City Map
@@ -97,7 +101,8 @@
 │   ├── thankyou.html           # Post-submission confirmation
 │   └── vendor/                 # Offline libraries (html2pdf)
 ├── tests/
-│   └── test_ai_and_duplicates.js # End-to-end integration test suite
+│   ├── test_ai_and_duplicates.js             # End-to-end integration test suite
+│   └── test_api_streaming_and_learning.js    # API streaming & continual learning test suite
 ├── .dockerignore
 ├── .env.example                # Sample environment variables
 ├── .gitattributes              # Cross-platform line ending normalization

@@ -104,7 +104,7 @@
         "source": "api",
         "available": true
       },
-      "priority": "NORMAL"
+      "priority": "MEDIUM"
     },
     {
       "id": "SNW-1038",
@@ -3387,6 +3387,330 @@
       },
       "aiClassification": null,
       "priority": "MEDIUM"
+    },
+    {
+      "id": "SNW-1041",
+      "category": "pothole",
+      "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+      "photoUrl": "/uploads/report-3eb62c5f08a2.jpg",
+      "lat": 26.78230908659717,
+      "lng": 80.63230908659717,
+      "wardId": "EXT-2678",
+      "wardName": "Hasanganj (Hasanganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "closed",
+      "createdAt": "2026-09-23T17:35:14.001Z",
+      "updatedAt": "2026-09-23T17:35:16.539Z",
+      "upvotes": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reporters": [
+        "citizen-alice-101",
+        "citizen-bob-202",
+        "citizen-charlie-303"
+      ],
+      "reportCount": 3,
+      "citizenDetails": {
+        "name": "Alice Sharma",
+        "email": "alice.sharma@example.com",
+        "phone": "9876543210",
+        "aadhaar": "XXXX-XXXX-0123",
+        "rawAadhaar": "234567890123"
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": "/uploads/report-3eb62c5f08a2.jpg",
+          "description": "Deep road crater causing traffic bottleneck on 80-Feet Road",
+          "timestamp": "2026-09-23T17:35:14.001Z",
+          "userId": "citizen-alice-101",
+          "citizenDetails": {
+            "name": "Alice Sharma",
+            "email": "alice.sharma@example.com",
+            "phone": "9876543210",
+            "aadhaar": "XXXX-XXXX-0123",
+            "rawAadhaar": "234567890123"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.88,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "bbox": [
+                  173,
+                  264,
+                  474,
+                  508
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "SUNWAI-MultiDefect-Engine-v2",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "categoryBreakdown": {
+              "pothole": 0.88,
+              "streetlight": 0,
+              "garbage": 0,
+              "water_leakage": 0,
+              "broken_infrastructure": 0,
+              "other": 0
+            },
+            "allCategories": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "percentage": 88
+              }
+            ],
+            "annotatedImageUrl": "/uploads/ai-box-cdf4731b3a26.jpg"
+          }
+        },
+        {
+          "photoUrl": "/uploads/report-f51c4dfe4ccf.jpg",
+          "description": "Dangerous pothole near the crossing, bike nearly slipped",
+          "timestamp": "2026-09-23T17:35:14.749Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Bob Verma",
+            "email": "bob.verma@example.com",
+            "phone": "9123456780",
+            "aadhaar": "XXXX-XXXX-1098",
+            "rawAadhaar": "987654321098"
+          },
+          "aiClassification": {
+            "category": "pothole",
+            "confidence": 0.88,
+            "detections": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "bbox": [
+                  173,
+                  264,
+                  474,
+                  508
+                ],
+                "label": "pothole"
+              }
+            ],
+            "model": "SUNWAI-MultiDefect-Engine-v2",
+            "source": "ai",
+            "isLowConfidence": false,
+            "confidenceThreshold": 0.7,
+            "available": true,
+            "categoryBreakdown": {
+              "pothole": 0.88,
+              "streetlight": 0,
+              "garbage": 0,
+              "water_leakage": 0,
+              "broken_infrastructure": 0,
+              "other": 0
+            },
+            "allCategories": [
+              {
+                "category": "pothole",
+                "confidence": 0.88,
+                "percentage": 88
+              }
+            ],
+            "annotatedImageUrl": "/uploads/ai-box-7f9a587fb7a4.jpg"
+          }
+        },
+        {
+          "photoUrl": null,
+          "description": "Submitting update",
+          "timestamp": "2026-09-23T17:35:14.786Z",
+          "userId": "citizen-bob-202",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        },
+        {
+          "photoUrl": null,
+          "description": "Pothole water collection",
+          "timestamp": "2026-09-23T17:35:15.830Z",
+          "userId": "citizen-charlie-303",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "confirmed",
+        "confirmedBy": [
+          "citizen-alice-101"
+        ],
+        "disputedBy": []
+      },
+      "aiClassification": {
+        "category": "pothole",
+        "confidence": 0.88,
+        "detections": [
+          {
+            "category": "pothole",
+            "confidence": 0.88,
+            "bbox": [
+              173,
+              264,
+              474,
+              508
+            ],
+            "label": "pothole"
+          }
+        ],
+        "model": "SUNWAI-MultiDefect-Engine-v2",
+        "source": "ai",
+        "isLowConfidence": false,
+        "confidenceThreshold": 0.7,
+        "available": true,
+        "categoryBreakdown": {
+          "pothole": 0.88,
+          "streetlight": 0,
+          "garbage": 0,
+          "water_leakage": 0,
+          "broken_infrastructure": 0,
+          "other": 0
+        },
+        "allCategories": [
+          {
+            "category": "pothole",
+            "confidence": 0.88,
+            "percentage": 88
+          }
+        ],
+        "annotatedImageUrl": "/uploads/ai-box-cdf4731b3a26.jpg"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "id": "SNW-1042",
+      "category": "streetlight",
+      "description": "Broken streetlight on the same pole",
+      "photoUrl": null,
+      "lat": 26.78230908659717,
+      "lng": 80.63230908659717,
+      "wardId": "EXT-2678",
+      "wardName": "Hasanganj (Hasanganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-23T17:35:15.863Z",
+      "updatedAt": "2026-09-23T17:35:15.863Z",
+      "upvotes": [
+        "citizen-dave-404"
+      ],
+      "reporters": [
+        "citizen-dave-404"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Broken streetlight on the same pole",
+          "timestamp": "2026-09-23T17:35:15.863Z",
+          "userId": "citizen-dave-404",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 72,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "NORMAL"
+    },
+    {
+      "id": "SNW-1043",
+      "category": "pothole",
+      "description": "Pothole in different ward area",
+      "photoUrl": null,
+      "lat": 26.80230908659717,
+      "lng": 80.63230908659717,
+      "wardId": "EXT-2680",
+      "wardName": "Local Ward (Hasanganj)",
+      "wardSource": "Live Administrative Reverse Geocoder (OSM/Bharatlas)",
+      "status": "reported",
+      "createdAt": "2026-09-23T17:35:16.504Z",
+      "updatedAt": "2026-09-23T17:35:16.504Z",
+      "upvotes": [
+        "citizen-eve-505"
+      ],
+      "reporters": [
+        "citizen-eve-505"
+      ],
+      "reportCount": 1,
+      "citizenDetails": {
+        "name": "Citizen (Verified Resident)",
+        "email": "citizen@sunwai.gov.in",
+        "phone": "+91 98765 43210",
+        "aadhaar": "XXXX-XXXX-9112",
+        "rawAadhaar": null
+      },
+      "citizenSubmissions": [
+        {
+          "photoUrl": null,
+          "description": "Pothole in different ward area",
+          "timestamp": "2026-09-23T17:35:16.504Z",
+          "userId": "citizen-eve-505",
+          "citizenDetails": {
+            "name": "Citizen (Verified Resident)",
+            "email": "citizen@sunwai.gov.in",
+            "phone": "+91 98765 43210",
+            "aadhaar": "XXXX-XXXX-9112",
+            "rawAadhaar": null
+          },
+          "aiClassification": null
+        }
+      ],
+      "duplicateOf": null,
+      "slaHours": 168,
+      "escalated": false,
+      "resolutionPhotoUrl": null,
+      "verification": {
+        "status": "pending",
+        "confirmedBy": [],
+        "disputedBy": []
+      },
+      "aiClassification": null,
+      "priority": "MEDIUM"
     }
   ],
   "admins": [
@@ -3487,5 +3811,5 @@
     "url": "",
     "key": ""
   },
-  "nextId": 1041
+  "nextId": 1044
 }
