@@ -64,7 +64,9 @@ async function runTests() {
     console.log('  ℹ️  AI Service is offline. Testing with resilient manual-triage fallback.\n');
   }
 
-  const sampleImagePath = path.join(__dirname, '..', 'ai_service', 'civic_dataset', 'images', 'train', 'pothole_asphalt_train.jpg');
+  const sampleImagePath = fs.existsSync(path.join(__dirname, 'sample_pothole.jpg'))
+    ? path.join(__dirname, 'sample_pothole.jpg')
+    : path.join(__dirname, '..', 'ai_service', 'civic_dataset', 'images', 'train', 'pothole_asphalt_train.jpg');
   const sampleImageBuf = fs.readFileSync(sampleImagePath);
   const sampleBase64 = 'data:image/jpeg;base64,' + sampleImageBuf.toString('base64');
 
