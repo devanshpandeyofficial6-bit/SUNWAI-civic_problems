@@ -4,6 +4,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { findWard, distanceMeters, greedyCluster } = require('./lib/geo');
 const {
   classify,
   classifyImage,
